@@ -30,6 +30,7 @@ public class PlayerIdleState:PlayerUnitState
         else
         {
             sm.FindEnemy();                           // isAttackMove 값을 확인함으로써 적이 존재하는지 확인
+            //sm.ForceMove();
 
             if (sm.isForceMove)                      // 오른쪽 클릭으로 인해 isForceMove 값이 true로 변경되었을 경우
             {

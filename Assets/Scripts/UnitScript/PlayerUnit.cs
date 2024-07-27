@@ -47,7 +47,7 @@ public class PlayerUnit : MonoBehaviour
     public Animator unitAnim;
 
     // 이동
-    protected PlayerUnitSM unitSM;
+    protected PlayerUnitSM sm;
     public PlayerUnitState unitState;
     public Vector3 dest;                    // 오른쪽 클릭 시 목적지
     [HideInInspector] public bool forceMove;
@@ -73,7 +73,7 @@ public class PlayerUnit : MonoBehaviour
         meshRenderer.material = Instantiate(meshRenderer.sharedMaterial);
         unitShader = meshRenderer.material;
 
-        unitSM = GetComponent<PlayerUnitSM>();
+        sm = GetComponent<PlayerUnitSM>();
         unitHealth = GetComponent<Health>();
     }
 

@@ -1,19 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerUnitState
+public class TurrertAttackState : TurretState
 {
-    public PlayerAttackState(GameObject unit) : base(unit) { }
-    //public bool isFired=false;
+    public TurrertAttackState(GameObject unit) : base(unit) { }
 
     float currentTime = 0f;
     public override void OnStateEnter()
     {
-        //navMesh.isStopped = true;
-        Debug.LogFormat("{0}은 현재 attack 상태, 시야범위: {1}, 공격범위: {2}", unit.name, sm.viewRange, sm.attackRange);
+        Debug.LogFormat("{0}은 현재 attack 상태, 공격범위: {1}", unit.name, sm.attackRange);
 
-        sm.playerUnitVoice.clip = sm.playerAttackVoice;
-        sm.playerUnitVoice.Play();
     }
 
     public override void OnStateUpdate()
@@ -25,23 +21,19 @@ public class PlayerAttackState : PlayerUnitState
         else
         {
             sm.FindEnemy();                             // 가까운 적을 찾고, 더 가까운 적이 검색될 경우 타겟을 변경
-            //sm.ForceMove();                         // 강제이동으로 목적지에 도달하였는지 확인
 
-            if (sm.isForceMove || sm.isAttackMove || !sm.targetEnemy.activeSelf)                            // 새로운 지점으로 강제 이동하거나 적과의 거리가 너무 멀어지면
+            if (!sm.targetEnemy.activeSelf)                            // 적과의 거리가 너무 멀어지면
             {
                 sm.ChangeState(sm.idleState);                           // idle 상태로 변경
             }
             else
             {
                 Attack();
-                sm.anim.SetBool("Attack", true);
-
             }
         }
     }
     public override void OnStateExit()
     {
-        sm.anim.SetBool("Attack", false);
         sm.targetEnemy = null;
         sm.isFire = false;
     }
@@ -49,7 +41,7 @@ public class PlayerAttackState : PlayerUnitState
     void Attack()
     {
         // 시야는 공격 대상을 정면으로 바라봄
-        unit.transform.LookAt(sm.targetEnemy.transform.position);
+        sm.turretHead.transform.LookAt(sm.targetEnemy.transform.position);
         
         // 사정거리 안에 있는 적들 중 하나에게 유닛의 공격력 수치를 전달 -> 적의 health 부분에서 받는 모든 데미지 계산
         if (currentTime < sm.attackDelayTime)

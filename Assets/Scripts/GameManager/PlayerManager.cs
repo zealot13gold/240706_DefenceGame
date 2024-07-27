@@ -39,7 +39,7 @@ public class PlayerManager
             PlayerUnitPooling.Instance.CreatePlayerUnit();
         }
         playerUnitList.Add(PlayerUnitPooling.Instance.SpawnPlayerUnit());
-        playerUnitList[numberOfPlayerUnit].name = "player " + numberOfPlayerUnit;
+        playerUnitList[numberOfPlayerUnit].name = "player";
         //numberOfPlayerUnit++;
     }
 

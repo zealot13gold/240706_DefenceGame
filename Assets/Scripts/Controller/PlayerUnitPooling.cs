@@ -51,7 +51,7 @@ public class PlayerUnitPooling : MonoBehaviour
         return playerObject;
     }
 
-    // 큐에 저장된 적을 맵에 소환 -> 지정된 장소 안의 랜덤한 위치에 생성
+    // 큐에 저장된 적을 맵에 소환
     public GameObject SpawnPlayerUnit()
     {
         if (playerQueue.Count > 0)

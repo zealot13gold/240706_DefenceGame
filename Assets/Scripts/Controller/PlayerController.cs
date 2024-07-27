@@ -14,14 +14,15 @@ using UnityEngine;
  */
 
 public class PlayerController : MonoBehaviour
-{
-    // 카메라 영역 내에 존재하는 유닛들을 검색할 때 사용
-    //public Camera camera;                               // 플레이어 카메라
-    
+{   
+    private static PlayerController instance;
+
     // 선택된 유닛 관리
-    private List<GameObject> chosenObject;              // 선택된 유닛/건물 목록이 이 배열로 복사 -> 이 배열의 정보가 인터페이스에 출력
+    [HideInInspector]public List<GameObject> chosenObject;              // 선택된 유닛/건물 목록이 이 배열로 복사 -> 이 배열의 정보가 인터페이스에 출력
     public LayerMask unitLayer;                         // 유닛 레이어
-    //public LayerMask buildingLayer;                     // 건물 레이어
+
+    // 목적지
+    public LayerMask ground;
 
     // 마우스, 키보드 조작
     Rect dragRect;
@@ -30,8 +31,31 @@ public class PlayerController : MonoBehaviour
     bool onClick;                                       // 마우스 누르고 있는 상태인지 확인
     bool isDrag;                                        // 드래그 실행 여부
 
-     void Awake()
+    public static PlayerController Instance
     {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new PlayerController();
+            }
+            return instance;
+        }
+    }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         chosenObject = new List<GameObject>(); 
     }
 
@@ -237,24 +261,26 @@ public class PlayerController : MonoBehaviour
             {
                 Vector3 mousePosition = Input.mousePosition;                                        // 현재 마우스가 위치한 좌표(스크린)을 mousePosition에 저장
 
-                Ray rayPosition = Camera.main.ScreenPointToRay(mousePosition);                           // 
+                Ray rayPosition = Camera.main.ScreenPointToRay(mousePosition);                      // 
 
-                Physics.Raycast(rayPosition, out RaycastHit hit, Mathf.Infinity);                   // 
-                unitDestiation = hit.point + new Vector3(0f, 0.5f, 0f);                             // 유닛이 이동할 위치를 지정, hit.point(바닥)에 y=0.5를 더함으로써 유닛 오브젝트의 중심점과의 차이를 상쇄
-                //Debug.LogFormat("목적지 : {0}", hit.point);
-
-                
-                for (int i = 0; i < chosenObject.Count; i++)                                    // chosenUnit 내부에 저장된 유닛별로 목적지 지정
+                if (Physics.Raycast(rayPosition, out RaycastHit hit, Mathf.Infinity, ground))
                 {
-                    if (Mathf.Abs((unitDestiation - chosenObject[i].transform.position).magnitude)>=1.5)   // 목적지 좌표(unitDestination)가 유닛의 현재 위치가 아니면
+                    unitDestiation = hit.point /*+ new Vector3(0f, 0.5f, 0f)*/;                             // 유닛이 이동할 위치를 지정, hit.point(바닥)에 y=0.5를 더함으로써 유닛 오브젝트의 중심점과의 차이를 상쇄
+                    Debug.LogFormat("목적지(오른쪽 클릭) : {0}", hit.point);
+
+
+                    for (int i = 0; i < chosenObject.Count; i++)                                    // chosenUnit 내부에 저장된 유닛별로 목적지 지정
                     {
-                        // 선택된 유닛이 Human 유닛인지 확인하는 작업 필요
-                        if (chosenObject[i].CompareTag("Human"))
+                        if (Mathf.Abs((unitDestiation - chosenObject[i].transform.position).magnitude) >= 1.5)   // 목적지 좌표(unitDestination)가 유닛의 현재 위치가 아니면
                         {
-                            chosenObject[i].GetComponent<PlayerUnitSM>().dest = unitDestiation;             // 유닛의 목적지를 설정
-                            chosenObject[i].GetComponent<PlayerUnitSM>().ForceMove();                     // 이동 상태를 true로 설정
-                            chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.clip = chosenObject[i].GetComponent<PlayerUnitSM>().playerForcedMoveVoice;
-                            chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.Play();
+                            // 선택된 유닛이 Human 유닛인지 확인하는 작업 필요
+                            if (chosenObject[i].CompareTag("Human"))
+                            {
+                                chosenObject[i].GetComponent<PlayerUnitSM>().dest = unitDestiation;             // 유닛의 목적지를 설정
+                                chosenObject[i].GetComponent<PlayerUnitSM>().ForceMove();                     // 이동 상태를 true로 설정
+                                chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.clip = chosenObject[i].GetComponent<PlayerUnitSM>().playerForcedMoveVoice;
+                                chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.Play();
+                            }
                         }
                     }
                 }

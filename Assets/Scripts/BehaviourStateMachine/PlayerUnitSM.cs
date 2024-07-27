@@ -60,7 +60,15 @@ public class PlayerUnitSM : StateMachine
         //unitRigidbody = GetComponent<Rigidbody>();
     }
 
-    // Start is called before the first frame update
+    protected override void Start()
+    {
+        isForceMove = false;
+        isAttackMove = false;
+        isFire = false;
+
+        ChangeState(idleState);
+    }
+
     protected override void OnEnable()
     {
         isForceMove = false;
@@ -79,7 +87,9 @@ public class PlayerUnitSM : StateMachine
 
     public void ForceMove()                                                                     // 강제이동, 플레이어 유닛이 지정된 목적지에 도달하였는지 확인, isMove 값을 변경
     {
-        if(Mathf.Abs((dest - transform.position).magnitude)>1.5f)
+        Debug.LogFormat("{0} 목적지: {1}", gameObject, dest);
+
+        if(Mathf.Abs((dest- transform.position).magnitude)>1.5f)
         {
             isForceMove = true;
         }
@@ -109,11 +119,13 @@ public class PlayerUnitSM : StateMachine
         Vector3 bufferEnemyPos;                                                                          // 적의 위치를 임시 저장
         float bufferEnemyDist = 10000f;                                                                  // 플레이어 유닛과 적 사이의 거리를 임시 저장
 
-        if (enemies.Length <= 0)
-        {
-            Debug.LogFormat("{0} 주변에 적이 발견되지 않음", gameObject.name);
-            return;
-        }
+        float targetEnemyHealth = GetComponent<Health>().currentHP;
+
+        //if (enemies.Length <= 0)
+        //{
+        //    //Debug.LogFormat("{0} 주변에 적이 발견되지 않음", gameObject.name);
+        //    return;
+        //}
 
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -135,7 +147,7 @@ public class PlayerUnitSM : StateMachine
             }
         }
 
-        if (targetEnemy != null)                                                                            // 적 오브젝트가 null이 아닐 경우(적이 존재할 경우)
+        if (targetEnemyHealth <= 0)                                                                            // 적 오브젝트가 null이 아닐 경우(적이 존재할 경우)
         {
             //target = targetEnemy.transform.position;                                                // 가장 가까운 적의 위치를 target에 저장
             AttackMove();

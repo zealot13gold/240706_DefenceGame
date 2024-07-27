@@ -14,7 +14,8 @@ public class PlayerMoveState : PlayerUnitState
 
         sm.navMesh.speed = sm.moveSpeed;
 
-       navMesh.destination = sm.dest;
+        navMesh.destination = sm.dest;
+        //navMesh.SetDestination(sm.dest);
     }
 
     public override void OnStateUpdate()        // UnitSM에서 FixedUpdate()로 프레임마다 실행
@@ -32,6 +33,8 @@ public class PlayerMoveState : PlayerUnitState
 
             if (sm.isForceMove)                     // 계속 이동
             {
+                Debug.LogFormat("{0} 목적지 변경: {1}", unit, sm.dest);
+                //navMesh.SetDestination(sm.dest);
                 navMesh.destination = sm.dest;          // 현재 프레임에 저장된 목적지로 이동 - 갱신된 목적지 반영
             }
 

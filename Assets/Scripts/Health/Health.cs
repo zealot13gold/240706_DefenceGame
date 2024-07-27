@@ -17,6 +17,8 @@ public class Health : MonoBehaviour
     {
         currentHP = maxHP;
         IsDead = false;
+
+        Debug.LogFormat("{0} 초기 체력: {1}", gameObject, currentHP);
     }
 
     protected virtual void FixedUpdate()
