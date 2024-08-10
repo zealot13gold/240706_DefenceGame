@@ -334,7 +334,7 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  attackRange: 5
+  attackRange: 10
   attackDelayTime: 0.5
   attackDemage: 5
   turretHead: {fileID: 6115644542502464448}

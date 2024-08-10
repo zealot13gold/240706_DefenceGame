@@ -75,7 +75,7 @@ public class PlayerUnitStatusUI : MonoBehaviour
         UnitGroupUI.SetActive(false);
 
         chosenUnit = PlayerController.Instance.chosenObject[0];                                  // 선택된 유닛이 하나 -> 리스트의 첫 번째 유닛
-        Debug.LogFormat("{0} 단독 선택", chosenUnit.name);
+        //Debug.LogFormat("{0} 단독 선택", chosenUnit.name);
 
         chosenUnitHP =chosenUnit. GetComponent<PlayerHealth>();
 
@@ -93,14 +93,14 @@ public class PlayerUnitStatusUI : MonoBehaviour
         SingleUnitUI.SetActive(false);
         UnitGroupUI.SetActive(true);
 
-        Debug.LogFormat("플레이어 유닛 {0}개 선택", unitNum);
+        //Debug.LogFormat("플레이어 유닛 {0}개 선택", unitNum);
 
         for (int name = 0; name < PlayerUnitPooling.Instance.playerUnitNames.Length; name++)
         {
             string unitName=PlayerUnitPooling.Instance.playerUnitNames[name];
             int numOfUnits=0;
 
-            Debug.LogFormat("검색할 유닛 이름: {0}", unitName);
+            //Debug.LogFormat("검색할 유닛 이름: {0}", unitName);
 
             for (int i = 0; i < unitNum; i++)
             {
@@ -112,7 +112,7 @@ public class PlayerUnitStatusUI : MonoBehaviour
 
             if(numOfUnits>0)
             {
-                Debug.LogFormat("{0} {1}개 복수선택", unitName, numOfUnits);
+                //Debug.LogFormat("{0} {1}개 복수선택", unitName, numOfUnits);
                 unitIcons[name].gameObject.SetActive(true);
                 unitIcons[name].sprite = wholeUnitDict[unitName];
                 unitIcons[name].transform.Find("UnitNumber").GetComponent<TextMeshProUGUI>().text = numOfUnits.ToString();

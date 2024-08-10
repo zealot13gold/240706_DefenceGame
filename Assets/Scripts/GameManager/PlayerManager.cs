@@ -39,30 +39,34 @@ public class PlayerManager
             PlayerUnitPooling.Instance.CreatePlayerUnit();
         }
         playerUnitList.Add(PlayerUnitPooling.Instance.SpawnPlayerUnit());
+
+        Debug.LogFormat("유닛 생산, 총 유닛: {0}", playerUnitList.Count);
         playerUnitList[numberOfPlayerUnit].name = PlayerUnitPooling.Instance.playerUnitNames[0];
-        //numberOfPlayerUnit++;
     }
 
     // 사망한 플레이어 유닛은 큐로 되돌아감/사망한 유닛 목록에 포함
     public void CheckDeadUnit()
     {
-        foreach( GameObject unit in playerUnitList) 
-        { 
-            if(!unit.activeSelf)                        // 비활성화(사망)된 플레이어 유닛 존재
+        if (GameManager.Instance.currentState == GameManager.Instance.stageDoing)                   // 스테이지 진행 중일때만 체크하도록 함
+        {
+            foreach (GameObject unit in playerUnitList)
             {
-                PlayerUnitPooling.Instance.PickUpPlayerUnit(unit);
-                deadPlayerUnitList.Add(unit);           // 해당 유닛을 사망한 유닛 목록에 추가
-                Debug.LogFormat("사망한 플레이어 수: {0}", deadPlayerUnitList.Count);
+                if (!unit.activeSelf)                        // 비활성화(사망)된 플레이어 유닛 존재
+                {
+                    //PlayerUnitPooling.Instance.PickUpPlayerUnit(unit);
+                    deadPlayerUnitList.Add(unit);           // 해당 유닛을 사망한 유닛 목록에 추가
+                    Debug.LogFormat("사망한 플레이어 수: {0}", deadPlayerUnitList.Count);
 
-                GameManager.Instance.killedPlayerUnitInStage++;         // 해당 스테이지에서 사망한 플레이어 유닛 수 1 증가
+                    GameManager.Instance.killedPlayerUnitInStage++;         // 해당 스테이지에서 사망한 플레이어 유닛 수 1 증가
+                }
+            }
+            // 사망한 유닛은 현재 유닛 목록에서 제거
+            foreach (GameObject unit in deadPlayerUnitList)     // 사망한 유닛 목록
+            {
+                playerUnitList.Remove(unit);                    // 사망한 유닛 목록을 실시간으로 체크하여 플레이어 유닛 목록에 사망한 유닛이 있다면 이를 해당 목록에서 제거
+                Debug.LogFormat("유닛 제거, 총 유닛: {0}", playerUnitList.Count);
             }
         }
-        // 사망한 유닛은 현재 유닛 목록에서 제거
-        foreach (GameObject unit in deadPlayerUnitList)     // 사망한 유닛 목록
-        {
-            playerUnitList.Remove(unit);                    // 사망한 유닛 목록을 실시간으로 체크하여 플레이어 유닛 목록에 사망한 유닛이 있다면 이를 해당 목록에서 제거
-        }
-
         
     }
 

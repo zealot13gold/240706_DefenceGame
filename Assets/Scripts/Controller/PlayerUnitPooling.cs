@@ -48,6 +48,7 @@ public class PlayerUnitPooling : MonoBehaviour
         playerObject.SetActive(false);
         playerObject.transform.SetParent(transform);
         playerQueue.Enqueue(playerObject);
+        Debug.LogFormat("플레이어 유닛 풀링에서 {0} 생성", playerObject.name);
 
         return playerObject;
     }
@@ -65,6 +66,8 @@ public class PlayerUnitPooling : MonoBehaviour
             playerObject.name = playerUnitNames[0];
             playerObject.gameObject.SetActive(true);
 
+            Debug.LogFormat("플레이어 유닛 풀링에서 {0} 소환, 큐 안의 남은 유닛 수: {1}", playerObject.name, playerQueue.Count);
+
             return playerObject;
         }
         else
@@ -76,8 +79,11 @@ public class PlayerUnitPooling : MonoBehaviour
         playerQueue.Enqueue(player);
         player.SetActive(false);
         player.transform.SetParent(transform);
-        //player.GetComponent<PlayerUnitSM>().isForceMove = false;
-        //player.GetComponent<PlayerUnitSM>().isAttackMove = false;
+
+        PlayerUnitSM sm = player.GetComponent<PlayerUnitSM>();
+        sm.isForceMove = false;
+        sm.isAttackMove = false;
+        sm.currentState = sm.idleState;
         //player.GetComponent<PlayerUnitSM>().isFire = false;
     }
 

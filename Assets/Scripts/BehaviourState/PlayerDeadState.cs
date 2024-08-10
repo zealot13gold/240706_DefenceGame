@@ -37,6 +37,7 @@ public class PlayerDeadState : PlayerUnitState
     public override void OnStateExit()
     {
         base.OnStateExit();
-        unit.SetActive(false);
+        //unit.SetActive(false);
+        PlayerUnitPooling.Instance.PickUpPlayerUnit(unit);
     }
 }

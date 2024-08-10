@@ -17532,7 +17532,7 @@ PrefabInstance:
       objectReference: {fileID: 161334865}
     - target: {fileID: 896169529750620953, guid: 8720dc61715fcb645a3f5d235d7f5795, type: 3}
       propertyPath: prepareTime
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 896169529750620953, guid: 8720dc61715fcb645a3f5d235d7f5795, type: 3}
       propertyPath: resultBoard

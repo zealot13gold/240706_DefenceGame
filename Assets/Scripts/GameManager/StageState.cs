@@ -33,7 +33,7 @@ public class StageState : BaseState
         GameManager.Instance.playerManager.CheckDeadUnit();
 
         int remainPlayer = GameManager.Instance.playerManager.playerUnitList.Count;
-        //Debug.LogFormat("플레이어 유닛 수: {0}", remainPlayer);
+        Debug.LogFormat("플레이어 유닛 수: {0}", remainPlayer);
 
         return remainPlayer;
     }
