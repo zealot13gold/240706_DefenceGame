@@ -12,6 +12,7 @@ public class PlayerUnitPooling : MonoBehaviour
     public GameObject soliderPrefab;                    // 생산 가능 유닛(전투병)
     [HideInInspector] public Queue<GameObject> playerQueue;
     public LayerMask playerLayer;
+    public string[] playerUnitNames;
 
     public static PlayerUnitPooling Instance
     {
@@ -61,7 +62,7 @@ public class PlayerUnitPooling : MonoBehaviour
             playerObject.transform.SetParent(null);
             playerObject.transform.position = PlayerSpawnSite();
             playerObject.GetComponent<PlayerHealth>().currentHP = playerObject.GetComponent<PlayerHealth>().maxHP;
-            playerObject.name = "player";
+            playerObject.name = playerUnitNames[0];
             playerObject.gameObject.SetActive(true);
 
             return playerObject;

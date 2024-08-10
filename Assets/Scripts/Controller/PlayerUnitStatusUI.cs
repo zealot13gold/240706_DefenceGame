@@ -27,8 +27,12 @@ public class PlayerUnitStatusUI : MonoBehaviour
     private TextMeshProUGUI unitHP;
     private TextMeshProUGUI unitKillsEnemies;
 
+    // 선택된 플레이어 유닛 정보
+    private GameObject chosenUnit;
+    private PlayerHealth chosenUnitHP;
+
     // 유닛 그룹 정보창 UI
-    public Sprite[] unitImages;
+    public Image[] unitIcons;
 
     private void Awake()
     {
@@ -52,15 +56,11 @@ public class PlayerUnitStatusUI : MonoBehaviour
     {
         if(PlayerController.Instance.chosenObject.Count == 1)
         {
-            SingleUnitUI.SetActive(true);
-            UnitGroupUI.SetActive(false);
             DisplaySingleUnitUI();
         }
         else if(PlayerController.Instance.chosenObject.Count >=2)
         {
-            SingleUnitUI.SetActive(false);
-            UnitGroupUI.SetActive(true);
-            DisplayUnitGroupUI();
+            DisplayUnitGroupUI(PlayerController.Instance.chosenObject.Count);
         }
         else 
         {
@@ -71,10 +71,13 @@ public class PlayerUnitStatusUI : MonoBehaviour
 
     void DisplaySingleUnitUI()
     {
-        GameObject chosenUnit = PlayerController.Instance.chosenObject[0];                                  // 선택된 유닛이 하나 -> 리스트의 첫 번째 유닛
-        PlayerHealth chosenUnitHP =chosenUnit. GetComponent<PlayerHealth>();
+        SingleUnitUI.SetActive(true);
+        UnitGroupUI.SetActive(false);
 
+        chosenUnit = PlayerController.Instance.chosenObject[0];                                  // 선택된 유닛이 하나 -> 리스트의 첫 번째 유닛
+        Debug.LogFormat("{0} 단독 선택", chosenUnit.name);
 
+        chosenUnitHP =chosenUnit. GetComponent<PlayerHealth>();
 
         if (wholeUnitDict.ContainsKey(chosenUnit.name))
         {
@@ -85,11 +88,41 @@ public class PlayerUnitStatusUI : MonoBehaviour
         }
     }
 
-    void DisplayUnitGroupUI()
+    void DisplayUnitGroupUI(int unitNum)
     {
-        // 유닛 아이콘 풀링
-        // 유닛 아이콘에 이미지, 체력바 적용
-        // 아이콘 위치(x, y축)
+        SingleUnitUI.SetActive(false);
+        UnitGroupUI.SetActive(true);
+
+        Debug.LogFormat("플레이어 유닛 {0}개 선택", unitNum);
+
+        for (int name = 0; name < PlayerUnitPooling.Instance.playerUnitNames.Length; name++)
+        {
+            string unitName=PlayerUnitPooling.Instance.playerUnitNames[name];
+            int numOfUnits=0;
+
+            Debug.LogFormat("검색할 유닛 이름: {0}", unitName);
+
+            for (int i = 0; i < unitNum; i++)
+            {
+                if (PlayerController.Instance.chosenObject[i].name==unitName)
+                {
+                    numOfUnits++;
+                }
+            }
+
+            if(numOfUnits>0)
+            {
+                Debug.LogFormat("{0} {1}개 복수선택", unitName, numOfUnits);
+                unitIcons[name].gameObject.SetActive(true);
+                unitIcons[name].sprite = wholeUnitDict[unitName];
+                unitIcons[name].transform.Find("UnitNumber").GetComponent<TextMeshProUGUI>().text = numOfUnits.ToString();
+            }
+        }
+
+        for(int i= PlayerUnitPooling.Instance.playerUnitNames.Length; i<unitIcons.Length; i++)
+        {
+            unitIcons[i].gameObject.SetActive(false);
+        }
     }
 
     void CreateUnitList()
@@ -97,13 +130,13 @@ public class PlayerUnitStatusUI : MonoBehaviour
         int numOfUnitName = wholeUnitNames.Count;
         int numOfUnitImage = wholeImages.Count;
 
-        Debug.LogFormat("whole Dict Key: {0}, Value: {1}", numOfUnitName, numOfUnitImage);
+        //Debug.LogFormat("whole Dict Key: {0}, Value: {1}", numOfUnitName, numOfUnitImage);
         int count = Mathf.Min(numOfUnitName, numOfUnitImage);
 
         for(int i=0; i< count; i++)
         {
             wholeUnitDict.Add(wholeUnitNames[i], wholeImages[i]);
-            Debug.LogFormat("wholeUnitDict에 {0} : {1} 추가", wholeUnitNames[i], wholeImages[i]);
+            //Debug.LogFormat("wholeUnitDict에 {0} : {1} 추가", wholeUnitNames[i], wholeImages[i]);
         }
     }
 }
