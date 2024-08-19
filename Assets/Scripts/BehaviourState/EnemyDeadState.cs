@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyDeadState : EnemyUnitState
 {
     public EnemyDeadState(GameObject unit) : base(unit) { }
-    float delayTime=3f;
+    float delayTime=10f;
     float time;
 
     // Start is called before the first frame update
@@ -15,6 +15,8 @@ public class EnemyDeadState : EnemyUnitState
         sm.enemyAudioSource.Play();
 
         sm.anim.SetBool("Death", true);
+
+        unit.GetComponent<BoxCollider>().enabled = true;
 
         time = 0f;
     }

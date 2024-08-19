@@ -41,8 +41,10 @@ public class GameManager : StateMachine
     public float prepareTime;     // 스테이지 준비 시간
 
     // UI
+    public Text stageNumTitle;                      // 스테이지 번호 표시
     public Text stageTextMessage;                          // 스테이지 시작/종료 시 텍스트
-    public Text remainTimeMessage;                   // 남은 시간 표시
+    public Image displayRemainTime;                     // 남은 시간 표시
+    public Text remainTimeMessage;                   // 남은 시간 텍스트
     public Text remainPlayerMessage;                    // 남은 플레이어 유닛 표시
     public Text numOfEnemiesMessage;                    // 남은 적 유닛 표시
     public Text stageTextUI;                           // 상단에 스테이지 번호 표시

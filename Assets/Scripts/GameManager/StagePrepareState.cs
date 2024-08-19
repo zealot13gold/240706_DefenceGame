@@ -27,6 +27,7 @@ public class StagePrepareState : StageState
 
         // 스테이지 번호 1 추가
         GameManager.Instance.stageNumber++;
+        GameManager.Instance.stageNumTitle.text = "Stage " + GameManager.Instance.stageNumber.ToString();
         Debug.LogFormat("Stage {0} 준비", GameManager.Instance.stageNumber);
 
     }
@@ -51,7 +52,7 @@ public class StagePrepareState : StageState
     {
         Debug.LogFormat("준비시간 종료");
         // 준비 UI 삭제
-        GameManager.Instance.remainTimeMessage.gameObject.SetActive(false);
+        GameManager.Instance.displayRemainTime.gameObject.SetActive(false);
         GameManager.Instance.buttons.gameObject.SetActive(false);
         //gm.moneyUI.gameObject.SetActive(false);
     }
@@ -59,18 +60,19 @@ public class StagePrepareState : StageState
     // 준비시간 메시지, 유닛 생성 버튼 활성화
     public void DisplayPrepareUI()
     {
-        CountingPrepareTime();
+        CountingPrepareTime();                                                         // 준비시간 실시간으로 표시 
         GameManager.Instance.cashUI.text = GameManager.Instance.cash.ToString();
         GameManager.Instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
 
+
         // 준비 UI 출력
-        GameManager.Instance.remainTimeMessage.gameObject.SetActive(true);
+        GameManager.Instance.displayRemainTime.gameObject.SetActive(true);
         GameManager.Instance.buttons.gameObject.SetActive(true);
         //gm.moneyUI.gameObject.SetActive(true);
     }
     void CountingPrepareTime()
     {
-        GameManager.Instance.remainTimeMessage.text = "Prepare Time: " + spareTime.ToString();
+        GameManager.Instance.remainTimeMessage.text = "Prepare Time: " + ((int)spareTime).ToString();
 
         spareTime -= Time.deltaTime;
     }

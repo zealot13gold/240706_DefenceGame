@@ -82,6 +82,7 @@ public class EnemyUnitPooling : MonoBehaviour
     {
         enemyQueue.Enqueue(enemy);
         enemy.SetActive(false);
+        enemy.GetComponent<BoxCollider>().enabled = false;
         enemy.transform.SetParent(transform);
         Debug.LogFormat("{0} 회수, 현재 큐에 저장된 적의 수: {1}", enemy.name, enemyQueue.Count);
 

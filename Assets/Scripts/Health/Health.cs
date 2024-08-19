@@ -25,6 +25,15 @@ public class Health : MonoBehaviour
     {
         Test_Death();
         //Debug.LogFormat("{0} 체력: {1}/{2}", gameObject.name, currentHP, maxHP);
+
+        if(currentHP <=0)
+        {
+            IsDead = true;
+        }
+        else
+        {
+            IsDead = false;
+        }
     }
 
     void Test_Death()

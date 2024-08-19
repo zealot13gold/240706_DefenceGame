@@ -25,7 +25,7 @@ public class EnemyIdleState : EnemyUnitState
         {
             sm.FindEnemy();                           // isAttackMove 값을 확인함으로써 적이 존재하는지 확인
 
-            if (sm.targetEnemy != null)                 // 강제 이동을 하지 않는 상태에서 적이 시야 내에 존재할 경우
+            if (sm.targetPlayer != null)                 // 강제 이동을 하지 않는 상태에서 적이 시야 내에 존재할 경우
             {
                 if (sm.isAttackMove)
                 {

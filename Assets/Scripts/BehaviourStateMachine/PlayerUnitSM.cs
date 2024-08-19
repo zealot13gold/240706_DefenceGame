@@ -120,6 +120,7 @@ public class PlayerUnitSM : StateMachine
         float bufferEnemyDist = 10000f;                                                                  // 플레이어 유닛과 적 사이의 거리를 임시 저장
 
         float targetEnemyHealth = GetComponent<Health>().currentHP;
+        bool targetEnemyIsDead = GetComponent<Health>().IsDead;
 
         //if (enemies.Length <= 0)
         //{
@@ -147,7 +148,7 @@ public class PlayerUnitSM : StateMachine
             }
         }
 
-        if (targetEnemyHealth <= 0)                                                                            // 적 오브젝트가 null이 아닐 경우(적이 존재할 경우)
+        if (targetEnemy!=null && targetEnemyHealth>0)                                                                            // 적 오브젝트가 null이 아닐 경우(적이 존재할 경우)
         {
             //target = targetEnemy.transform.position;                                                // 가장 가까운 적의 위치를 target에 저장
             AttackMove();

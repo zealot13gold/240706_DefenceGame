@@ -76,7 +76,7 @@ public class EnemyManager
         int enemies;
 
         // 스테이지에 따라 적의 수 변경
-        enemies = stageNumber * 5;
+        enemies = stageNumber * 10;
 
         return enemies;
     }

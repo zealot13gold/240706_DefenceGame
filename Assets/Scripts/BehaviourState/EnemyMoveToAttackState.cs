@@ -15,7 +15,7 @@ public class EnemyMoveToAttackState : EnemyUnitState
 
         //navMesh.isStopped = false;
         sm.navMesh.speed = sm.moveSpeed;
-        navMesh.destination = sm.targetEnemy.transform.position;
+        navMesh.destination = sm.targetPlayer.transform.position;
 
         sm.enemyAudioSource.clip = sm.enemyScreamingVoice;
         sm.enemyAudioSource.Play();
@@ -33,14 +33,14 @@ public class EnemyMoveToAttackState : EnemyUnitState
 
             //Debug.LogFormat("{0} AttackMove: {1}", unit.name, sm.isAttackMove);
 
-            if (!sm.targetEnemy.activeSelf)                 // 적이 없으면 idle 상태가 됨
+            if (!sm.targetPlayer.activeSelf)                 // 적이 없으면 idle 상태가 됨
             {
                 sm.ChangeState(sm.idleState);
             }
 
             else if (sm.isAttackMove /*&& !sm.isForceMove*/)                        // 가까운 곳에 적이 존재하면 isAttackMove는 true가 됨
             {
-                navMesh.destination = sm.targetEnemy.transform.position;
+                navMesh.destination = sm.targetPlayer.transform.position;
                 sm.anim.SetBool("Walk", true);
             }
             else
@@ -53,7 +53,7 @@ public class EnemyMoveToAttackState : EnemyUnitState
     public override void OnStateExit()
     {
         sm.anim.SetBool("Walk", false);
-        sm.targetEnemy = null;
+        sm.targetPlayer = null;
         base.OnStateExit();
 
 

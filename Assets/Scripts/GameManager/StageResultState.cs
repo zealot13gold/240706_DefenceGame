@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageResultState : StageState
 {
@@ -37,9 +38,8 @@ public class StageResultState : StageState
             {
                 if (GameManager.Instance.playerManager.playerUnitList.Count <= 0)
                 {
-
-                    ;
                     // 플레이어 유닛 수가 0이라면 OnStageExit() 실행 
+                    SceneManager.LoadScene("MainLobby");
                 }
                 else
                 {

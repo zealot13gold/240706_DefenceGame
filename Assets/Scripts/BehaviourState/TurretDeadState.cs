@@ -19,7 +19,7 @@ public class TurretDeadState : TurretState
     {
         base.OnStateUpdate();
 
-        if (delayTime < 3f)
+        if (delayTime < 10f)
         {
             delayTime += Time.deltaTime;
         }

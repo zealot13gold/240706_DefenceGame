@@ -24,7 +24,7 @@ public class PlayerDeadState : PlayerUnitState
     {
         base.OnStateUpdate();
 
-        if (delayTime < 3f)
+        if (delayTime < 10f)
         {
             delayTime += Time.deltaTime;
         }
