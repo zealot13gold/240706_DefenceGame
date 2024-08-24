@@ -1,10 +1,19 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GetSoliderButton : MonoBehaviour
 {
-   public void GetSolider()
+    public GameObject cashUI;
+    public GameObject costUI;
+
+    public Text costText;
+    int maxProd;
+    string prodMessage;
+
+    public void GetSolider()
     {
         if(GameManager.Instance.soliderCost <= GameManager.Instance.cash)
         {
@@ -19,5 +28,31 @@ public class GetSoliderButton : MonoBehaviour
         {
             Debug.LogFormat("자금 {0} 부족", GameManager.Instance.soliderCost-GameManager.Instance.cash);
         }
+    }
+
+    public void MouseOnButton()
+    {
+        cashUI.SetActive(false);
+
+        maxProd = GameManager.Instance.cash / GameManager.Instance.soliderCost;
+        if (maxProd >=1)
+        {
+            prodMessage = "Able to get " + maxProd.ToString() + " soliders";
+        }
+        else
+        {
+            prodMessage = "Not enough cash";
+            costText.color = Color.red;
+        }
+        costText.text = "Cash: " + GameManager.Instance.cash.ToString()+ '\n' + '\n' + "AssultMan: " + GameManager.Instance.soliderCost.ToString() + " cash" + '\n' + prodMessage;
+
+        costUI.SetActive(true);
+    }
+
+    public void MouseOffButton()
+    {
+        cashUI.SetActive(true);
+        costUI.SetActive(false);
+        costText.color = Color.green;
     }
 }

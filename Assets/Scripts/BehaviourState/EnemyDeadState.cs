@@ -16,7 +16,7 @@ public class EnemyDeadState : EnemyUnitState
 
         sm.anim.SetBool("Death", true);
 
-        unit.GetComponent<BoxCollider>().enabled = true;
+        unit.GetComponent<BoxCollider>().enabled = false;
 
         time = 0f;
     }

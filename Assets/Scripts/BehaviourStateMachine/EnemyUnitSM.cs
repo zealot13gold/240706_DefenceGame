@@ -90,10 +90,6 @@ public class EnemyUnitSM : StateMachine
         Vector3 bufferPlayerPos;                                                                          // 적의 위치를 임시 저장
         float bufferEnemyDist = 10000f;                                                                  // 플레이어 유닛과 적 사이의 거리를 임시 저장
 
-        // 타겟 정보 설정
-        targetPlayerHealth = GetComponent<Health>().currentHP;
-        targetPlayerIsDead = GetComponent<Health>().IsDead;
-
         if (players.Length <= 0) return;
 
         for (int i = 0; i < players.Length; i++)
@@ -112,6 +108,10 @@ public class EnemyUnitSM : StateMachine
             if (bufferEnemyDist > Mathf.Abs((bufferPlayerPos - transform.position).magnitude))                    // 현재 위치로부터 가장 가까운 공격 대상을 찾음
             {
                 targetPlayer = players[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
+                                                                                                         
+                targetPlayerHealth = targetPlayer.GetComponent<Health>().currentHP;                                      // 타겟 정보 설정
+                targetPlayerIsDead = targetPlayer.GetComponent<Health>().IsDead;
+
                 bufferEnemyDist = Mathf.Abs((targetPlayer.transform.position - transform.position).magnitude);    // 가까운 적과의 거리를 저장
             }
         }

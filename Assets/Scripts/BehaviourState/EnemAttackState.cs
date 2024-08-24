@@ -26,7 +26,7 @@ public class EnemyAttackState : EnemyUnitState
             sm.FindEnemy();                             // 가까운 적을 찾고, 더 가까운 적이 검색될 경우 타겟을 변경
             Debug.LogFormat("타겟 체력: {0}", sm.targetPlayerHealth);
 
-            if (sm.isAttackMove || /*!sm.targetPlayer.activeSelf*//*sm.targetPlayerHealth <= 0*/sm.targetPlayerIsDead)                            // 적과의 거리가 너무 멀어지거나 현재 공격중인 적의 체력이 0 이하일 때
+            if (sm.isAttackMove || /*!sm.targetPlayer.activeSelf*/sm.targetPlayerHealth <= 0 /*sm.targetPlayerIsDead*/)                            // 적과의 거리가 너무 멀어지거나 현재 공격중인 적의 체력이 0 이하일 때
             {
                 if(sm.targetPlayerIsDead) Debug.LogFormat("{0} 제거 완료", sm.targetPlayer.name); 
                 

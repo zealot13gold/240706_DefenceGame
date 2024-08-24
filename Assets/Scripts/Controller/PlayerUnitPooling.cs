@@ -34,7 +34,7 @@ public class PlayerUnitPooling : MonoBehaviour
         {
             PlayerUnitPoolingInstance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

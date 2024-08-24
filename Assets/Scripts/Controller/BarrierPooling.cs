@@ -31,7 +31,7 @@ public class BarrierPooling : MonoBehaviour
         {
             barrierPoolingInstance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

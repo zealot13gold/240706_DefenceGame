@@ -101,7 +101,7 @@ public class GameManager : StateMachine
         {
             gameInstance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

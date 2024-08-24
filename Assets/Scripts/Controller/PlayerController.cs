@@ -18,18 +18,18 @@ public class PlayerController : MonoBehaviour
     private static PlayerController instance;
 
     // 선택된 유닛 관리
-    [HideInInspector]public List<GameObject> chosenObject;              // 선택된 유닛/건물 목록이 이 배열로 복사 -> 이 배열의 정보가 인터페이스에 출력
-    public LayerMask unitLayer;                         // 유닛 레이어
+    [HideInInspector] public List<GameObject> chosenObject;    // 선택된 유닛목록 리스트
 
-    // 목적지
-    public LayerMask ground;
+    // 레이어 목록
+    public LayerMask ground;                                   // 필드 레이어 -> 유닛 이동 시 사용
+    public LayerMask unitLayer;                                // 유닛 레이어 -> 유닛 선택 시 사용
 
-    // 마우스, 키보드 조작
-    Rect dragRect;
-    Vector3 dragBegin;
-    Vector3 dragEnd;
-    bool onClick;                                       // 마우스 누르고 있는 상태인지 확인
-    bool isDrag;                                        // 드래그 실행 여부
+    // 마우스 조작
+    bool onClick;                                             // 클릭한 상태인지 확인
+    bool isDrag;                                              // 드래그 실행 중인지 확인
+    Rect dragRect;                                            // 드래그 범위(사각형)
+    Vector3 dragBegin;                                        // 드래그 시작점
+    Vector3 dragEnd;                                          // 드래그 끝점
 
     public static PlayerController Instance
     {
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         {
             instance = this;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -73,6 +73,9 @@ public class PlayerController : MonoBehaviour
 
         // 유닛 이동 좌표 전달
         UnitDestination();
+
+        // 사망한 유닛 검색 후 제거
+        DeselctDeadUnit();
     }
 
     void MouseSelection()
@@ -80,6 +83,57 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             SelectOne(Input.mousePosition);
+        }
+    }
+
+    void SelectOne(Vector3 position)                                                // 한 번 클릭
+    {
+        //Debug.LogFormat("클릭 실행");
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(position);
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, unitLayer))                // 유닛 선택
+        {
+            if (Input.GetButton("AddUnit"))                                         // LeftShift 버튼을 누른 상태일 때
+            {
+                chosenObject.Add(hit.transform.gameObject);                         // 선택 리스트에 방금 선택한 유닛 추가
+                //Debug.Log("shift + 선택");
+
+            }
+            else
+            {                                                                  // 일반적인 클릭
+                DeselectAllUnits();                                                         // 새로운 선택 리스트 생성
+                chosenObject.Add(hit.transform.gameObject);                         // 선택 리스트에 방금 선택한 유닛 추가
+                //Debug.LogFormat("{0} 선택", hit.transform.gameObject.name);
+            }
+        }
+        else                                                                        // 아무것도 선택하지 않았을 경우
+        {
+            //Debug.LogFormat("chosenObject 리스트 내 오브젝트 개수(실행 전) : {0}", chosenObject.Count);
+            if (chosenObject.Count > 0)                                               // 기존의 선택 리스트에 유닛/건물이 존재할 경우
+            {
+
+                DeselectAllUnits();                                                         // 선택한 모든 유닛/건물 리스트 삭제
+            }
+            else
+            {
+                //Debug.LogFormat("아무 것도 선택되지 않음->Drag");
+                isDrag = true;                                                      // 단순 클릭이 아니라 드래그 -> 드래그 함수 실행
+            }
+            //Debug.LogFormat("chosenObject 리스트 내 오브젝트 개수(실행 후) : {0}", chosenObject.Count);
+        }
+
+        // 선택된 유닛의 isSelected는 모두 true로 변경
+        for (int i = 0; i < chosenObject.Count; i++)
+        {
+            //Debug.LogFormat("chosenObject 리스트 내 오브젝트 개수(istrue) : {0}", chosenObject.Count);
+            //Debug.LogFormat("{0}이 chosenObject 내에 존재함", chosenObject[i].name);
+
+            bool isBuffer = chosenObject[i].GetComponent<PlayerUnit>().isSelected = true;
+            //Debug.LogFormat("{0}의 istrue를 {1}로 함", chosenObject[i].name, chosenObject[i].GetComponent<PlayerUnit>().isSelected);
+
+            chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.clip = chosenObject[i].GetComponent<PlayerUnitSM>().playerSelectedVoice;
+            chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.Play();
         }
     }
 
@@ -91,7 +145,7 @@ public class PlayerController : MonoBehaviour
             //Debug.LogFormat("드래그 실행");
             if (chosenObject.Count > 0)                        // 선택 리스트에 오브젝트가 존재할 경우
             {
-                Deselect();                                 // 선택 리스트의 오브젝트를 모두 제거
+                DeselectAllUnits();                                 // 선택 리스트의 오브젝트를 모두 제거
             }
 
             //Debug.LogFormat("드래그 시작, 상태 : {0}", isDrag);
@@ -139,57 +193,6 @@ public class PlayerController : MonoBehaviour
         }
      }
 
-    void SelectOne(Vector3 position)                                                // 한 번 클릭
-    {
-        //Debug.LogFormat("클릭 실행");
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(position);
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, unitLayer))                // 유닛 선택
-        {
-            if (Input.GetButton("AddUnit"))                                         // LeftShift 버튼을 누른 상태일 때
-            {
-                chosenObject.Add(hit.transform.gameObject);                         // 선택 리스트에 방금 선택한 유닛 추가
-                //Debug.Log("shift + 선택");
-
-            }
-            else
-            {                                                                  // 일반적인 클릭
-                Deselect();                                                         // 새로운 선택 리스트 생성
-                chosenObject.Add(hit.transform.gameObject);                         // 선택 리스트에 방금 선택한 유닛 추가
-                //Debug.LogFormat("{0} 선택", hit.transform.gameObject.name);
-            }
-        }
-        else                                                                        // 아무것도 선택하지 않았을 경우
-        {
-            //Debug.LogFormat("chosenObject 리스트 내 오브젝트 개수(실행 전) : {0}", chosenObject.Count);
-            if (chosenObject.Count > 0)                                               // 기존의 선택 리스트에 유닛/건물이 존재할 경우
-            {
-
-                Deselect();                                                         // 선택한 모든 유닛/건물 리스트 삭제
-            }
-            else
-            {
-                //Debug.LogFormat("아무 것도 선택되지 않음->Drag");
-                isDrag = true;                                                      // 단순 클릭이 아니라 드래그 -> 드래그 함수 실행
-            }
-            //Debug.LogFormat("chosenObject 리스트 내 오브젝트 개수(실행 후) : {0}", chosenObject.Count);
-        }
-
-        // 선택된 유닛의 isSelected는 모두 true로 변경
-        for (int i = 0; i < chosenObject.Count; i++)
-        {
-            //Debug.LogFormat("chosenObject 리스트 내 오브젝트 개수(istrue) : {0}", chosenObject.Count);
-            //Debug.LogFormat("{0}이 chosenObject 내에 존재함", chosenObject[i].name);
-
-            bool isBuffer = chosenObject[i].GetComponent<PlayerUnit>().isSelected = true;
-            //Debug.LogFormat("{0}의 istrue를 {1}로 함", chosenObject[i].name, chosenObject[i].GetComponent<PlayerUnit>().isSelected);
-
-            chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.clip = chosenObject[i].GetComponent<PlayerUnitSM>().playerSelectedVoice;
-            chosenObject[i].GetComponent<PlayerUnitSM>().playerUnitVoice.Play();
-        }
-    }
-
     // Drag 시 사각형 왼쪽 위와 오른쪽 아래를 구분하는 함수
     float MinValue(float a, float b)
     {
@@ -229,14 +232,14 @@ public class PlayerController : MonoBehaviour
             {
                 if (chosenObject.Count > 0)                        // 선택 리스트에 오브젝트가 존재할 경우
                 {
-                    Deselect();                                 // 선택 리스트의 오브젝트를 모두 제거
+                    DeselectAllUnits();                                 // 선택 리스트의 오브젝트를 모두 제거
                 }
                 //Debug.LogFormat("{0}은 검색 안됨", GameManager.Instance.playerManager.playerUnitList[i].name);
             }
         }
     }
 
-    void Deselect()
+    void DeselectAllUnits()
     {
         if (chosenObject.Count > 0)
         {
@@ -249,6 +252,27 @@ public class PlayerController : MonoBehaviour
             chosenObject.Clear();
         }
         return;
+    }
+
+   void DeselctDeadUnit()
+    {
+        List<GameObject> deadUnitList = new List<GameObject>();
+
+        if (chosenObject.Count > 0)
+        {
+            foreach (GameObject unit in chosenObject)
+            {
+                if (unit.GetComponent<Health>().currentHP <= 0)
+                {
+                   deadUnitList.Add(unit);
+                }
+            }
+
+            foreach(GameObject unit in deadUnitList)
+            {
+                chosenObject.Remove(unit);
+            }
+        }
     }
 
     void UnitDestination()

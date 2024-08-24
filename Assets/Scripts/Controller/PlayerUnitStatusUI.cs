@@ -54,6 +54,8 @@ public class PlayerUnitStatusUI : MonoBehaviour
 
     void Update()
     {
+
+        Debug.LogFormat("현재 선택된 유닛 목록의 유닛 수: {0}", PlayerController.Instance.chosenObject.Count);
         if(PlayerController.Instance.chosenObject.Count == 1)
         {
             DisplaySingleUnitUI();

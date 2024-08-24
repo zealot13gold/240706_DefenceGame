@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SetBarrierButton : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class SetBarrierButton : MonoBehaviour
     private Vector3 mousePosition;
     private bool setBarrier;
     float delayTime;
+
+    public GameObject cashUI;
+    public GameObject costUI;
+
+    public Text costText;
+    int maxProd;
+    string prodMessage;
 
     private void Awake()
     {
@@ -46,6 +54,32 @@ public class SetBarrierButton : MonoBehaviour
                 delayTime = 0f;
             }
         }
+    }
+
+    public void MouseOnButton()
+    {
+        cashUI.SetActive(false);
+
+        maxProd = GameManager.Instance.cash / GameManager.Instance.barrierCost;
+        if (maxProd >= 1)
+        {
+            prodMessage = "Able to set " + maxProd.ToString() + " barriers";
+        }
+        else
+        {
+            prodMessage = "Not enough cash";
+            costText.color = Color.red;
+        }
+        costText.text = "Cash: " + GameManager.Instance.cash.ToString() + '\n' + '\n' + "Barrier: " + GameManager.Instance.barrierCost.ToString() + " cash" + '\n' + prodMessage;
+
+        costUI.SetActive(true);
+    }
+
+    public void MouseOffButton()
+    {
+        cashUI.SetActive(true);
+        costUI.SetActive(false);
+        costText.color = Color.green;
     }
 
     public void Update()

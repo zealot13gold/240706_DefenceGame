@@ -27,7 +27,7 @@ public class PlayerAttackState : PlayerUnitState
             sm.FindEnemy();                             // 가까운 적을 찾고, 더 가까운 적이 검색될 경우 타겟을 변경
             //sm.ForceMove();                         // 강제이동으로 목적지에 도달하였는지 확인
 
-            if (sm.isForceMove || sm.isAttackMove || !sm.targetEnemy.activeSelf)                            // 새로운 지점으로 강제 이동하거나 적과의 거리가 너무 멀어지면
+            if (sm.isForceMove || sm.isAttackMove || sm.targetEnemyHealth<=0)                            // 새로운 지점으로 강제 이동하거나 적과의 거리가 너무 멀어지면
             {
                 sm.ChangeState(sm.idleState);                           // idle 상태로 변경
             }

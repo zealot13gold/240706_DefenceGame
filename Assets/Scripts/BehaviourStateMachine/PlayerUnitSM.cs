@@ -42,6 +42,10 @@ public class PlayerUnitSM : StateMachine
     public AudioClip playerAttackVoice;
     public AudioClip playerDeadVoice;
 
+    // 적 정보
+    [HideInInspector] public float targetEnemyHealth;
+    [HideInInspector] public bool targetEnemyIsDead;
+
     protected override void Awake()
     {
         base.Awake();
@@ -119,9 +123,6 @@ public class PlayerUnitSM : StateMachine
         Vector3 bufferEnemyPos;                                                                          // 적의 위치를 임시 저장
         float bufferEnemyDist = 10000f;                                                                  // 플레이어 유닛과 적 사이의 거리를 임시 저장
 
-        float targetEnemyHealth = GetComponent<Health>().currentHP;
-        bool targetEnemyIsDead = GetComponent<Health>().IsDead;
-
         //if (enemies.Length <= 0)
         //{
         //    //Debug.LogFormat("{0} 주변에 적이 발견되지 않음", gameObject.name);
@@ -144,6 +145,8 @@ public class PlayerUnitSM : StateMachine
             if (bufferEnemyDist > Mathf.Abs((bufferEnemyPos - transform.position).magnitude))                    // 현재 위치로부터 가장 가까운 공격 대상을 찾음
             {
                 targetEnemy = enemies[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
+                targetEnemyHealth = targetEnemy.GetComponent<Health>().currentHP;
+                targetEnemyIsDead = targetEnemy.GetComponent<Health>().IsDead;
                 bufferEnemyDist = Mathf.Abs((targetEnemy.transform.position - transform.position).magnitude);    // 가까운 적과의 거리를 저장
             }
         }

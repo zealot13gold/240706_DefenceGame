@@ -61,7 +61,7 @@ public class StagePrepareState : StageState
     public void DisplayPrepareUI()
     {
         CountingPrepareTime();                                                         // 준비시간 실시간으로 표시 
-        GameManager.Instance.cashUI.text = GameManager.Instance.cash.ToString();
+        GameManager.Instance.cashUI.text = "Cash: " + GameManager.Instance.cash.ToString();
         GameManager.Instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
 
 
