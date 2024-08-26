@@ -52,7 +52,7 @@ public class StagePrepareState : StageState
     {
         Debug.LogFormat("준비시간 종료");
         // 준비 UI 삭제
-        GameManager.Instance.displayRemainTime.gameObject.SetActive(false);
+        //GameManager.Instance.displayRemainTime.gameObject.SetActive(false);
         GameManager.Instance.buttons.gameObject.SetActive(false);
         //gm.moneyUI.gameObject.SetActive(false);
     }
@@ -72,6 +72,7 @@ public class StagePrepareState : StageState
     }
     void CountingPrepareTime()
     {
+        GameManager.Instance.remainTimeMessage.color = Color.white;
         GameManager.Instance.remainTimeMessage.text = "Prepare Time: " + ((int)spareTime).ToString();
 
         spareTime -= Time.deltaTime;

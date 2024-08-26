@@ -52,11 +52,9 @@ public class EnemyUnitSM : StateMachine
 
         targetPlayer = null;
 
-        //unitRigidbody = GetComponent<Rigidbody>();
         enemyAudioSource = GetComponent<AudioSource>();
     }
 
-    // Start is called before the first frame update
     protected override void Start()
     {
         isAttackMove = false;
@@ -94,14 +92,6 @@ public class EnemyUnitSM : StateMachine
 
         for (int i = 0; i < players.Length; i++)
         {
-            //Rigidbody targetRigidbody = enemies[i].GetComponent<Rigidbody>();                       // 탐색된 적들의 rigidbody를 가져옴
-
-            //if (!targetRigidbody)                                                                   // 적이 발견되지 않았을 경우 함수를 종료
-            //{
-            //    //Debug.LogFormat("{0} 주변에 적이 발견되지 않음", gameObject.name);
-            //    return;
-            //}
-
             //Debug.LogFormat("{0}이 {1}을 발견", gameObject.name, enemies[i].gameObject.name);
             bufferPlayerPos = players[i].transform.position;                                              // 공격 대상의 위치를 임시저장
 

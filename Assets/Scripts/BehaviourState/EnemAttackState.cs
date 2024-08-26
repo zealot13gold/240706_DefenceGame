@@ -17,7 +17,7 @@ public class EnemyAttackState : EnemyUnitState
 
     public override void OnStateUpdate()
     {
-        if (health.currentHP <= 0)
+        if (health.currentHP <= 0)                      // 사망하였을 경우
         {
             sm.ChangeState(sm.deadState);
         }

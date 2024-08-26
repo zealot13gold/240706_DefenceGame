@@ -2846,8 +2846,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef1dcd57a5781c4483d64e13cd87c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
-  targetEnemy: {fileID: 0}
+  players: []
+  targetPlayer: {fileID: 0}
+  targetPlayerHealth: 0
+  targetPlayerIsDead: 0
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 520

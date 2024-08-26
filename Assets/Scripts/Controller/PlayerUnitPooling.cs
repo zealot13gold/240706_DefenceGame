@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerUnitPooling : MonoBehaviour
 {
@@ -78,6 +79,7 @@ public class PlayerUnitPooling : MonoBehaviour
     {
         playerQueue.Enqueue(player);
         player.SetActive(false);
+        player.GetComponent<BoxCollider>().enabled = true;
         player.transform.SetParent(transform);
 
         PlayerUnitSM sm = player.GetComponent<PlayerUnitSM>();

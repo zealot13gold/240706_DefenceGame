@@ -51,7 +51,7 @@ public class PlayerManager
         {
             foreach (GameObject unit in playerUnitList)
             {
-                if (!unit.activeSelf)                        // 비활성화(사망)된 플레이어 유닛 존재
+                if (unit.GetComponent<Health>().currentHP <= 0)                        // 비활성화(사망)된 플레이어 유닛 존재
                 {
                     //PlayerUnitPooling.Instance.PickUpPlayerUnit(unit);
                     deadPlayerUnitList.Add(unit);           // 해당 유닛을 사망한 유닛 목록에 추가

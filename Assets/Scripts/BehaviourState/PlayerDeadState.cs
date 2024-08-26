@@ -17,6 +17,8 @@ public class PlayerDeadState : PlayerUnitState
 
         sm.anim.SetBool("Dead", true);
 
+        unit.GetComponent<BoxCollider>().enabled = false;
+
         delayTime = 0;
     }
 

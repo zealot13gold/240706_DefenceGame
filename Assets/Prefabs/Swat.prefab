@@ -560,6 +560,8 @@ MonoBehaviour:
   playerDiscoverEnemyVoice: {fileID: 8300000, guid: ea55e8ad7a5740c4c846b4a3eb499696, type: 3}
   playerAttackVoice: {fileID: 8300000, guid: 62d9a984cdc72404d9f6705e0ec60134, type: 3}
   playerDeadVoice: {fileID: 8300000, guid: d1a1b5697c47e1e45a3b93ec8047e01b, type: 3}
+  targetEnemyHealth: 0
+  targetEnemyIsDead: 0
 --- !u!114 &-3257856506054140707
 MonoBehaviour:
   m_ObjectHideFlags: 0

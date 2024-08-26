@@ -72,6 +72,9 @@ public class StageDoingState : StageState
 
         GameManager.Instance.stageTextMessage.gameObject.SetActive(true);
 
+        // 준비시간 표시 메시지를 아래와 같이 변경
+        GameManager.Instance.remainTimeMessage.text = "Enemies are Coming!!!";
+        GameManager.Instance.remainTimeMessage.color = Color.red;
 
         if (remainTime < 2f)
         {
@@ -80,17 +83,26 @@ public class StageDoingState : StageState
             remainTime += Time.deltaTime;
         }
         //Debug.LogFormat("스테이지{0} 시작 메시지 삭제", gm.stageNumber);
+        else if(remainTime>=2f && remainTime < 5f)
+        {
+            GameManager.Instance.stageTextMessage.gameObject.SetActive(false);
+            remainTime += Time.deltaTime;
+        }
         else
         {
             GameManager.Instance.stageTextMessage.gameObject.SetActive(false);
+            GameManager.Instance.displayRemainTime.gameObject.SetActive(false);         // 스테이지 메시지 숨기기
         }
+        
+
+
     }
 
     // 스테이지 시작 시 UI
     public void DisplayStageUI()
     {
         GameManager.Instance.numOfEnemiesMessage.text = remainEnemyUnit.ToString() + " / " + GameManager.Instance.enemyManager.numberOfEnemyUnit.ToString() ;
-        GameManager.Instance.scoreUI.text = GameManager.Instance.score.ToString();
+        GameManager.Instance.scoreUI.text = "Score: " + GameManager.Instance.score.ToString();
 
 
         GameManager.Instance.remainPlayerMessage.text = remainPlayerUnit.ToString();

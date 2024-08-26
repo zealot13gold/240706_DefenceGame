@@ -40,7 +40,7 @@ public class EnemyManager
     {
         foreach(GameObject unit in enemyUnitList) 
         {
-            if (!unit.activeSelf)                                   // 비활성화(사망)된 적 유닛 수 존재 시
+            if (/*!unit.activeSelf*/unit.GetComponent<Health>().currentHP<=0)                                   // 비활성화(사망)된 적 유닛 수 존재 시
             {
                 //EnemyUnitPooling.Instance.PickUpEnemy(unit);
                 deadEnemyUnitList.Add(unit);                        // 사망한 적 유닛 목록에 추가

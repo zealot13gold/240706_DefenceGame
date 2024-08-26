@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButton("AddUnit"))                                         // LeftShift 버튼을 누른 상태일 때
             {
                 chosenObject.Add(hit.transform.gameObject);                         // 선택 리스트에 방금 선택한 유닛 추가
-                //Debug.Log("shift + 선택");
+                Debug.LogFormat("shift + 선택 후 선택된 유닛 수: {0}", chosenObject.Count);
 
             }
             else
@@ -209,10 +209,7 @@ public class PlayerController : MonoBehaviour
             return b;
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.green;
-    //}
+    
 
     void SearchUnitInCamera()
     {
