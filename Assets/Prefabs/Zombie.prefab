@@ -2826,7 +2826,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: f505feead19b29e4791e89351c0463e6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2858,7 +2858,7 @@ MonoBehaviour:
   attackDelayTime: 2
   attackDemage: 5
   navMesh: {fileID: 5411026973933939268}
-  moveSpeed: 2
+  moveSpeed: 5
   isAttackMove: 0
   anim: {fileID: 3245812856113347071}
   enemyAudioSource: {fileID: 8351174806628338733}

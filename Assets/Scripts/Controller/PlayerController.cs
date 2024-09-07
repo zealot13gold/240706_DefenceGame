@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     Rect dragRect;                                            // 드래그 범위(사각형)
     Vector3 dragBegin;                                        // 드래그 시작점
     Vector3 dragEnd;                                          // 드래그 끝점
+    public GameObject dragArea;                                // 드래그 선택 영역
+    RectTransform dragAreaTransform;                            // 드래그 선택 영역의 rectTransform
 
     public static PlayerController Instance
     {
@@ -57,12 +59,16 @@ public class PlayerController : MonoBehaviour
         }
 
         chosenObject = new List<GameObject>(); 
+        dragAreaTransform = dragArea.GetComponent<RectTransform>();
     }
 
      void Start()
     {
         onClick = false;
         isDrag = false;
+
+        dragArea.SetActive(false);
+        dragAreaTransform.sizeDelta = Vector2.zero;
     }
 
      void FixedUpdate()
@@ -167,7 +173,10 @@ public class PlayerController : MonoBehaviour
             dragRect.yMin = MinValue(dragBegin.y, dragEnd.y);
             dragRect.yMax = MaxValue(dragBegin.y, dragEnd.y);
 
-            //Debug.LogFormat("사각형 생성, ({0}, {1}), ({2}, {3})", dragRect.xMin, dragRect.yMin, dragRect.xMax, dragRect.yMax);
+            DrawRectArea();
+
+            Debug.LogFormat("사각형 생성, width: {0}, height: {1}", dragRect.xMax-dragRect.xMin, dragRect.yMax-dragRect.yMin);
+            Debug.LogFormat("사각형 크기: width: {0}, height: {1}", Mathf.Abs(dragBegin.x - dragEnd.x), Mathf.Abs(dragBegin.y - dragEnd.y));
 
             SearchUnitInCamera();
 
@@ -190,6 +199,7 @@ public class PlayerController : MonoBehaviour
             onClick = false;
             isDrag = false;                                         // 드래그 종료
             //Debug.LogFormat("드래그 종료, 상태 : {0}", isDrag);
+            eraseDrawArea();
         }
      }
 
@@ -209,7 +219,43 @@ public class PlayerController : MonoBehaviour
             return b;
     }
 
-    
+    // 선택 영역을 그리는 함수
+    void DrawRectArea()
+    {
+        dragAreaTransform.position = dragBegin;                 // 영역 사각형 시작지점 선택
+        dragArea.SetActive(true);                               // 영역 사각형 활성화
+
+        Vector2 rectPivot;                                      // 영역 피벗 설정
+
+        if(dragBegin.x < dragEnd.x)                             // 시작점 x, y값이 끝점 x, y 값보다 작으면 피벗을 0으로, 그렇지 않으면 1로 설정
+        {
+            rectPivot.x = 0f;
+        }
+        else 
+        {
+            rectPivot.x = 1f;
+        }
+
+        if (dragBegin.y < dragEnd.y)
+        {
+            rectPivot.y = 0f;
+        }
+        else
+        {
+            rectPivot.y = 1f;
+        }
+
+        dragAreaTransform.pivot = rectPivot;
+
+        // 영역 width, height 설정
+        dragAreaTransform.sizeDelta = new Vector2(Mathf.Abs(dragRect.xMax-dragRect.xMin), Mathf.Abs(dragRect.yMax-dragRect.yMin));
+        Debug.LogFormat("{0} 크기의 사각형 생성", dragAreaTransform.sizeDelta);
+    }
+
+    void eraseDrawArea()
+    {
+        dragArea.SetActive(false);
+    }
 
     void SearchUnitInCamera()
     {

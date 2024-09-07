@@ -482,7 +482,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 879a00a511862874087d6214e97f508e, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -542,13 +542,13 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  viewRange: 10
-  attackRange: 5
-  attackDelayTime: 1
+  viewRange: 15
+  attackRange: 10
+  attackDelayTime: 0.5
   attackDemage: 10
   dest: {x: 0, y: 0, z: 0}
   navMesh: {fileID: -2132193315110792032}
-  moveSpeed: 2
+  moveSpeed: 3.5
   isForceMove: 0
   isAttackMove: 0
   isFire: 0
