@@ -37,9 +37,6 @@ public class StagePrepareState : StageState
         // 실시간으로 플레이어 유닛 수 체크
         remainPlayerUnit = CheckRemainPlayer();
 
-        // 현재 스테이지에서 생산된 플레이어 유닛 수 체크
-
-
         // 시간 카운트 함수 -> 준비 시간이 경과되면 스테이지 시작
         DisplayPrepareUI();
         if (spareTime<=0)

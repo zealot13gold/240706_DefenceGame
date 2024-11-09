@@ -8,7 +8,6 @@ public class EnemyUnitPooling : MonoBehaviour
     private static EnemyUnitPooling enemyPoolingInstance;
 
     // 적 유닛 생산
-    //private float spawnX1, spawnX2, spawnZ1, spawnZ2;   // 적 소환 영역
     public Transform enemyUnitSpawnPoint;              // 생산 위치
     public LayerMask enemyLayer;
 
@@ -36,8 +35,6 @@ public class EnemyUnitPooling : MonoBehaviour
         if (enemyPoolingInstance == null)
         {
             enemyPoolingInstance = this;
-
-            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -56,7 +53,6 @@ public class EnemyUnitPooling : MonoBehaviour
         return enemyObject;
     }
 
-    // 큐에 저장된 적을 맵에 소환 -> 지정된 장소 안의 랜덤한 위치에 생성
     public GameObject SpawnEnemy()
     {
         if (enemyQueue.Count > 0)
@@ -68,7 +64,6 @@ public class EnemyUnitPooling : MonoBehaviour
             enemyObject.transform.position = EnemySpawnSite();
 
             enemyObject.gameObject.SetActive(true);
-            //enemyObject.gameObject.GetComponent<EnemyUnitSM>().ChangeState(enemyObject.gameObject.GetComponent<EnemyUnitSM>().idleState);
             Debug.LogFormat("{0}을 큐로부터 소환, 현재 큐에 저장된 적의 수: {1}", enemyObject.name, enemyQueue.Count);
             Debug.LogFormat("{0} 체력: {1}", enemyObject.name, enemyObject.GetComponent<EnemyHealth>().currentHP);
 

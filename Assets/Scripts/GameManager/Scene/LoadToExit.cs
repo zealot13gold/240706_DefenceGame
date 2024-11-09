@@ -7,6 +7,5 @@ public class LoadToExit : MonoBehaviour
     public void ClickExitButton()
     {
         Application.Quit();
-        //Activity.moveTaskToBack;
     }
 }

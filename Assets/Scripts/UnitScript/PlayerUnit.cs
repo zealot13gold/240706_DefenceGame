@@ -87,20 +87,9 @@ public class PlayerUnit : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-
         if (isSelected)                                     // 현재 선택된 유닛만 해당
-        {
-            //unitShader.SetFloat("_Outline_Bold", 0.1f);
-            selection.SetActive(true);
-            //unitSM.playerUnitVoice.clip = unitSM.playerSelectedVoice;
-            //unitSM.playerUnitVoice.Play();
-            //Debug.LogFormat("{0} 선택", gameObject.name);
-        }
+        {            selection.SetActive(true);        }
         else
-        {
-            selection.SetActive(false);
-            //unitShader.SetFloat("_Outline_Bold", 0.0f);
-            //Debug.LogFormat("{0} 선택 해제", gameObject.name);
-        }
+        {            selection.SetActive(false);        }
     }
 }

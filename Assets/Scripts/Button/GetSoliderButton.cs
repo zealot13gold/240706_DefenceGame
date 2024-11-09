@@ -44,7 +44,8 @@ public class GetSoliderButton : MonoBehaviour
             prodMessage = "Not enough cash";
             costText.color = Color.red;
         }
-        costText.text = "Cash: " + GameManager.Instance.cash.ToString()+ '\n' + '\n' + "AssultMan: " + GameManager.Instance.soliderCost.ToString() + " cash" + '\n' + prodMessage;
+        costText.text = "Cash: " + GameManager.Instance.cash.ToString()+ '\n' 
+            + '\n' + "AssultMan: " + GameManager.Instance.soliderCost.ToString() + " cash" + '\n' + prodMessage;
 
         costUI.SetActive(true);
     }

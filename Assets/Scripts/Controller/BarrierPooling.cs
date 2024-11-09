@@ -30,8 +30,6 @@ public class BarrierPooling : MonoBehaviour
         if (barrierPoolingInstance == null)
         {
             barrierPoolingInstance = this;
-
-            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -49,7 +47,6 @@ public class BarrierPooling : MonoBehaviour
         return barrierObject;
     }
 
-    // 큐에 저장된 적을 맵에 소환 -> 지정된 장소 안의 랜덤한 위치에 생성
     public GameObject SetBarrier()
     {
         if (barrierQueue.Count > 0)

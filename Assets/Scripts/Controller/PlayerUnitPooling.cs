@@ -12,6 +12,7 @@ public class PlayerUnitPooling : MonoBehaviour
     public Transform playerUnitSpawnPoint;              // 생산 위치
     public GameObject soliderPrefab;                    // 생산 가능 유닛(전투병)
     [HideInInspector] public Queue<GameObject> playerQueue;
+    public LayerMask groundLayer;
     public LayerMask playerLayer;
     public string[] playerUnitNames;
 
@@ -34,8 +35,6 @@ public class PlayerUnitPooling : MonoBehaviour
         if (PlayerUnitPoolingInstance == null)
         {
             PlayerUnitPoolingInstance = this;
-
-            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -54,7 +53,6 @@ public class PlayerUnitPooling : MonoBehaviour
         return playerObject;
     }
 
-    // 큐에 저장된 적을 맵에 소환
     public GameObject SpawnPlayerUnit()
     {
         if (playerQueue.Count > 0)
@@ -86,10 +84,8 @@ public class PlayerUnitPooling : MonoBehaviour
         sm.isForceMove = false;
         sm.isAttackMove = false;
         sm.currentState = sm.idleState;
-        //player.GetComponent<PlayerUnitSM>().isFire = false;
     }
 
-    // 적 소환 지점을 설정하는 함수
     Vector3 PlayerSpawnSite()
     {
         Vector3 spawnSite = playerUnitSpawnPoint.position;
@@ -98,20 +94,26 @@ public class PlayerUnitPooling : MonoBehaviour
         float radius = 0.05f;
         float pi = Mathf.PI;
 
-       while (Physics.Raycast(spawnSite, Vector3.down, Mathf.Infinity, playerLayer))
-        {
-            spawnSite += new Vector3(radius*Mathf.Cos(angle), 0f, radius*Mathf.Sin(angle));
-
-            angle += pi / 3f;
-            radius += 0.1f * pi / 3f;
-        }
-
         RaycastHit hit;
-        if (Physics.Raycast(spawnSite, Vector3.down, out hit, Mathf.Infinity))
+        if(Physics.Raycast(spawnSite, Vector3.down, Mathf.Infinity, groundLayer))
         {
-            spawnSite = hit.point;
+
+            if(Physics.Raycast(spawnSite, Vector3.down, out hit, Mathf.Infinity, playerLayer))
+            {
+                spawnSite = hit.point;
+
+                Debug.LogFormat("해당 위치에 플레이어 유닛 존재");
+                angle += pi / 3f;
+                radius += 0.1f * angle;
+
+                spawnSite += new Vector3(radius * Mathf.Cos(angle), 0f, radius * Mathf.Sin(angle));
+            }
+            else
+            {
+                Debug.LogFormat("해당 위치에 플레이어 유닛 없음");
+            }
         }
-        
+        Debug.LogFormat("플레이어 소환 위치: {0}", spawnSite);
         return spawnSite;
     }
 }

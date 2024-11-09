@@ -41,24 +41,24 @@ public class GameManager : StateMachine
     public float prepareTime;     // 스테이지 준비 시간
 
     // UI
-    public Text stageNumTitle;                      // 스테이지 번호 표시
-    public Text stageTextMessage;                          // 스테이지 시작/종료 시 텍스트
+    public Text stageNumTitle;                          // 스테이지 번호 표시
+    public Text stageTextMessage;                       // 스테이지 시작/종료 시 텍스트
     public Image displayRemainTime;                     // 남은 시간 표시
-    public Text remainTimeMessage;                   // 남은 시간 텍스트
+    public Text remainTimeMessage;                      // 남은 시간 텍스트
     public Text remainPlayerMessage;                    // 남은 플레이어 유닛 표시
     public Text numOfEnemiesMessage;                    // 남은 적 유닛 표시
-    public Text stageTextUI;                           // 상단에 스테이지 번호 표시
-    public Text cashUI;                        // 자원 표시
-    public Text scoreUI;                           // 점수 표시
-    public GameObject buttons;                  // 버튼 모음
-    public Image resultBoard;                   // 결과창
-    public Text gameResultTextInBoard;          // 스테이지 결과(결과창)
-    public Text obtainCashInStageInBoard;       // 현재 스테이지에서 얻은 자금
-    public Text obtainScoreInStageInBoard;      // 현재 스테이지에서 얻은 점수
-    public Text producedPlayerUnitsInStageInBoard;  // 현재 스테이지에서 생산한 플레이어 유닛 수
-    public Text killedPlayerToEnemyInStageInBoard;  // 현재 스테이지에서 적에게 사망한 플레이어 유닛 수
-    public Text invadedEnemyUnitsInStageInBoard;    // 현재 스테이지에서 침입한 적 유닛 수
-    public Text killedEnemyToPlayerInStageInBoard;  // 현재 스테이지에서 플레이어에게 사망한 적 유닛 수
+    public Text stageTextUI;                            // 상단에 스테이지 번호 표시
+    public Text cashUI;                                 // 자원 표시
+    public Text scoreUI;                                // 점수 표시
+    public GameObject buttons;                          // 버튼 모음
+    public Image resultBoard;                           // 결과창
+    public Text gameResultTextInBoard;                  // 스테이지 결과(결과창)
+    public Text obtainCashInStageInBoard;               // 현재 스테이지에서 얻은 자금
+    public Text obtainScoreInStageInBoard;              // 현재 스테이지에서 얻은 점수
+    public Text producedPlayerUnitsInStageInBoard;      // 현재 스테이지에서 생산한 플레이어 유닛 수
+    public Text killedPlayerToEnemyInStageInBoard;      // 현재 스테이지에서 적에게 사망한 플레이어 유닛 수
+    public Text invadedEnemyUnitsInStageInBoard;        // 현재 스테이지에서 침입한 적 유닛 수
+    public Text killedEnemyToPlayerInStageInBoard;      // 현재 스테이지에서 플레이어에게 사망한 적 유닛 수
 
     // 플레이어 관리
     public PlayerManager playerManager;

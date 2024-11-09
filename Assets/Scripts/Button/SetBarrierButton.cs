@@ -104,7 +104,7 @@ public class SetBarrierButton : MonoBehaviour
 
                 
 
-                if (delayTime < 1f)                                                 // 마우스 중복 클릭을 방지하기 위해 시간 간격을 둠
+                if (delayTime < 1f)                                 // 마우스 중복 클릭(중복 클릭으로 버튼이 있는 위치에 장애물이 생성됨)을 방지하기 위해 시간 간격을 둠
                 {
                     delayTime += Time.deltaTime;
                 }
