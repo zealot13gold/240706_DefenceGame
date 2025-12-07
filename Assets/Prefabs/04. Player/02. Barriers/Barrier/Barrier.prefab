@@ -145,6 +145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollide: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
   cannotBulidMeshRender: {fileID: 23000010166301650}
 --- !u!114 &896224404
 MonoBehaviour:

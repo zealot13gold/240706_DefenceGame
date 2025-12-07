@@ -9,6 +9,7 @@ public class EnemyUnitPooling : MonoBehaviour
 
     // 적 유닛 생산
     public Transform enemyUnitSpawnPoint;              // 생산 위치
+    public LayerMask groundLayer;
     public LayerMask enemyLayer;
 
     public GameObject enemyPrefab;                     // 적 유닛 프리팹
@@ -94,23 +95,29 @@ public class EnemyUnitPooling : MonoBehaviour
         Vector3 spawnSite = enemyUnitSpawnPoint.position;
 
         float angle = 0f;
-        float radius = 1.0f;
+        float radius = 0.05f;
         float pi = Mathf.PI;
 
-        while (Physics.Raycast(spawnSite, Vector3.down, Mathf.Infinity, enemyLayer))
-        {
-            spawnSite += new Vector3(radius * Mathf.Cos(angle), 0f, radius * Mathf.Sin(angle));
-
-            angle += pi / 3f;
-            radius += 0.1f * pi / 3f;
-        }
-
         RaycastHit hit;
-        if (Physics.Raycast(spawnSite, Vector3.down, out hit, Mathf.Infinity))
+        if(Physics.Raycast(spawnSite, Vector3.down, Mathf.Infinity, groundLayer))
         {
-            spawnSite = hit.point;
-        }
 
+            if(Physics.Raycast(spawnSite, Vector3.down, out hit, Mathf.Infinity, enemyLayer))
+            {
+                spawnSite = hit.point;
+
+                Debug.LogFormat("EnemyUnitPooling: 해당 위치에 적 유닛 존재");
+                angle += pi / 3f;
+                radius += 0.1f * angle;
+
+                spawnSite += new Vector3(radius * Mathf.Cos(angle), 0f, radius * Mathf.Sin(angle));
+            }
+            else
+            {
+                Debug.LogFormat("EnemyUnitPooling: 해당 위치에 적 유닛 없음");
+            }
+        }
+        Debug.LogFormat("EnemyUnitPooling: 적 소환 위치: {0}", spawnSite);
         return spawnSite;
     }
 }

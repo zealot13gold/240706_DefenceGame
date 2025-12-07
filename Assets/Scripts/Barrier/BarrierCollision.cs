@@ -4,36 +4,75 @@ using UnityEngine;
 
 public class BarrierCollision : MonoBehaviour
 {
-    [HideInInspector] public bool isCollide;
+    [HideInInspector] public bool installable;
+    public LayerMask groundLayer;           // ??? ?? ?? ??
 
-    //public GameManager gm;
 
-    // ½¦ÀÌ´õ
+    // ??? ?? ?? ??
     public MeshRenderer cannotBulidMeshRender;
     private Material negativeMaterial;
 
     private void Awake()
     {
-        isCollide = false;
+        installable = false;
         negativeMaterial = cannotBulidMeshRender.material;
+        groundLayer = LayerMask.GetMask("Ground");
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Update()
     {
-        Debug.LogFormat("Collision, ÇöÀç °ÔÀÓ »óÅÂ: {0}", GameManager.Instance.currentState);
-        if (collision.gameObject.layer != 8 && GameManager.Instance.currentState == GameManager.Instance.stagePrepare)              // ·¹ÀÌ¾î°¡ groundÀÌ°í, °ÔÀÓÀÌ ÁØºñ »óÅÂÀÏ °æ¿ì
-        {
-            isCollide = true;
-            negativeMaterial.SetColor("_Color", new Vector4 (1f, 0.5f, 0.5f, 1f));
-        }
+        DetectBarrierInstallableArea();
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void DetectBarrierInstallableArea()
     {
-        if (collision.gameObject.layer != 8 && GameManager.Instance.currentState == GameManager.Instance.stagePrepare)              // ·¹ÀÌ¾î°¡ groundÀÌ°í, °ÔÀÓÀÌ ÁØºñ »óÅÂÀÏ °æ¿ì
-        {
-            isCollide = false;
+           if(installable)
+           {
             negativeMaterial.SetColor("_Color", new Vector4(1f, 1f, 1f, 1f));
-        }
+            Debug.LogFormat("BarrierCollision: ??? ?? ??");
+           }
+           else
+           {
+            negativeMaterial.SetColor("_Color", new Vector4(1f, 0.5f, 0.5f, 1f));
+            Debug.LogFormat("BarrierCollision: ??? ?? ???");
+           }
     }
+
+    // ??? ?? ?? ?? ???
+    void OnDrawGizmos()
+    {
+        
+
+        // BoxCast ???
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(transform.position, transform.localScale);
+        
+        // BoxCast ?? ?? ???
+        Gizmos.color = Color.red;
+        Vector3 endPosition = transform.position + Vector3.down * 10f;
+        Gizmos.DrawLine(transform.position, endPosition);
+        
+        // BoxCast ???
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(endPosition, transform.localScale);
+    }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    Debug.LogFormat("Collision, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {0}", GameManager.Instance.currentState);
+    //    if (collision.gameObject.layer != 8 && GameManager.Instance.currentState == GameManager.Instance.stagePrepare)              // ï¿½ï¿½ï¿½Ì¾î°¡ groundï¿½Ì°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
+    //     {
+    //         isCollide = true;
+    //         negativeMaterial.SetColor("_Color", new Vector4 (1f, 0.5f, 0.5f, 1f));
+    //     }
+    // }
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.layer != 8 && GameManager.Instance.currentState == GameManager.Instance.stagePrepare)              // ï¿½ï¿½ï¿½Ì¾î°¡ groundï¿½Ì°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?
+    //     {
+    //         isCollide = false;
+    //         negativeMaterial.SetColor("_Color", new Vector4(1f, 1f, 1f, 1f));
+    //     }
+    // }
 }

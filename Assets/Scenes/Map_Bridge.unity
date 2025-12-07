@@ -414,7 +414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layer:
     serializedVersion: 2
-    m_Bits: 511
+    m_Bits: 1019
   ground:
     serializedVersion: 2
     m_Bits: 256
@@ -3102,6 +3102,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: desoto
       objectReference: {fileID: 0}
+    - target: {fileID: 2231776231281788033, guid: 8491abae8ae3ad4478e49ce97cced4ea, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8491abae8ae3ad4478e49ce97cced4ea, type: 3}
 --- !u!4 &447323331 stripped
@@ -3425,6 +3429,10 @@ PrefabInstance:
     - target: {fileID: 9157697110038723279, guid: bf81e498e0f62874a968ffff7eef388c, type: 3}
       propertyPath: m_Name
       value: oldcar_whole
+      objectReference: {fileID: 0}
+    - target: {fileID: 9157697110038723279, guid: bf81e498e0f62874a968ffff7eef388c, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf81e498e0f62874a968ffff7eef388c, type: 3}
@@ -11107,6 +11115,10 @@ PrefabInstance:
     - target: {fileID: 3602033380567418458, guid: 9e3aac5aa1b31cb488c1c178c3c11f55, type: 3}
       propertyPath: m_Name
       value: SM_SBFlat (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3602033380567418458, guid: 9e3aac5aa1b31cb488c1c178c3c11f55, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4230901961511296224, guid: 9e3aac5aa1b31cb488c1c178c3c11f55, type: 3}
       propertyPath: m_RootOrder

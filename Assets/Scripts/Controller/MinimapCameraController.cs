@@ -10,7 +10,7 @@ public class MinimapCameraController : MonoBehaviour
 
     public RawImage miniMap;
     RectTransform rt;
-    public Transform center;
+    public Transform center;                                // GameManager Transform
     Vector3 centerPosition;
     Vector2 mousePositionInMiniMap;
     Vector3 cameraPosition;
@@ -33,14 +33,11 @@ public class MinimapCameraController : MonoBehaviour
         // 클릭하였을 경우
         if (Input.GetMouseButtonDown(0))
         {
-            //Vector2 mousePosition = Camera.main.WorldToScreenPoint(Input.mousePosition);
             Debug.LogFormat("마우스 월드 좌표: {0}", Input.mousePosition);
-
             // 마우스 포인터가 미니맵 위에 있을 경우,
             if (RectTransformUtility.RectangleContainsScreenPoint(rt, Input.mousePosition, null))
             {
                 MoveMainCamera();
-                //DrawCameraView();
             }
         }
     }
@@ -48,7 +45,6 @@ public class MinimapCameraController : MonoBehaviour
     Vector2 PointingMiniMap()
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, Input.mousePosition, null, out mousePositionInMiniMap);
-        //mousePositionInMiniMap = Camera.main.ScreenToViewportPoint(mousePositionInMiniMap);
 
         Debug.LogFormat("미니맵 상의 마우스 위치: {0}", mousePositionInMiniMap);
             
@@ -87,7 +83,6 @@ public class MinimapCameraController : MonoBehaviour
     {
         Camera.main.transform.position = MousePositionInMinimapToWorldPosition();
         Debug.LogFormat("카메라는 {0}으로 이동", Camera.main.transform.position);
-        //DrawCameraView(Camera.main.transform.position);
     }
 
     //void DrawCameraView(Vector3 cameraPosition)

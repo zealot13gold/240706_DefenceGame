@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -5207529645294518122}
   - component: {fileID: 4550897187410657054}
   - component: {fileID: 4626245888551557700}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: Sandbag_User
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 445e733f5a94fb943a4b57154a94fa6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCollide: 0
+  installable: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
   cannotBulidMeshRender: {fileID: 1278562059454936999}
 --- !u!114 &4626245888551557700
 MonoBehaviour:

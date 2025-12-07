@@ -31,7 +31,6 @@ public class SetBarrierButton : MonoBehaviour
 
     public void SetBarrier()
     {
-
         if (GameManager.Instance.currentState == GameManager.Instance.stagePrepare)                         // 게임이 스테이지 준비 상태일 경우
         {
             //Debug.LogFormat("장애물 버튼 클릭");
@@ -40,7 +39,6 @@ public class SetBarrierButton : MonoBehaviour
             if (barrier == null && GameManager.Instance.cash >= GameManager.Instance.barrierCost)           // 장애물이 선택되지 않은 상태에서, 현재 자금이 장애물 가격보다 크거나 같으면
             {
                 mousePosition = Input.mousePosition+CameraDepth();           // 장애물은 배치 전까지 마우스 커서를 따라다님
-                //barrierRotation = Quaternion.identity;
 
                 if(BarrierPooling.Instance.barrierQueue.Count<=0)
                 {
@@ -90,45 +88,29 @@ public class SetBarrierButton : MonoBehaviour
 
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             //Debug.LogFormat("최종 검색 위치: {0}", worldPosition);
+            // 실시간으로 장애물 위치 및 회전 설정 업데이트
+            barrier.transform.position = worldPosition;
+            barrier.transform.Rotate(new Vector3(0f, Input.mouseScrollDelta.y*5f, 0f));
+            
 
             RaycastHit hit;
 
-            if (Physics.Raycast(worldPosition + new Vector3(0f, 5f, 0f), Vector3.down, out hit, Mathf.Infinity, layer))
+            // 장애물 배치 가능 여부 확인
+            if (Physics.BoxCast(barrier.transform.position+Vector3.up*5f, barrier.GetComponent<Collider>().bounds.size/1.5f, Vector3.down, out hit, barrier.transform.rotation, Mathf.Infinity))
             {
-                barrier.transform.position = hit.point /*+ new Vector3(0f, barrier.transform.lossyScale.y/2f, 0f)*/;
-                barrier.transform.Rotate(new Vector3(0f, Input.mouseScrollDelta.y*5f, 0f));
-
-                //Debug.LogFormat("{0} 스크린 좌표: {1}, 월드 좌표: {2}", barrier, mousePosition, Camera.main.ScreenToWorldPoint(mousePosition));
-
-                barrier.SetActive(true);
-
+                barrier.transform.position = hit.point;                 // 장애물 위치 재설정
+                Debug.LogFormat("SetbarrierButton: 충돌 오브젝트 이름: {0}", hit.collider.gameObject.name);
                 
-
-                if (delayTime < 1f)                                 // 마우스 중복 클릭(중복 클릭으로 버튼이 있는 위치에 장애물이 생성됨)을 방지하기 위해 시간 간격을 둠
+                if(hit.collider.name == "Bridge")
                 {
-                    delayTime += Time.deltaTime;
+                    barrier.GetComponent<BarrierCollision>().installable=true;           // 장애물 배치 가능
+                    Debug.LogFormat("SetbarrierButton: 장애물 배치 가능");
+                    ClickToSetBarrier();        // 장애물 설치 함수
                 }
                 else
                 {
-                    // 다른 부분과 충돌 확인
-                    if (!barrier.GetComponent<BarrierCollision>().isCollide)
-                    {
-                        if (Input.GetMouseButton(0) && barrier != null)                                 // 장애물이 마우스 커서를 따라다니는 상태에서 클릭하였을 경우
-                        {
-                            //Debug.LogFormat("마우스 클릭, {0} 배치 완료", barrier);
-
-                            //Instantiate(barrierPrefab, barrier.transform.position, barrier.transform.rotation);
-                            GameManager.Instance.cash -= GameManager.Instance.barrierCost;
-                            //barrier.SetActive(false);
-                            barrier = null;                                                         // 장애물 삭제
-
-                            setBarrier = false;                                                     // 장애물을 설치하였다면 setBarrier를 false로 변경                                                                                                
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogFormat("이 곳에 장애물을 설치할 수 없음");
-                    }
+                    barrier.GetComponent<BarrierCollision>().installable=false;          // 장애물 배치 불가능   
+                    Debug.LogFormat("SetbarrierButton: 장애물 배치 불가능");
                 }
             }
 
@@ -136,6 +118,11 @@ public class SetBarrierButton : MonoBehaviour
             {
                 Cancle(barrier);
             }
+        }
+        else
+        {
+            Debug.LogFormat("SetBarrierButton: 게임 상태가 준비 상태가 아님");
+            Cancle(barrier);
         }
     }
 
@@ -159,17 +146,29 @@ public class SetBarrierButton : MonoBehaviour
 
         return new Vector3(0,0, depth);
     }
+
+    void ClickToSetBarrier()
+    {
+        if (Input.GetMouseButton(0) && barrier != null)                                 // 장애물이 마우스 커서를 따라다니는 상태에서 클릭하였을 경우
+        {
+            Debug.LogFormat("SetBarrierButton: 마우스 클릭, {0} 배치 완료", barrier);
+
+            GameManager.Instance.cash -= GameManager.Instance.barrierCost;
+            barrier = null;                                                         // 장애물 삭제
+
+            setBarrier = false;                                                     // 장애물을 설치하였다면 setBarrier를 false로 변경                                                                                                
+        }
+    }
     
     void Cancle(GameObject barrier)
     {
-        
-        
-            setBarrier = false;
+        setBarrier = false;
             //BarrierPooling.Instance.PickUpBarrier(barrier);
             Destroy(barrier);
             //barrier = null;
             Debug.LogFormat("장애물 설치 취소, 장애물 == {0}", barrier == null);
         
         // 스테이지 시작 시 마우스 커서를 따라다니는 장애물 제거
+
     }
 }

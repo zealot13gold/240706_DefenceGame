@@ -92,13 +92,14 @@ public class EnemyUnitSM : StateMachine
 
         for (int i = 0; i < players.Length; i++)
         {
-            //Debug.LogFormat("{0}이 {1}을 발견", gameObject.name, enemies[i].gameObject.name);
+            Debug.LogFormat("EnemyUnitSM: {0}이 {1}을 발견", gameObject.name, players[i].gameObject.name);
             bufferPlayerPos = players[i].transform.position;                                              // 공격 대상의 위치를 임시저장
 
             if (bufferEnemyDist > Mathf.Abs((bufferPlayerPos - transform.position).magnitude))                    // 현재 위치로부터 가장 가까운 공격 대상을 찾음
             {
                 targetPlayer = players[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
-                                                                                                         
+
+                Debug.LogFormat("EnemyUnitSM: {0}의 타겟은 {1}", gameObject.name, targetPlayer.name);                                                                                         
                 targetPlayerHealth = targetPlayer.GetComponent<Health>().currentHP;                                      // 타겟 정보 설정
                 targetPlayerIsDead = targetPlayer.GetComponent<Health>().IsDead;
 

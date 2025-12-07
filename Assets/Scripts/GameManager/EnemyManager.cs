@@ -31,7 +31,7 @@ public class EnemyManager
             }
             enemyUnitList.Add(EnemyUnitPooling.Instance.SpawnEnemy());        // 钮俊 历厘等 利阑 甘俊 家券
             enemyUnitList[i].name = "enemy " + (i + 1);
-            Debug.LogFormat("利 蜡粗-{0} 积己", enemyUnitList[i].name);
+            Debug.LogFormat("EnemyManager: 利 蜡粗-{0} 积己", enemyUnitList[i].name);
         }
     }
 
