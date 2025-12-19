@@ -19,19 +19,19 @@ public class StageDoingState : StageState
 
     public override void OnStateEnter()            // 행동 시작 시
     {
-        Debug.LogFormat("Stage {0} 시작", GameManager.Instance.stageNumber);
+        Debug.LogFormat("Stage {0} 시작", GameManager.instance.stageNumber);
         remainEnemyUnit=0;
 
         // 적 유닛 생성 -> 이동
         // 스테이지 시작 시 스테이지 번호에 따라 적 생성
-        GameManager.Instance.enemyManager.numberOfEnemyUnit = GameManager.Instance.enemyManager.NumberOfEnemiesInStage(GameManager.Instance.stageNumber);
+        GameManager.instance.enemyManager.numberOfEnemyUnit = GameManager.instance.enemyManager.NumberOfEnemiesInStage(GameManager.instance.stageNumber);
         
 
         //GameManager.Instance.enemyManager.CreateEnemies();
         //remainEnemyUnit = GameManager.Instance.enemyManager.numberOfEnemyUnit;        // 시작할 때는 모든 적이 남아있음
 
         // 현재 스테이지에서 나타난 적 유닛 수
-        GameManager.Instance.invadedEnemyUnitInStage = GameManager.Instance.enemyManager.numberOfEnemyUnit;         
+        GameManager.instance.invadedEnemyUnitInStage = GameManager.instance.enemyManager.numberOfEnemyUnit;         
 
         // 스테이지 시작 메시지 출력 시간
         remainTime = 0f;
@@ -65,7 +65,7 @@ public class StageDoingState : StageState
 
         if(remainPlayerUnit <=0 || remainEnemyUnit <=0)
         {
-            GameManager.Instance.ChangeState(GameManager.Instance.stageResult);
+            GameManager.instance.ChangeState(GameManager.instance.stageResult);
         }
     }
 
@@ -73,20 +73,20 @@ public class StageDoingState : StageState
     {
         // 스테이지 UI 제거
         //gm.scoreUI.gameObject.SetActive(false);
-        GameManager.Instance.numOfEnemiesMessage.gameObject.SetActive(false);
+        GameManager.instance.numOfEnemiesMessage.gameObject.SetActive(false);
     }
 
     // 스테이지 시작 메시지
     public void DisplayStageBeginMessage()
     {
-        Debug.LogFormat("스테이지 {0} 시작 메시지 출력", GameManager.Instance.stageNumber);
-        GameManager.Instance.stageTextMessage.text = "Stage " + GameManager.Instance.stageNumber + " Start!!!";
+        Debug.LogFormat("스테이지 {0} 시작 메시지 출력", GameManager.instance.stageNumber);
+        GameManager.instance.stageTextMessage.text = "Stage " + GameManager.instance.stageNumber + " Start!!!";
 
-        GameManager.Instance.stageTextMessage.gameObject.SetActive(true);
+        GameManager.instance.stageTextMessage.gameObject.SetActive(true);
 
         // 준비시간 표시 메시지를 아래와 같이 변경
-        GameManager.Instance.remainTimeMessage.text = "Enemies are Coming!!!";
-        GameManager.Instance.remainTimeMessage.color = Color.red;
+        GameManager.instance.remainTimeMessage.text = "Enemies are Coming!!!";
+        GameManager.instance.remainTimeMessage.color = Color.red;
 
         if (remainTime < 2f)
         {
@@ -97,36 +97,36 @@ public class StageDoingState : StageState
         //Debug.LogFormat("스테이지{0} 시작 메시지 삭제", gm.stageNumber);
         else if(remainTime>=2f && remainTime < 5f)
         {
-            GameManager.Instance.stageTextMessage.gameObject.SetActive(false);
+            GameManager.instance.stageTextMessage.gameObject.SetActive(false);
             remainTime += Time.deltaTime;
         }
         else
         {
             //GameManager.Instance.stageTextMessage.gameObject.SetActive(false);
-            GameManager.Instance.displayRemainTime.gameObject.SetActive(false);         // 스테이지 메시지 숨기기
+            GameManager.instance.displayRemainTime.gameObject.SetActive(false);         // 스테이지 메시지 숨기기
         }
    }
 
     // 스테이지 시작 시 UI
     public void DisplayStageUI()
     {
-        GameManager.Instance.numOfEnemiesMessage.text = remainEnemyUnit.ToString() + " / " + GameManager.Instance.enemyManager.numberOfEnemyUnit.ToString() ;
-        GameManager.Instance.scoreUI.text = "Score: " + GameManager.Instance.score.ToString();
+        GameManager.instance.numOfEnemiesMessage.text = remainEnemyUnit.ToString() + " / " + GameManager.instance.enemyManager.numberOfEnemyUnit.ToString() ;
+        GameManager.instance.scoreUI.text = "Score: " + GameManager.instance.score.ToString();
 
 
-        GameManager.Instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
+        GameManager.instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
 
         // 준비 UI 출력
-        GameManager.Instance.numOfEnemiesMessage.gameObject.SetActive(true);
+        GameManager.instance.numOfEnemiesMessage.gameObject.SetActive(true);
         //gm.moneyUI.gameObject.SetActive(true);
     }
 
    // 남아있는 적의 수 체크
     int CheckRemainEnemy()
     {
-        GameManager.Instance.enemyManager.CheckDeadUnit();
+        GameManager.instance.enemyManager.CheckDeadUnit();
 
-        int remainEnemy = GameManager.Instance.enemyManager.enemyUnitList.Count;
+        int remainEnemy = GameManager.instance.enemyManager.enemyUnitList.Count;
         //Debug.LogFormat("적 유닛 수: {0}", gm.enemyManager.enemyUnitList.Count);
 
         return remainEnemy;
@@ -134,12 +134,12 @@ public class StageDoingState : StageState
 
     void SpawnEnemies()
     {
-        Debug.LogFormat("StageDoing: 적 {0}기 생성 시작", GameManager.Instance.enemyManager.numberOfEnemyUnit);
-        if(GameManager.Instance.enemyManager.numberOfEnemyUnit > remainEnemyUnit)
+        Debug.LogFormat("StageDoing: 적 {0}기 생성 시작", GameManager.instance.enemyManager.numberOfEnemyUnit);
+        if(GameManager.instance.enemyManager.numberOfEnemyUnit > remainEnemyUnit)
         {
             if(spawnInterval >= spawnTime)            // 적 생성 시간이 되면 적 생성
             {
-                GameManager.Instance.enemyManager.CreateEnemies();
+                GameManager.instance.enemyManager.CreateEnemies();
                 remainEnemyUnit++;                              // 적의 수 1 증가
                 spawnTime = 0f;                     // 적 생성 사이클을 0으로 초기화
                 Debug.LogFormat("StageDoing: 적 1기 생성");

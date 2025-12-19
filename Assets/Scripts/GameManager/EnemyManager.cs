@@ -45,11 +45,11 @@ public class EnemyManager
                 //EnemyUnitPooling.Instance.PickUpEnemy(unit);
                 deadEnemyUnitList.Add(unit);                        // 사망한 적 유닛 목록에 추가
 
-                GameManager.Instance.killedEnemyUnitInStage++;      // 해당 스테이지에서 사망한 적 유닛 수 1 증가
+                GameManager.instance.killedEnemyUnitInStage++;      // 해당 스테이지에서 사망한 적 유닛 수 1 증가
 
                 // 적 유닛이 사망할 때마다 점수 100씩 증가
-                GameManager.Instance.score += 100;
-                GameManager.Instance.scoreInStage += 100;
+                GameManager.instance.score += 100;
+                GameManager.instance.scoreInStage += 100;
             }
         }
 
