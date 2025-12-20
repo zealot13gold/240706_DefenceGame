@@ -39,7 +39,7 @@ public class StageResultState : StageState
                 if (GameManager.instance.playerManager.playerUnitList.Count <= 0)
                 {
                     // 플레이어 유닛 수가 0이라면 OnStageExit() 실행 
-                    SceneManager.LoadScene("MainLobby");
+                    StageManager.LoadScene("MainLobby");
                 }
                 else
                 {

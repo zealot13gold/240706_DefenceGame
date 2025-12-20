@@ -13,9 +13,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     // 각 매니저 등록
-    //public SceneManager sceneManager;
-    //public SoundManager soundManager;
-    //public PoolManager poolManager;
     public event Action<gameStateList> gameStateChanged;
 
     public enum gameStateList 
@@ -40,27 +37,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        UIManager.instance.stateChanged += GameStateChange;
+    }
+
     private void Start()
     {
-        // 게임 프로그램 실행 시 가장 먼저 로비로 이동
-        GoToLobby();
+        GameStateChange(gameStateList.gameLobby);
     }
 
-    void GoToLobby()
+    void GameStateChange(gameStateList state)
     {
-        gameState = gameStateList.gameLobby;
-        gameStateChanged?.Invoke(gameState);
+        if (state != gameState)
+        {
+            gameState = state;
+            gameStateChanged?.Invoke(state);
+        }
     }
 
-    void StartGame()
-    {
-        gameState = gameStateList.gameStart;
-        gameStateChanged?.Invoke(gameState);
-    }
+    //public void GoToLobby()
+    //{
+    //    gameState = gameStateList.gameLobby;
+    //    gameStateChanged?.Invoke(gameState);
+    //}
 
-    void EndGame()
-    {
-        gameState = gameStateList.gameEnd;
-        gameStateChanged?.Invoke(gameState);
-    }
+    //public void StartGame()
+    //{
+    //    // 로비 버튼에서 실행
+    //    gameState = gameStateList.gameStart;
+    //    gameStateChanged?.Invoke(gameState);
+    //}
+
+    //public void EndGame()
+    //{
+    //    // 로비 버튼에서 실행
+    //    gameState = gameStateList.gameEnd;
+    //    gameStateChanged?.Invoke(gameState);
+    //}
 }

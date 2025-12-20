@@ -28,9 +28,9 @@ using UnityEngine.UI;
 
 
 
-public class SceneManager : StateMachine
+public class StageManager : StateMachine
 {
-    private static SceneManager sceneInstance;
+   public static StageManager instance=null;
 
     public StagePrepareState stagePrepare;
     public StageDoingState stageDoing;
@@ -97,9 +97,9 @@ public class SceneManager : StateMachine
     protected override void Awake()
     {
 
-        if(sceneInstance == null)
+        if(instance == null)
         {
-            sceneInstance = this;
+            instance = this;
 
             DontDestroyOnLoad(gameObject);
         }

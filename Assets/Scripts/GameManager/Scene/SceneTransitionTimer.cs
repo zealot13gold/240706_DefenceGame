@@ -38,7 +38,7 @@ public class SceneTransitionTimer : MonoBehaviour
         startTime = Time.realtimeSinceStartup; // 실제 시간
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Map_Bridge")
         {

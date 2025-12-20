@@ -1,25 +1,45 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PoolManager : MonoBehaviour
 {
-    public static PoolManager poolInstance;
+    public static PoolManager instance=null;
 
     // 오브젝트 풀 목록
     public EnemyUnitPooling enemyPool;
-    public PoolUnitPooling playerPool;
-    public BaarrierPooling barrierPool;
+    public PlayerUnitPooling playerPool;
+    public BarrierPooling barrierPool;
 
     void Awake()
     {
-        if(poolInstance == null)
+        if (instance == null || instance == this)
         {
-            //poolInstance = new PoolManager();
-            poolInstance = this;
-            DontDestoryOnLoading(gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destory(gameObject);
+            Destroy(gameObject);
         }
+    }
+
+    public void OnEnable()
+    {
+        playerPool = new PlayerUnitPooling();
+        enemyPool = new EnemyUnitPooling();
+        barrierPool = new BarrierPooling();
+    }
+
+    public void SetPool()
+    {
+        // 스테이지 시작 시 실행
+        
+    }
+
+    public void ClearPool()
+    {
+        // 로비 이동 시 실행
+
     }
 }
