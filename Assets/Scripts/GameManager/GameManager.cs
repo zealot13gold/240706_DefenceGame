@@ -37,11 +37,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        UIManager.instance.stateChanged += GameStateChange;
-    }
-
     private void Start()
     {
         GameStateChange(gameStateList.gameLobby);
@@ -49,30 +44,11 @@ public class GameManager : MonoBehaviour
 
     void GameStateChange(gameStateList state)
     {
+        // 각 씬의 UI 버튼으로 실행
         if (state != gameState)
         {
             gameState = state;
             gameStateChanged?.Invoke(state);
         }
     }
-
-    //public void GoToLobby()
-    //{
-    //    gameState = gameStateList.gameLobby;
-    //    gameStateChanged?.Invoke(gameState);
-    //}
-
-    //public void StartGame()
-    //{
-    //    // 로비 버튼에서 실행
-    //    gameState = gameStateList.gameStart;
-    //    gameStateChanged?.Invoke(gameState);
-    //}
-
-    //public void EndGame()
-    //{
-    //    // 로비 버튼에서 실행
-    //    gameState = gameStateList.gameEnd;
-    //    gameStateChanged?.Invoke(gameState);
-    //}
 }
