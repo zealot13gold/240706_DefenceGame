@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: eb1d1fc1396c0ac48a32485a1d14f7b1
+guid: c80a4bf2604c18e4c90d2ff55008709a
 AssetOrigin:
   serializedVersion: 1
   productId: 48829
   packageName: 'Camo UI Elements: Woodland'
   packageVersion: 1.0
-  assetPath: Assets/Prefabs/07. UI/Backgrounds/HorizontalPanel.png
+  assetPath: Assets/DualCorStudios/CamoUI Woodland/Buttons/LargeButtonPressed.png
   uploadId: 88540
 TextureImporter:
   internalIDToNameTable: []
@@ -56,7 +56,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 256
-  spriteBorder: {x: 42, y: 0, z: 42, w: 0}
+  spriteBorder: {x: 72, y: 0, z: 72, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1

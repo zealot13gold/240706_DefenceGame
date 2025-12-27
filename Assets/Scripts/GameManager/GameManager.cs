@@ -22,24 +22,30 @@ public class GameManager : MonoBehaviour
         gameStart,          // 게임 화면으로 이동
         gameEnd             // 게임 종료
     };
-    public gameStateList gameState;
+    public gameStateList gameState/*=gameStateList.gameLobby*/;
 
     void Awake()
     {
-        if(instance == null || instance == this)
+        Debug.LogFormat("instance 싱글톤 실행");
+        if (instance != null && instance != this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            
+            Destroy(gameObject);
+
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogFormat("instance 싱글톤 초기화");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 
     private void Start()
     {
-        GameStateChange(gameStateList.gameLobby);
+        Debug.LogFormat("GameManager: 로비 씬으로 이동");
+        SceneLoader.instance.LobbySceneLoad();
+        //GameStateChange(gameStateList.gameLobby);
     }
 
     public void GameStateChange(gameStateList state)

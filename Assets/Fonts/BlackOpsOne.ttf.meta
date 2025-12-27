@@ -17,3 +17,10 @@ TrueTypeFontImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 48829
+  packageName: 'Camo UI Elements: Woodland'
+  packageVersion: 1.0
+  assetPath: Assets/Fonts/BlackOpsOne.ttf
+  uploadId: 88540
