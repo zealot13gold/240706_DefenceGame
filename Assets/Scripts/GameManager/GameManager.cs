@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         GameStateChange(gameStateList.gameLobby);
     }
 
-    void GameStateChange(gameStateList state)
+    public void GameStateChange(gameStateList state)
     {
         // 각 씬의 UI 버튼으로 실행
         if (state != gameState)

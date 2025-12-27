@@ -6,10 +6,10 @@ public class PoolManager : MonoBehaviour
 {
     public static PoolManager instance=null;
 
-    // 오브젝트 풀 목록
-    public EnemyUnitPooling enemyPool;
-    public PlayerUnitPooling playerPool;
-    public BarrierPooling barrierPool;
+    [Header("오브젝트 풀 목록")]
+    [Tooltip("적 유닛 오브젝트 풀")] public EnemyUnitPooling enemyPool;
+    [Tooltip("플레이어 유닛 오브젝트 풀")] public PlayerUnitPooling playerPool;
+    [Tooltip("장애물 오브젝트 풀")] public BarrierPooling barrierPool;
 
     void Awake()
     {
@@ -24,11 +24,16 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    public void OnEnable()
+    void OnEnable()
     {
         playerPool = new PlayerUnitPooling();
         enemyPool = new EnemyUnitPooling();
         barrierPool = new BarrierPooling();
+    }
+
+    void OnDisable()
+    {
+        
     }
 
     public void SetPool()

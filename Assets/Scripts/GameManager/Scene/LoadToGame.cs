@@ -13,7 +13,7 @@ public class LoadToGame : MonoBehaviour
         isClick = true;
 
         //SceneManager.LoadScene("Map_Bridge");
-        StageManager.LoadSceneAsync("Map_Bridge");
+        GameManager.instance.GameStateChange(GameManager.gameStateList.gameStart);
         SceneTransitionTimer.Instance.LoadGameScene();
     }
 }

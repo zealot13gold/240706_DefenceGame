@@ -262,13 +262,13 @@ public class PlayerController : MonoBehaviour
        //Debug.LogFormat("dragRact의 선택범위 : ({0}, {1}), ({2}, {3})", dragRect.xMin, dragRect.yMin, dragRect.xMax, dragRect.yMax);
         Vector3 point;
 
-        for (int i=0; i< GameManager.Instance.playerManager.playerUnitList.Count; i++)           // -> foreach문으로 변경
+        for (int i=0; i< StageManager.instance.playerManager.playerUnitList.Count; i++)           // -> foreach문으로 변경
         {
-            point = Camera.main.WorldToScreenPoint(GameManager.Instance.playerManager.playerUnitList[i].transform.position);
+            point = Camera.main.WorldToScreenPoint(StageManager.instance.playerManager.playerUnitList[i].transform.position);
             //Debug.LogFormat("{0}의 좌표 변경 : {1}", GameManager.Instance.playerManager.playerUnitList[i].name, point);
             if (point.x >= dragRect.xMin && point.x <= dragRect.xMax && point.y >= dragRect.yMin && point.y <= dragRect.yMax)
             {
-                chosenObject.Add(GameManager.Instance.playerManager.playerUnitList[i]);
+                chosenObject.Add(StageManager.instance.playerManager.playerUnitList[i]);
                 //Debug.LogFormat("{0}은 카메라에 검색됨", GameManager.Instance.playerManager.playerUnitList[i].name);
             }
             else

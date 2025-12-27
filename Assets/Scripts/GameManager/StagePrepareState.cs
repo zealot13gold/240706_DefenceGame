@@ -22,13 +22,13 @@ public class StagePrepareState : StageState
         ClearPreviousStageInfo();
 
         // 준비 UI 출력
-        spareTime = GameManager.instance.prepareTime;
+        spareTime = StageManager.instance.prepareTime;
         DisplayPrepareUI();
 
         // 스테이지 번호 1 추가
-        GameManager.instance.stageNumber++;
-        GameManager.instance.stageNumTitle.text = "Stage " + GameManager.instance.stageNumber.ToString();
-        Debug.LogFormat("Stage {0} 준비", GameManager.instance.stageNumber);
+        StageManager.instance.stageNumber++;
+        StageManager.instance.stageNumTitle.text = "Stage " + StageManager.instance.stageNumber.ToString();
+        Debug.LogFormat("Stage {0} 준비", StageManager.instance.stageNumber);
 
     }
 
@@ -41,7 +41,7 @@ public class StagePrepareState : StageState
         DisplayPrepareUI();
         if (spareTime<=0)
         {
-            GameManager.instance.ChangeState(GameManager.instance.stageDoing);
+            StageManager.instance.ChangeState(StageManager.instance.stageDoing);
         }
     }
     
@@ -50,7 +50,7 @@ public class StagePrepareState : StageState
         Debug.LogFormat("준비시간 종료");
         // 준비 UI 삭제
         //GameManager.Instance.displayRemainTime.gameObject.SetActive(false);
-        GameManager.instance.buttons.gameObject.SetActive(false);
+        StageManager.instance.buttons.gameObject.SetActive(false);
         //gm.moneyUI.gameObject.SetActive(false);
     }
 
@@ -58,19 +58,19 @@ public class StagePrepareState : StageState
     public void DisplayPrepareUI()
     {
         CountingPrepareTime();                                                         // 준비시간 실시간으로 표시 
-        GameManager.instance.cashUI.text = "Cash: " + GameManager.instance.cash.ToString();
-        GameManager.instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
+        StageManager.instance.cashUI.text = "Cash: " + StageManager.instance.cash.ToString();
+        StageManager.instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
 
 
         // 준비 UI 출력
-        GameManager.instance.displayRemainTime.gameObject.SetActive(true);
-        GameManager.instance.buttons.gameObject.SetActive(true);
+        StageManager.instance.displayRemainTime.gameObject.SetActive(true);
+        StageManager.instance.buttons.gameObject.SetActive(true);
         //gm.moneyUI.gameObject.SetActive(true);
     }
     void CountingPrepareTime()
     {
-        GameManager.instance.remainTimeMessage.color = Color.white;
-        GameManager.instance.remainTimeMessage.text = "Prepare Time: " + ((int)spareTime).ToString();
+        StageManager.instance.remainTimeMessage.color = Color.white;
+        StageManager.instance.remainTimeMessage.text = "Prepare Time: " + ((int)spareTime).ToString();
 
         spareTime -= Time.deltaTime;
     }
@@ -78,13 +78,13 @@ public class StagePrepareState : StageState
     // 이전 스테이지의 정보 초기화
     void ClearPreviousStageInfo()
     {
-        GameManager.instance.scoreInStage = 0;          // 이전 스테이지에서 획득한 점수 초기화
-        GameManager.instance.cashInStage = 0;           // 이전 스테이지에서 획득한 자금 초기화
-
-        GameManager.instance.producedPlayerUnitInStage = 0; // 이전 스테이지에서 생산된 플레이어 유닛 수 초기화
-        GameManager.instance.killedPlayerUnitInStage = 0;   // 이전 스테이지에서 사망한 플레이어 유닛 수 초기화
-        GameManager.instance.invadedEnemyUnitInStage = 0;   // 이전 스테이지에서 출현한 적 유닛 수 초기화
-        GameManager.instance.killedEnemyUnitInStage = 0;    // 이전 스테이지에서 사망한 적 유닛 수 초기화
+        StageManager.instance.scoreInStage = 0;          // 이전 스테이지에서 획득한 점수 초기화
+        StageManager.instance.cashInStage = 0;           // 이전 스테이지에서 획득한 자금 초기화
+        
+        StageManager.instance.producedPlayerUnitInStage = 0; // 이전 스테이지에서 생산된 플레이어 유닛 수 초기화
+        StageManager.instance.killedPlayerUnitInStage = 0;   // 이전 스테이지에서 사망한 플레이어 유닛 수 초기화
+        StageManager.instance.invadedEnemyUnitInStage = 0;   // 이전 스테이지에서 출현한 적 유닛 수 초기화
+        StageManager.instance.killedEnemyUnitInStage = 0;    // 이전 스테이지에서 사망한 적 유닛 수 초기화
     }
 
 }

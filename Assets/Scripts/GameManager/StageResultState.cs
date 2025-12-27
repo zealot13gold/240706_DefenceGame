@@ -18,7 +18,7 @@ public class StageResultState : StageState
         CalculateMoney();
 
         // 사망한 플레이어 유닛 목록 초기화
-        GameManager.instance.playerManager.ClearDeadPlayerUnit();
+        StageManager.instance.playerManager.ClearDeadPlayerUnit();
 
         // 스테이지 종료 메시지 출력 시간
         remainTime = 0f;
@@ -29,25 +29,25 @@ public class StageResultState : StageState
         // 게임 종료 메시지 출력
         DisplayStageEndMessage();
 
-        if (GameManager.instance.stageTextMessage.gameObject.activeSelf==false)                       // 결과 메시지 출력 후
+        if (StageManager.instance.stageTextMessage.gameObject.activeSelf==false)                       // 결과 메시지 출력 후
         {
             // 이번 스테이지에서 얻은 점수, 자금 표시 -> 클릭 시 메시지 제거
             DisplayResultBoard();
 
-            if (GameManager.instance.resultBoard.gameObject.activeSelf == false)
+            if (StageManager.instance.resultBoard.gameObject.activeSelf == false)
             {
-                if (GameManager.instance.playerManager.playerUnitList.Count <= 0)
+                if (StageManager.instance.playerManager.playerUnitList.Count <= 0)
                 {
                     // 플레이어 유닛 수가 0이라면 OnStageExit() 실행 
-                    StageManager.LoadScene("MainLobby");
+                    GameManager.instance.GameStateChange(GameManager.gameStateList.gameLobby);
                 }
                 else
                 {
                     // 플레이어 유닛 수가 0이 아니라면 스테이지 번호에 1 추가 후 스테이지 준비 상태로 돌입
-                    GameManager.instance.enemyManager.EmptyEnemyUnitList();
-                    Debug.LogFormat("적 유닛 리스트 비우기, 적 유닛 수: {0}", GameManager.instance.enemyManager.enemyUnitList.Count);
-                    Debug.LogFormat("사망한 적 유닛 리스트 비우기, 적 유닛 수: {0}", GameManager.instance.enemyManager.deadEnemyUnitList.Count);
-                    GameManager.instance.ChangeState(GameManager.instance.stagePrepare);
+                    StageManager.instance.enemyManager.EmptyEnemyUnitList();
+                    Debug.LogFormat("적 유닛 리스트 비우기, 적 유닛 수: {0}", StageManager.instance.enemyManager.enemyUnitList.Count);
+                    Debug.LogFormat("사망한 적 유닛 리스트 비우기, 적 유닛 수: {0}", StageManager.instance.enemyManager.deadEnemyUnitList.Count);
+                    StageManager.instance.ChangeState(StageManager.instance.stagePrepare);
                 }
             }
         }
@@ -62,8 +62,8 @@ public class StageResultState : StageState
     // 스테이지 종료 후 사살한 적의 수만큼 자금 제공
     void CalculateMoney()
     {
-        GameManager.instance.cash += GameManager.instance.enemyManager.deadEnemyUnitList.Count * 100;
-        GameManager.instance.cashInStage += GameManager.instance.enemyManager.deadEnemyUnitList.Count * 100;
+        StageManager.instance.cash += StageManager.instance.enemyManager.deadEnemyUnitList.Count * 100;
+        StageManager.instance.cashInStage += StageManager.instance.enemyManager.deadEnemyUnitList.Count * 100;
     }
 
     
@@ -72,16 +72,16 @@ public class StageResultState : StageState
     {
         //Debug.LogFormat("스테이지 {0} 종료 메시지 출력", gm.stageNumber);
 
-        if (GameManager.instance.enemyManager.enemyUnitList.Count <= 0)
+        if (StageManager.instance.enemyManager.enemyUnitList.Count <= 0)
         {
-            GameManager.instance.stageTextMessage.text = "Stage " + GameManager.instance.stageNumber + " Clear!!";
+            StageManager.instance.stageTextMessage.text = "Stage " + StageManager.instance.stageNumber + " Clear!!";
         }
         else
         {
-            GameManager.instance.stageTextMessage.text = "Stage " + GameManager.instance.stageNumber + " Defeated";
+            StageManager.instance.stageTextMessage.text = "Stage " + StageManager.instance.stageNumber + " Defeated";
         }
 
-        GameManager.instance.stageTextMessage.gameObject.SetActive(true);
+        StageManager.instance.stageTextMessage.gameObject.SetActive(true);
 
 
         if (remainTime < 2f)
@@ -93,27 +93,27 @@ public class StageResultState : StageState
         //Debug.LogFormat("스테이지{0} 시작 메시지 삭제", gm.stageNumber);
         else
         {
-            GameManager.instance.stageTextMessage.gameObject.SetActive(false);
+            StageManager.instance.stageTextMessage.gameObject.SetActive(false);
         }
     }
 
     // 결과창
     void DisplayResultBoard()
     {
-        GameManager.instance.resultBoard.gameObject.SetActive(true);
+        StageManager.instance.resultBoard.gameObject.SetActive(true);
 
-        GameManager.instance.gameResultTextInBoard.text = GameManager.instance.stageTextMessage.text;
-        GameManager.instance.obtainCashInStageInBoard.text = GameManager.instance.cashInStage.ToString();
-        GameManager.instance.obtainScoreInStageInBoard.text = GameManager.instance.scoreInStage.ToString();
+        StageManager.instance.gameResultTextInBoard.text = StageManager.instance.stageTextMessage.text;
+        StageManager.instance.obtainCashInStageInBoard.text = StageManager.instance.cashInStage.ToString();
+        StageManager.instance.obtainScoreInStageInBoard.text = StageManager.instance.scoreInStage.ToString();
 
-        GameManager.instance.producedPlayerUnitsInStageInBoard.text =  GameManager.instance.producedPlayerUnitInStage.ToString();
-        GameManager.instance.killedPlayerToEnemyInStageInBoard.text = GameManager.instance.killedPlayerUnitInStage.ToString();
-        GameManager.instance.invadedEnemyUnitsInStageInBoard.text = GameManager.instance.invadedEnemyUnitInStage.ToString();
-        GameManager.instance.killedEnemyToPlayerInStageInBoard.text = GameManager.instance.killedEnemyUnitInStage.ToString();
+        StageManager.instance.producedPlayerUnitsInStageInBoard.text =  StageManager.instance.producedPlayerUnitInStage.ToString();
+        StageManager.instance.killedPlayerToEnemyInStageInBoard.text = StageManager.instance.killedPlayerUnitInStage.ToString();
+        StageManager.instance.invadedEnemyUnitsInStageInBoard.text = StageManager.instance.invadedEnemyUnitInStage.ToString();
+        StageManager.instance.killedEnemyToPlayerInStageInBoard.text = StageManager.instance.killedEnemyUnitInStage.ToString();
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            GameManager.instance.resultBoard.gameObject.SetActive(false);
+            StageManager.instance.resultBoard.gameObject.SetActive(false);
         }
     }
 }

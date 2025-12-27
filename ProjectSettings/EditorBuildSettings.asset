@@ -9,6 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainLobby.unity
     guid: 4779f1552a276a8409be2433ed363543
   - enabled: 1
-    path: Assets/Scenes/Map_Bridge.unity
+    path: Assets/Scenes/GameScene.unity
     guid: 8e7741daf5440e540b9a25543a00ed3c
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

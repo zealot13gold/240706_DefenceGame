@@ -31,12 +31,12 @@ public class SetBarrierButton : MonoBehaviour
 
     public void SetBarrier()
     {
-        if (GameManager.Instance.currentState == GameManager.Instance.stagePrepare)                         // 게임이 스테이지 준비 상태일 경우
+        if (StageManager.instance.currentState == StageManager.instance.stagePrepare)                         // 게임이 스테이지 준비 상태일 경우
         {
             //Debug.LogFormat("장애물 버튼 클릭");
             //Debug.LogFormat("장애물 == {0}", barrier);
             // 버튼 클릭 시 마우스 위치에 장애물(모니터 뷰) -> 마우스 이동에 따라 장애물도 같이 이동
-            if (barrier == null && GameManager.Instance.cash >= GameManager.Instance.barrierCost)           // 장애물이 선택되지 않은 상태에서, 현재 자금이 장애물 가격보다 크거나 같으면
+            if (barrier == null && StageManager.instance.cash >= StageManager.instance.barrierCost)           // 장애물이 선택되지 않은 상태에서, 현재 자금이 장애물 가격보다 크거나 같으면
             {
                 mousePosition = Input.mousePosition+CameraDepth();           // 장애물은 배치 전까지 마우스 커서를 따라다님
 
@@ -58,7 +58,7 @@ public class SetBarrierButton : MonoBehaviour
     {
         cashUI.SetActive(false);
 
-        maxProd = GameManager.Instance.cash / GameManager.Instance.barrierCost;
+        maxProd = StageManager.instance.cash / StageManager.instance.barrierCost;
         if (maxProd >= 1)
         {
             prodMessage = "Able to set " + maxProd.ToString() + " barriers";
@@ -68,7 +68,7 @@ public class SetBarrierButton : MonoBehaviour
             prodMessage = "Not enough cash";
             costText.color = Color.red;
         }
-        costText.text = "Cash: " + GameManager.Instance.cash.ToString() + '\n' + '\n' + "Barrier: " + GameManager.Instance.barrierCost.ToString() + " cash" + '\n' + prodMessage;
+        costText.text = "Cash: " + StageManager.instance.cash.ToString() + '\n' + '\n' + "Barrier: " + StageManager.instance.barrierCost.ToString() + " cash" + '\n' + prodMessage;
 
         costUI.SetActive(true);
     }
@@ -82,7 +82,7 @@ public class SetBarrierButton : MonoBehaviour
 
     public void Update()
     {
-        if (setBarrier && GameManager.Instance.currentState == GameManager.Instance.stagePrepare)           // 게임이 준비 상태이고, 장애물 설치 버튼을 눌렀을 경우
+        if (setBarrier && StageManager.instance.currentState == StageManager.instance.stagePrepare)           // 게임이 준비 상태이고, 장애물 설치 버튼을 눌렀을 경우
         {
             mousePosition = Input.mousePosition+CameraDepth();            // 장애물은 배치 전까지 마우스 커서를 따라다님
 
@@ -114,7 +114,7 @@ public class SetBarrierButton : MonoBehaviour
                 }
             }
 
-            if ((barrier != null && Input.GetKey(KeyCode.Escape)) || GameManager.Instance.currentState != GameManager.Instance.stagePrepare)
+            if ((barrier != null && Input.GetKey(KeyCode.Escape)) || StageManager.instance.currentState != StageManager.instance.stagePrepare)
             {
                 Cancle(barrier);
             }
@@ -153,7 +153,7 @@ public class SetBarrierButton : MonoBehaviour
         {
             Debug.LogFormat("SetBarrierButton: 마우스 클릭, {0} 배치 완료", barrier);
 
-            GameManager.Instance.cash -= GameManager.Instance.barrierCost;
+            StageManager.instance.cash -= StageManager.instance.barrierCost;
             barrier = null;                                                         // 장애물 삭제
 
             setBarrier = false;                                                     // 장애물을 설치하였다면 setBarrier를 false로 변경                                                                                                
