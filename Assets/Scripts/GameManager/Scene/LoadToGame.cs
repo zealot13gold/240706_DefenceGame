@@ -14,6 +14,6 @@ public class LoadToGame : MonoBehaviour
 
         //SceneManager.LoadScene("Map_Bridge");
         GameManager.instance.GameStateChange(GameManager.gameStateList.gameStart);
-        SceneTransitionTimer.Instance.LoadGameScene();
+        SceneTransitionTimer.instance.LoadGameScene();
     }
 }

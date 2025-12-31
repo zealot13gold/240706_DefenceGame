@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.LogFormat("GameManager: 로비 씬으로 이동");
         SceneLoader.instance.LobbySceneLoad();
-        //GameStateChange(gameStateList.gameLobby);
     }
 
     public void GameStateChange(gameStateList state)

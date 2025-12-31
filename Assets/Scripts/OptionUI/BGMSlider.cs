@@ -6,6 +6,12 @@ public class BGMSlider : SoundSlider
     private void OnEnable()
     {
         SoundManager.instance.bgmVolumeChanged += BringValue;
+        slider.value = SoundManager.instance.bgmVolume;
+    }
+
+    private void OnDisable()
+    {
+        SoundManager.instance.bgmVolumeChanged -= BringValue;
     }
 
     public override void ChangeVolume()
