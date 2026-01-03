@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 /*
  * 역할
@@ -28,17 +29,26 @@ using UnityEngine.UI;
 
 
 
-public class StageManager : StateMachine
+public class StageManager : MonoBehaviour
 {
-   public static StageManager instance=null;
+    public static StageManager instance = null;
 
     public StagePrepareState stagePrepare;
-    public StageDoingState stageDoing;
+    public StagePlayState stagePlay;
     public StageResultState stageResult;
 
     // 스테이지 관리
     [HideInInspector] public int stageNumber;       // 스테이지 번호
-    public float prepareTime;     // 스테이지 준비 시간
+    public int prepareTime;     // 스테이지 준비 시간
+    [HideInInspector] public Coroutine stageRoutine;
+    public enum stageStepList
+    {
+        stagePrepare,
+        stagePlay,
+        stageResult
+    }
+    public stageStepList stageStep;
+    public event Action<stageStepList> stageStepChanged;
 
     // UI
     public Text stageNumTitle;                          // 스테이지 번호 표시
@@ -82,51 +92,55 @@ public class StageManager : StateMachine
     public int invadedEnemyUnitInStage;
     public int killedEnemyUnitInStage;
 
-    //public static SceneManager Instance
-    //{
-    //    get
-    //    {
-    //        if (sceneInstance == null) 
-    //        {
-    //            sceneInstance = new GameManager();
-    //        }
-    //        return sceneInstance;
-    //    }
-    //}
-    
-    protected override void Awake()
+    void OnEnable()
     {
-
-        if(instance == null)
-        {
-            instance = this;
-
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
         }
+        instance = this;
 
         enemyManager = new EnemyManager();
         playerManager = new PlayerManager();
 
         stagePrepare = new StagePrepareState(gameObject);
-        stageDoing = new StageDoingState(gameObject);
+        stagePlay = new StagePlayState(gameObject);
         stageResult = new StageResultState(gameObject);
+
+        Init();
+        GameStagePrepare();
     }
 
-    protected override void Start()
+    void Init()
     {
         score = 0;
         stageNumber = 0;
         stageTextMessage.gameObject.SetActive(false);
-
-        ChangeState(stagePrepare);
-;    }
-
-    protected override void FixedUpdate()
-    {
-        currentState.OnStateUpdate();
     }
+
+    void GameStagePrepare()
+    {
+        // 게임 시작 - 스테이지 준비 단계
+        stagePrepare.OnStateEnter();
+        stageRoutine = StartCoroutine("PrepareRoutine");
+    }
+
+    IEnumerator PrepareRoutine()
+    {
+        int remainTime = prepareTime;
+        while (remainTime > 0)
+        {
+            remainTimeMessage.text = "Prepare Time: " + remainTime.ToString();
+
+            yield return new WaitForSeconds(1.0f);
+            remainTime--;
+        }
+    }
+
+    //protected override void FixedUpdate()
+    //{
+    //    currentState.OnStateUpdate();
+    //}
+
+
 }

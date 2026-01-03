@@ -47,7 +47,7 @@ public class PlayerManager
     // 사망한 플레이어 유닛은 큐로 되돌아감/사망한 유닛 목록에 포함
     public void CheckDeadUnit()
     {
-        if (StageManager.instance.currentState == StageManager.instance.stageDoing)                   // 스테이지 진행 중일때만 체크하도록 함
+        if (StageManager.instance.currentState == StageManager.instance.stagePlay)                   // 스테이지 진행 중일때만 체크하도록 함
         {
             foreach (GameObject unit in playerUnitList)
             {

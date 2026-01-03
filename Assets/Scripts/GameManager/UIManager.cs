@@ -1,14 +1,14 @@
 //using System;
 //using UnityEngine;
+//using UnityEngine.UI;
 
 //public class UIManager : MonoBehaviour
 //{
 //    public static UIManager instance = null;
-//    public event Action<GameManager.gameStateList> stateChanged;
 
 //    private void Awake()
 //    {
-//        if(instance == null || instance==this)
+//        if (instance == null || instance == this)
 //        {
 //            instance = this;
 //            DontDestroyOnLoad(gameObject);
@@ -29,15 +29,7 @@
 //        GameManager.instance.gameStateChanged -= UIChange;
 //    }
 
-//    public void ChangeBGMVolume()
-//    {
 
-//    }
-
-//    public void ChangeSFXVolume()
-//    {
-
-//    }
 
 //    //public void RequestChange(GameManager.gameStateList state)
 //    //{
@@ -45,8 +37,22 @@
 //    //    stateChanged?.Invoke(state);
 //    //}
 
-//    void UIChange(GameManager.gameStateList gameStateList)
+//    void UIChange(GameManager.gameStateList state)
 //    {
+//        switch(state)
+//        {
+//            case GameManager.gameStateList.gameLobby:
 
+//                break;
+//            case GameManager.gameStateList.gameLoading:
+
+//                break;
+//            case GameManager.gameStateList.gameStart:
+
+//                break;
+//            case GameManager.gameStateList.gameEnd:
+
+//                break;
+//        }
 //    }
 //}

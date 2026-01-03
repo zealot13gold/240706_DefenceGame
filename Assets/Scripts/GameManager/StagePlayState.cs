@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageDoingState : StageState
+public class StagePlayState : StageState
 {
     int remainEnemyUnit;
     float remainTime;
@@ -12,7 +12,7 @@ public class StageDoingState : StageState
         float spawnTime;                         // 적 유닛 1기가 생성되는 사이클 시간
         bool isSpawnEnemy;                   // 적 생성 여부
  
-    public StageDoingState(GameObject gameObject):base(gameObject)
+    public StagePlayState(GameObject gameObject):base(gameObject)
     {
 
     }
