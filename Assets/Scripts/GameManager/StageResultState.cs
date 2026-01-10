@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StageResultState : StageState
+public class StageResultState : IState
 {
     float remainTime;
 
@@ -11,7 +11,7 @@ public class StageResultState : StageState
     {
 
     }
-    public override void OnStateEnter()            // 행동 시작 시
+    public void Enter()            // 행동 시작 시
     {
         Debug.LogFormat("Stage 종료, 결과 출력");
         // 자금 계산
@@ -24,36 +24,36 @@ public class StageResultState : StageState
         remainTime = 0f;
     }
 
-    public override void OnStateUpdate()           // 상태 유지 중
-    {
-        // 게임 종료 메시지 출력
-        DisplayStageEndMessage();
+    //public override void OnStateUpdate()           // 상태 유지 중
+    //{
+    //    // 게임 종료 메시지 출력
+    //    DisplayStageEndMessage();
 
-        if (StageManager.instance.stageTextMessage.gameObject.activeSelf==false)                       // 결과 메시지 출력 후
-        {
-            // 이번 스테이지에서 얻은 점수, 자금 표시 -> 클릭 시 메시지 제거
-            DisplayResultBoard();
+    //    if (StageManager.instance.stageTextMessage.gameObject.activeSelf==false)                       // 결과 메시지 출력 후
+    //    {
+    //        // 이번 스테이지에서 얻은 점수, 자금 표시 -> 클릭 시 메시지 제거
+    //        DisplayResultBoard();
 
-            if (StageManager.instance.resultBoard.gameObject.activeSelf == false)
-            {
-                if (StageManager.instance.playerManager.playerUnitList.Count <= 0)
-                {
-                    // 플레이어 유닛 수가 0이라면 OnStageExit() 실행 
-                    GameManager.instance.GameStateChange(GameManager.gameStateList.gameLobby);
-                }
-                else
-                {
-                    // 플레이어 유닛 수가 0이 아니라면 스테이지 번호에 1 추가 후 스테이지 준비 상태로 돌입
-                    StageManager.instance.enemyManager.EmptyEnemyUnitList();
-                    Debug.LogFormat("적 유닛 리스트 비우기, 적 유닛 수: {0}", StageManager.instance.enemyManager.enemyUnitList.Count);
-                    Debug.LogFormat("사망한 적 유닛 리스트 비우기, 적 유닛 수: {0}", StageManager.instance.enemyManager.deadEnemyUnitList.Count);
-                    StageManager.instance.ChangeState(StageManager.instance.stagePrepare);
-                }
-            }
-        }
-    }
+    //        if (StageManager.instance.resultBoard.gameObject.activeSelf == false)
+    //        {
+    //            if (StageManager.instance.playerManager.playerUnitList.Count <= 0)
+    //            {
+    //                // 플레이어 유닛 수가 0이라면 OnStageExit() 실행 
+    //                GameManager.instance.GameStateChange(GameManager.gameStateList.gameLobby);
+    //            }
+    //            else
+    //            {
+    //                // 플레이어 유닛 수가 0이 아니라면 스테이지 번호에 1 추가 후 스테이지 준비 상태로 돌입
+    //                StageManager.instance.enemyManager.EmptyEnemyUnitList();
+    //                Debug.LogFormat("적 유닛 리스트 비우기, 적 유닛 수: {0}", StageManager.instance.enemyManager.enemyUnitList.Count);
+    //                Debug.LogFormat("사망한 적 유닛 리스트 비우기, 적 유닛 수: {0}", StageManager.instance.enemyManager.deadEnemyUnitList.Count);
+    //                StageManager.instance.ChangeState(StageManager.instance.stagePrepare);
+    //            }
+    //        }
+    //    }
+    //}
 
-    public override void OnStateExit()             // 게임 종료
+    public void Exit()             // 게임 종료
     {
 
 

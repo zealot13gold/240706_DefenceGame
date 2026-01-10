@@ -33,9 +33,11 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager instance = null;
 
-    public StagePrepareState stagePrepare;
-    public StagePlayState stagePlay;
-    public StageResultState stageResult;
+    public IState stagePrepare;
+    public IState stagePlay;
+    public IState stageResult;
+
+    public IState currentStageState;
 
     // 스테이지 관리
     [HideInInspector] public int stageNumber;       // 스테이지 번호
@@ -86,11 +88,19 @@ public class StageManager : MonoBehaviour
     public int soliderCost;
     public int barrierCost;
 
+    // 현재 스테이지에서 등장하는 적의 수
+    public int invadedEnemyUnitInStage;
+
     // 스테이지에서 생산/제거된 플레이어, 적 유닛 수
     public int producedPlayerUnitInStage;
     public int killedPlayerUnitInStage;
-    public int invadedEnemyUnitInStage;
+    
     public int killedEnemyUnitInStage;
+
+    // 승리, 패배 여부
+    bool isGameOver;
+    bool isWin;
+    bool isLose;
 
     void OnEnable()
     {
@@ -107,8 +117,13 @@ public class StageManager : MonoBehaviour
         stagePlay = new StagePlayState(gameObject);
         stageResult = new StageResultState(gameObject);
 
+        
+    }
+
+    private void Start()
+    {
         Init();
-        GameStagePrepare();
+        GameStageChange(stagePrepare);
     }
 
     void Init()
@@ -116,13 +131,59 @@ public class StageManager : MonoBehaviour
         score = 0;
         stageNumber = 0;
         stageTextMessage.gameObject.SetActive(false);
+
+        isGameOver = false;
+        isWin = false;
+        isLose = false;
     }
 
-    void GameStagePrepare()
+    public void GameStageChange(IState state)
+    {
+        if (state != currentStageState)
+        {
+            currentStageState.Exit();
+            state.Enter();
+            currentStageState = state;
+        }
+    }
+
+    public void GameStagePrepare()
     {
         // 게임 시작 - 스테이지 준비 단계
-        stagePrepare.OnStateEnter();
         stageRoutine = StartCoroutine("PrepareRoutine");
+    }
+
+    public void GameStagePlay()
+    {
+        // 스테이지 시작 메시지 출력 -> 몇 초 후 사라짐
+        stageRoutine = StartCoroutine("DisplayStageBeginMessage");
+
+        // 적의 수 표시
+        numOfEnemiesMessage.gameObject.SetActive(true);
+
+        // 적 유닛 생산
+        if (!isSpawnEnemy)
+        {
+            SpawnEnemies();
+            isSpawnEnemy = true;
+        }
+
+        //// 플레이어/적 유닛 수 체크 -> 둘 중 하나가 0이 되면 스테이지 결과 상태로 이동
+        //remainPlayerUnit = CheckRemainPlayer();
+        //remainEnemyUnit = CheckRemainEnemy();
+
+        // 디스플레이의 점수, 남은 적의 수 갱신
+        //DisplayStageUI();
+
+        //if (remainPlayerUnit <= 0 || remainEnemyUnit <= 0)
+        //{
+        //    //StageManager.instance.ChangeState(StageManager.instance.stageResult);
+        //}
+    }
+
+    public void GameStageResult()
+    {
+
     }
 
     IEnumerator PrepareRoutine()
@@ -135,12 +196,53 @@ public class StageManager : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
             remainTime--;
         }
+        // 스테이지 준비 종료 -> 스테이지 시작 단계 실행
+        GameStageChange(stagePlay);
     }
 
-    //protected override void FixedUpdate()
-    //{
-    //    currentState.OnStateUpdate();
-    //}
+    IEnumerator DisplayStageBeginMessage()
+    {
+        Debug.LogFormat("스테이지 {0} 시작 메시지 출력", stageNumber);
+        stageTextMessage.text = "Stage " + stageNumber + " Start!!!";
 
+        stageTextMessage.gameObject.SetActive(true);
 
+        // 준비시간 표시 메시지를 아래와 같이 변경
+        remainTimeMessage.text = "Enemies are Coming!!!";
+        remainTimeMessage.color = Color.red;
+       
+        yield return new WaitForSeconds(2.0f);
+        stageTextMessage.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(3.0f);
+        displayRemainTime.gameObject.SetActive(false);         // 스테이지 메시지 숨기기
+    }
+
+    // 스테이지 시작 시 UI
+
+    public void DisplayStageUI()
+    {
+        numOfEnemiesMessage.text = enemyManager.numberOfEnemyUnit.ToString() + " / " + invadedEnemyUnitInStage.ToString();
+        scoreUI.text = "Score: " + score.ToString();
+
+        
+
+        // 준비 UI 출력
+       
+        //gm.moneyUI.gameObject.SetActive(true);
+    }
+
+    public void PlayerDefeated()
+    {
+        isGameOver = true;
+        isLose = true;
+        GameStageChange(stageResult);
+    }
+
+    public void PlayerWin()
+    {
+        isGameOver = true;
+        isWin = true;
+        GameStageChange(stageResult);
+    }
 }

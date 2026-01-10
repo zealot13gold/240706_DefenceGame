@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +9,21 @@ using UnityEngine;
  * 플레이어 유닛 생성(유닛 생성 시 자금 계산)
  * 준비 UI 화면에 표시
  */
-public class StagePrepareState : StageState
+public class StagePrepareState: IState
 {
     float spareTime;
 
-    public StagePrepareState(GameObject gameObject) : base(gameObject) {    }
 
-    public override void OnStateEnter()            // 행동 시작 시
+    public StagePrepareState(GameObject gameObject)
     {
+        spareTime = 0;
+    }
+
+    public void Enter()            // 행동 시작 시
+    {
+        // 스테이지 준비
+        StageManager.instance.GameStagePrepare();
+
         // 이전 스테이지의 정보 초기화
         ClearPreviousStageInfo();
 
@@ -33,26 +41,24 @@ public class StagePrepareState : StageState
         
     }
 
-    public override void OnStateUpdate()           // 상태 유지 중
-    {
-        //    // 실시간으로 플레이어 유닛 수 체크
-        remainPlayerUnit = CheckRemainPlayer();
+    //public override void OnStateUpdate()           // 상태 유지 중
+    //{
+    //    //    // 실시간으로 플레이어 유닛 수 체크
+    //    //remainPlayerUnit = CheckRemainPlayer();
 
-        //    // 시간 카운트 함수 -> 준비 시간이 경과되면 스테이지 시작
-        //    DisplayPrepareUI();
-        //    if (spareTime<=0)
-        //    {
-        //        StageManager.instance.ChangeState(StageManager.instance.stagePlay);
-        //    }
-    }
+    //    //    // 시간 카운트 함수 -> 준비 시간이 경과되면 스테이지 시작
+    //    //    DisplayPrepareUI();
+    //    //    if (spareTime<=0)
+    //    //    {
+    //    //        StageManager.instance.ChangeState(StageManager.instance.stagePlay);
+    //    //    }
+    //}
 
-    public override void OnStateExit()             // 상태 종료
+    public void Exit()             // 상태 종료
     {
         Debug.LogFormat("준비시간 종료");
         // 준비 UI 삭제
-        //GameManager.Instance.displayRemainTime.gameObject.SetActive(false);
         StageManager.instance.buttons.gameObject.SetActive(false);
-        //gm.moneyUI.gameObject.SetActive(false);
     }
 
     void ClearPreviousStageInfo()
@@ -77,12 +83,13 @@ public class StagePrepareState : StageState
         StageManager.instance.displayRemainTime.gameObject.SetActive(true);
         StageManager.instance.buttons.gameObject.SetActive(true);
     }
+
     //public void DisplayPrepareTime(int spareTime)
     //{
     //    StageManager.instance.remainTimeMessage.text = "Prepare Time: " + (spareTime).ToString();
     //}
 
-    
-    
-    
+
+
+
 }

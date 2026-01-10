@@ -101,7 +101,7 @@ public class EnemyUnitSM : StateMachine
 
                 Debug.LogFormat("EnemyUnitSM: {0}의 타겟은 {1}", gameObject.name, targetPlayer.name);                                                                                         
                 targetPlayerHealth = targetPlayer.GetComponent<Health>().currentHP;                                      // 타겟 정보 설정
-                targetPlayerIsDead = targetPlayer.GetComponent<Health>().IsDead;
+                targetPlayerIsDead = targetPlayer.GetComponent<Health>().isDead;
 
                 bufferEnemyDist = Mathf.Abs((targetPlayer.transform.position - transform.position).magnitude);    // 가까운 적과의 거리를 저장
             }

@@ -11,9 +11,9 @@ public class EnemyHealth : Health
     // HP 슬라이더
     public Slider healthSlider;
 
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         shotEffect.Stop();
         shotEffect.gameObject.SetActive(false);

@@ -146,7 +146,7 @@ public class PlayerUnitSM : StateMachine
             {
                 targetEnemy = enemies[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
                 targetEnemyHealth = targetEnemy.GetComponent<Health>().currentHP;
-                targetEnemyIsDead = targetEnemy.GetComponent<Health>().IsDead;
+                targetEnemyIsDead = targetEnemy.GetComponent<Health>().isDead;
                 bufferEnemyDist = Mathf.Abs((targetEnemy.transform.position - transform.position).magnitude);    // 가까운 적과의 거리를 저장
             }
         }
