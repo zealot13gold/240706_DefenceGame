@@ -23,7 +23,7 @@ public class BarrierHealth : Health
         }
     }
 
-    protected override void OnDeath()
+    protected void OnDeath()
     {
         BarrierPooling.Instance.PickUpBarrier(gameObject);
     }

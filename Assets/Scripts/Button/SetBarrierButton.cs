@@ -31,7 +31,7 @@ public class SetBarrierButton : MonoBehaviour
 
     public void SetBarrier()
     {
-        if (StageManager.instance.currentState == StageManager.instance.stagePrepare)                         // 게임이 스테이지 준비 상태일 경우
+        if (StageManager.instance.currentStageState == StageManager.instance.stagePrepare)                         // 게임이 스테이지 준비 상태일 경우
         {
             //Debug.LogFormat("장애물 버튼 클릭");
             //Debug.LogFormat("장애물 == {0}", barrier);
@@ -82,7 +82,7 @@ public class SetBarrierButton : MonoBehaviour
 
     public void Update()
     {
-        if (setBarrier && StageManager.instance.currentState == StageManager.instance.stagePrepare)           // 게임이 준비 상태이고, 장애물 설치 버튼을 눌렀을 경우
+        if (setBarrier && StageManager.instance.currentStageState == StageManager.instance.stagePrepare)           // 게임이 준비 상태이고, 장애물 설치 버튼을 눌렀을 경우
         {
             mousePosition = Input.mousePosition+CameraDepth();            // 장애물은 배치 전까지 마우스 커서를 따라다님
 
@@ -114,15 +114,15 @@ public class SetBarrierButton : MonoBehaviour
                 }
             }
 
-            if ((barrier != null && Input.GetKey(KeyCode.Escape)) || StageManager.instance.currentState != StageManager.instance.stagePrepare)
+            if ((barrier != null && Input.GetKey(KeyCode.Escape)) || StageManager.instance.currentStageState != StageManager.instance.stagePrepare)
             {
-                Cancle(barrier);
+                Cancel(barrier);
             }
         }
         else
         {
             Debug.LogFormat("SetBarrierButton: 게임 상태가 준비 상태가 아님");
-            Cancle(barrier);
+            Cancel(barrier);
         }
     }
 
@@ -160,7 +160,7 @@ public class SetBarrierButton : MonoBehaviour
         }
     }
     
-    void Cancle(GameObject barrier)
+    void Cancel(GameObject barrier)
     {
         setBarrier = false;
             //BarrierPooling.Instance.PickUpBarrier(barrier);

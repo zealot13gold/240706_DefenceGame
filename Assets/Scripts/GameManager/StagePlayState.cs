@@ -22,20 +22,24 @@ public class StagePlayState : IState
     public void Enter()            // 행동 시작 시
     {
         Debug.LogFormat("Stage {0} 시작", StageManager.instance.stageNumber);
+
+        // 적의 수 표시
+        StageManager.instance.numOfEnemiesMessage.gameObject.SetActive(true);
+
         StageManager.instance.GameStagePlay();
 
         remainEnemyUnit=0;
 
         // 적 유닛 생성 -> 이동
         // 스테이지 시작 시 스테이지 번호에 따라 적 생성
-        StageManager.instance.enemyManager.numberOfEnemyUnit = StageManager.instance.enemyManager.NumberOfEnemiesInStage(StageManager.instance.stageNumber);
+        //StageManager.instance.enemyManager.numberOfEnemyUnit = StageManager.instance.enemyManager.NumberOfEnemiesInStage(StageManager.instance.stageNumber);
 
 
         //GameManager.Instance.enemyManager.CreateEnemies();
         //remainEnemyUnit = GameManager.Instance.enemyManager.numberOfEnemyUnit;        // 시작할 때는 모든 적이 남아있음
 
         // 현재 스테이지에서 나타난 적 유닛 수
-        StageManager.instance.invadedEnemyUnitInStage = StageManager.instance.enemyManager.numberOfEnemyUnit;         
+        //StageManager.instance.invadedEnemyUnitInStage = StageManager.instance.enemyManager.numberOfEnemyUnit;         
 
         // 스테이지 시작 메시지 출력 시간
         remainTime = 0f;
@@ -113,11 +117,11 @@ public class StagePlayState : IState
     // 스테이지 시작 시 UI
     public void DisplayStageUI()
     {
-        StageManager.instance.numOfEnemiesMessage.text = remainEnemyUnit.ToString() + " / " + StageManager.instance.enemyManager.numberOfEnemyUnit.ToString() ;
+        //StageManager.instance.numOfEnemiesMessage.text = remainEnemyUnit.ToString() + " / " + StageManager.instance.enemyManager.numberOfEnemyUnit.ToString() ;
         StageManager.instance.scoreUI.text = "Score: " + StageManager.instance.score.ToString();
 
 
-        StageManager.instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
+        //StageManager.instance.remainPlayerMessage.text = StageManager.instance.remainPlayerUnit.ToString();
 
         // 준비 UI 출력
         StageManager.instance.numOfEnemiesMessage.gameObject.SetActive(true);
@@ -125,35 +129,35 @@ public class StagePlayState : IState
     }
 
    // 남아있는 적의 수 체크
-    int CheckRemainEnemy()
-    {
-        StageManager.instance.enemyManager.CheckDeadUnit();
+    //int CheckRemainEnemy()
+    //{
+    //    //StageManager.instance.enemyManager.CheckDeadUnit();
 
-        int remainEnemy = StageManager.instance.enemyManager.enemyUnitList.Count;
-        //Debug.LogFormat("적 유닛 수: {0}", gm.enemyManager.enemyUnitList.Count);
+    //    //int remainEnemy = StageManager.instance.enemyManager.enemyUnitList.Count;
+    //    //Debug.LogFormat("적 유닛 수: {0}", gm.enemyManager.enemyUnitList.Count);
 
-        return remainEnemy;
-    }
+    //    return remainEnemy;
+    //}
 
-    void SpawnEnemies()
-    {
-        Debug.LogFormat("StageDoing: 적 {0}기 생성 시작", StageManager.instance.enemyManager.numberOfEnemyUnit);
-        if(StageManager.instance.enemyManager.numberOfEnemyUnit > remainEnemyUnit)
-        {
-            if(spawnInterval >= spawnTime)            // 적 생성 시간이 되면 적 생성
-            {
-                StageManager.instance.enemyManager.CreateEnemies();
-                remainEnemyUnit++;                              // 적의 수 1 증가
-                spawnTime = 0f;                     // 적 생성 사이클을 0으로 초기화
-                Debug.LogFormat("StageDoing: 적 1기 생성");
-            }
-            else
-            {
-                Debug.LogFormat("StageDoing: 적 생성 {0}% 완료", spawnTime/spawnInterval*100);
-                spawnTime += Time.deltaTime;        // 사이클 경과시간 증가
-            }
-        }
-    }
+    //void SpawnEnemies()
+    //{
+    //    Debug.LogFormat("StageDoing: 적 {0}기 생성 시작", StageManager.instance.enemyManager.numberOfEnemyUnit);
+    //    if(StageManager.instance.enemyManager.numberOfEnemyUnit > remainEnemyUnit)
+    //    {
+    //        if(spawnInterval >= spawnTime)            // 적 생성 시간이 되면 적 생성
+    //        {
+    //            StageManager.instance.enemyManager.CreateEnemies();
+    //            remainEnemyUnit++;                              // 적의 수 1 증가
+    //            spawnTime = 0f;                     // 적 생성 사이클을 0으로 초기화
+    //            Debug.LogFormat("StageDoing: 적 1기 생성");
+    //        }
+    //        else
+    //        {
+    //            Debug.LogFormat("StageDoing: 적 생성 {0}% 완료", spawnTime/spawnInterval*100);
+    //            spawnTime += Time.deltaTime;        // 사이클 경과시간 증가
+    //        }
+    //    }
+    //}
 
     //void CalculateScore()
     //{

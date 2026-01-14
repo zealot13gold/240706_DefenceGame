@@ -1,0 +1,51 @@
+{
+    "name": "UIInput",
+    "maps": [
+        {
+            "name": "ResultUI",
+            "id": "a8bc50ab-d0f6-486a-b154-d7e177d96c73",
+            "actions": [
+                {
+                    "name": "Close",
+                    "type": "Button",
+                    "id": "229948c3-92d1-4003-98ca-077007a12af7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "283b39f4-6934-493a-a0e0-becda41e1ee4",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Close",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PC",
+            "bindingGroup": "PC",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

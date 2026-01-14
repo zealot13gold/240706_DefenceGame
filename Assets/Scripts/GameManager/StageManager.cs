@@ -64,18 +64,12 @@ public class StageManager : MonoBehaviour
     public Text scoreUI;                                // 점수 표시
     public GameObject buttons;                          // 버튼 모음
     public Image resultBoard;                           // 결과창
-    public Text gameResultTextInBoard;                  // 스테이지 결과(결과창)
-    public Text obtainCashInStageInBoard;               // 현재 스테이지에서 얻은 자금
-    public Text obtainScoreInStageInBoard;              // 현재 스테이지에서 얻은 점수
-    public Text producedPlayerUnitsInStageInBoard;      // 현재 스테이지에서 생산한 플레이어 유닛 수
-    public Text killedPlayerToEnemyInStageInBoard;      // 현재 스테이지에서 적에게 사망한 플레이어 유닛 수
-    public Text invadedEnemyUnitsInStageInBoard;        // 현재 스테이지에서 침입한 적 유닛 수
-    public Text killedEnemyToPlayerInStageInBoard;      // 현재 스테이지에서 플레이어에게 사망한 적 유닛 수
+    
 
-    // 플레이어 관리
-    public PlayerManager playerManager;
-    // 적 관리
-    public EnemyManager enemyManager;
+    //// 플레이어 관리
+    //public PlayerManager playerManager;
+    //// 적 관리
+    //public EnemyManager enemyManager;
 
     // 점수, 자금
     [HideInInspector] public int score;                         // 점수
@@ -110,8 +104,8 @@ public class StageManager : MonoBehaviour
         }
         instance = this;
 
-        enemyManager = new EnemyManager();
-        playerManager = new PlayerManager();
+        //enemyManager = new EnemyManager();
+        //playerManager = new PlayerManager();
 
         stagePrepare = new StagePrepareState(gameObject);
         stagePlay = new StagePlayState(gameObject);
@@ -128,10 +122,15 @@ public class StageManager : MonoBehaviour
 
     void Init()
     {
+        // 게임 환경 초기화
         score = 0;
+        cash = 0;
         stageNumber = 0;
         stageTextMessage.gameObject.SetActive(false);
 
+
+
+        // 게임 결과 초기화
         isGameOver = false;
         isWin = false;
         isLose = false;
@@ -159,14 +158,14 @@ public class StageManager : MonoBehaviour
         stageRoutine = StartCoroutine("DisplayStageBeginMessage");
 
         // 적의 수 표시
-        numOfEnemiesMessage.gameObject.SetActive(true);
+        //numOfEnemiesMessage.gameObject.SetActive(true);
 
         // 적 유닛 생산
-        if (!isSpawnEnemy)
-        {
-            SpawnEnemies();
-            isSpawnEnemy = true;
-        }
+        //if (!isSpawnEnemy)
+        //{
+        //    SpawnEnemies();
+        //    isSpawnEnemy = true;
+        //}
 
         //// 플레이어/적 유닛 수 체크 -> 둘 중 하나가 0이 되면 스테이지 결과 상태로 이동
         //remainPlayerUnit = CheckRemainPlayer();
@@ -183,6 +182,9 @@ public class StageManager : MonoBehaviour
 
     public void GameStageResult()
     {
+
+        StartCoroutine("DisplayStageEndMessage");
+
 
     }
 
@@ -222,7 +224,8 @@ public class StageManager : MonoBehaviour
 
     public void DisplayStageUI()
     {
-        numOfEnemiesMessage.text = enemyManager.numberOfEnemyUnit.ToString() + " / " + invadedEnemyUnitInStage.ToString();
+        // StageManager가 EnemyManager를 구독 -> 적 유닛 사망 이벤트 발생할 때마다 함수 실행
+        //numOfEnemiesMessage.text = enemyManager.numberOfEnemyUnit.ToString() + " / " + invadedEnemyUnitInStage.ToString();
         scoreUI.text = "Score: " + score.ToString();
 
         
@@ -244,5 +247,26 @@ public class StageManager : MonoBehaviour
         isGameOver = true;
         isWin = true;
         GameStageChange(stageResult);
+    }
+
+    IEnumerator DisplayStageEndMessage()
+    {
+        if (isWin)
+        {
+            stageTextMessage.text = "Stage " + stageNumber + " Clear!!";
+        }
+        else
+        {
+            stageTextMessage.text = "Stage " + stageNumber + " Defeated";
+        }
+
+        stageTextMessage.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        stageTextMessage.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
+        resultBoard.gameObject.SetActive(true);
     }
 }

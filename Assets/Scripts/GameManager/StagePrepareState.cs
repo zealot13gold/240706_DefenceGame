@@ -77,7 +77,7 @@ public class StagePrepareState: IState
     public void DisplayPrepareUI()
     {
         StageManager.instance.cashUI.text = "Cash: " + StageManager.instance.cash.ToString();
-        StageManager.instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
+        //StageManager.instance.remainPlayerMessage.text = remainPlayerUnit.ToString();
 
         // 준비 UI 출력
         StageManager.instance.displayRemainTime.gameObject.SetActive(true);

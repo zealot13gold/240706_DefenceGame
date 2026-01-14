@@ -7814,13 +7814,15 @@ GameObject:
   - component: {fileID: 1088806357}
   - component: {fileID: 1088806359}
   - component: {fileID: 1088806358}
+  - component: {fileID: 1088806361}
+  - component: {fileID: 1088806360}
   m_Layer: 5
-  m_Name: GameResultMenu
+  m_Name: GameResultBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1088806357
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7886,6 +7888,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088806356}
   m_CullTransparentMesh: 1
+--- !u!114 &1088806360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088806356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98fab5a821a8fe4f8086b62575be3f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameResultTextInBoard: {fileID: 0}
+  obtainCashInStageInBoard: {fileID: 0}
+  obtainScoreInStageInBoard: {fileID: 0}
+  producedPlayerUnitsInStageInBoard: {fileID: 0}
+  killedPlayerToEnemyInStageInBoard: {fileID: 0}
+  invadedEnemyUnitsInStageInBoard: {fileID: 0}
+  killedEnemyToPlayerInStageInBoard: {fileID: 0}
+--- !u!114 &1088806361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088806356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a97b861a3bc47cf4eb0356f4771ceb12, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: PC
+  m_DefaultActionMap: ResultUI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!4 &1107506320 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7095165606635302798, guid: c452deba048ca4540b49ec1b1765a9a5, type: 3}
@@ -12633,6 +12684,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2703403440217816925, guid: 15f7c7f52cac66d4f92a066e61a021e7, type: 3}
   m_PrefabInstance: {fileID: 1765598455}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1777050102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777050103}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1777050103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777050102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 438.875, y: 258.95624, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1791754286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16106,3 +16188,4 @@ SceneRoots:
   - {fileID: 867226546}
   - {fileID: 1910588674}
   - {fileID: 173014148}
+  - {fileID: 1777050103}

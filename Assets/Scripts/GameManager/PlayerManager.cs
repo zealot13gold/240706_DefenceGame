@@ -5,22 +5,13 @@ using UnityEngine;
 
 /*
  * 역할
- - 플레이어가 소지한 자원, 점수, 유닛 등을 관리
-
- * 입력값
- - 자원 상황 : Player 클래스에서 실시간으로 전달
- - 선택된 유닛 목록(배열) : 다중선택으로 선택된 유닛을 배열 형태로 저장
- - 메뉴 인터페이스(화면 아래 메뉴)
-
- * 함수
- - 유닛 생산 : 건물이 선택된 상태(선택된 건물 != null)에서 메뉴 인터페이스에 표시된 유닛을 클릭하여 생산, 자원 유무 체크 필요
- - 건물 건설 : 일꾼 유닛 1기가 선택된 상태에서 메뉴 인터페이스에 표시된 건물을 클릭하여 생산, 자원 유무 체크 필요
+ - 플레이어 유닛 관리
  */
 public class PlayerManager:MonoBehaviour
 {
     public static PlayerManager instance=null;
 
-    public event Action<bool> playerDefeated;
+    //public event Action<bool> playerDefeated;
 
     // 플레이어 초기 상태
     public int numberOfPlayerUnit;                  // 유닛 수
@@ -34,21 +25,21 @@ public class PlayerManager:MonoBehaviour
         numberOfPlayerUnit = 0;
     }
 
-    //void OnEnable()
-    //{
-    //    if(instance != null && instance!=this)
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //    else
-    //    {
-    //        instance = this;
-    //    }
+    void OnEnable()
+    {
+        if(instance != null && instance!=this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
 
-    //    //playerUnitList = new List<GameObject>();
-    //    //deadPlayerUnitList = new List<GameObject>();
-    //    numberOfPlayerUnit = 0;
-    //}
+        //playerUnitList = new List<GameObject>();
+        //deadPlayerUnitList = new List<GameObject>();
+        numberOfPlayerUnit = 0;
+    }
 
     // 유닛 생산하는 함수: 자원이 충분할 경우 생산 버튼을 클릭하면 새로운 유닛이 생성
     //public void CreatePlayerUnit()
@@ -67,14 +58,19 @@ public class PlayerManager:MonoBehaviour
     {
         if (isDead)
         {
+            // 유닛 사망
             numberOfPlayerUnit--;
-
             StageManager.instance.killedPlayerUnitInStage++;
-            StageManager.instance.remainPlayerMessage.text = numberOfPlayerUnit.ToString();
         }
+        else
+        {
+            // 유닛 생산
+            numberOfPlayerUnit++;
+            StageManager.instance.producedPlayerUnitInStage++;
+        }
+        StageManager.instance.remainPlayerMessage.text = numberOfPlayerUnit.ToString();
 
         if (numberOfPlayerUnit == 0) StageManager.instance.PlayerDefeated();
-        
     }
 
     // 사망한 플레이어 유닛은 큐로 되돌아감/사망한 유닛 목록에 포함
