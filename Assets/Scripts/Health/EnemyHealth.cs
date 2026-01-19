@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -5,6 +6,9 @@ using UnityEngine;
 
 public class EnemyHealth : Health
 {
+    // 이벤트
+    public event Action<bool> enemyManager; 
+
     // 이펙트
     public ParticleSystem shotEffect;
 
@@ -15,8 +19,16 @@ public class EnemyHealth : Health
     {
         base.OnEnable();
 
+        enemyManager +=EnemyManager.instance.CheckUnit;
+        enemyManager?.Invoke(false);
+
         shotEffect.Stop();
         shotEffect.gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        enemyManager -= EnemyManager.instance.CheckUnit;
     }
 
     protected override void FixedUpdate()

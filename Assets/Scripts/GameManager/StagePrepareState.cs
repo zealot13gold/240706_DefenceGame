@@ -25,7 +25,7 @@ public class StagePrepareState: IState
         StageManager.instance.GameStagePrepare();
 
         // 이전 스테이지의 정보 초기화
-        ClearPreviousStageInfo();
+        //ClearPreviousStageInfo();
 
         // 준비 UI 출력
         spareTime = StageManager.instance.prepareTime;
@@ -61,17 +61,7 @@ public class StagePrepareState: IState
         StageManager.instance.buttons.gameObject.SetActive(false);
     }
 
-    void ClearPreviousStageInfo()
-    // 이전 스테이지의 정보 초기화
-    {
-        StageManager.instance.scoreInStage = 0;          // 이전 스테이지에서 획득한 점수 초기화
-        StageManager.instance.cashInStage = 0;           // 이전 스테이지에서 획득한 자금 초기화
-
-        StageManager.instance.producedPlayerUnitInStage = 0; // 이전 스테이지에서 생산된 플레이어 유닛 수 초기화
-        StageManager.instance.killedPlayerUnitInStage = 0;   // 이전 스테이지에서 사망한 플레이어 유닛 수 초기화
-        StageManager.instance.invadedEnemyUnitInStage = 0;   // 이전 스테이지에서 출현한 적 유닛 수 초기화
-        StageManager.instance.killedEnemyUnitInStage = 0;    // 이전 스테이지에서 사망한 적 유닛 수 초기화
-    }
+    
 
     // 준비시간 메시지, 유닛 생성 버튼 활성화
     public void DisplayPrepareUI()

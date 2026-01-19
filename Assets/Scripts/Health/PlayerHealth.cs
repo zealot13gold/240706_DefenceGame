@@ -26,6 +26,11 @@ public class PlayerHealth : Health
         shotEffect.gameObject.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        playerManager -= PlayerManager.instance.CheckUnit;
+    }
+
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -49,6 +54,7 @@ public class PlayerHealth : Health
         }
     }
 
+    // ¼öÁ¤
     //protected override void OnDeath()
     //{
     //    PlayerUnitPooling.Instance.PickUpPlayerUnit(gameObject);

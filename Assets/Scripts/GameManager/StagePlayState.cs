@@ -128,7 +128,10 @@ public class StagePlayState : IState
         //gm.moneyUI.gameObject.SetActive(true);
     }
 
-   // 남아있는 적의 수 체크
+    // 스테이지에 따라 등장하는 적의 수 변경
+    
+
+    // 남아있는 적의 수 체크
     //int CheckRemainEnemy()
     //{
     //    //StageManager.instance.enemyManager.CheckDeadUnit();
@@ -171,5 +174,5 @@ public class StagePlayState : IState
     //    }
     //}
 
-    
+
 }
