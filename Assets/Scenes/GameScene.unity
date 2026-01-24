@@ -6503,7 +6503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 867226546}
   - component: {fileID: 867226547}
-  - component: {fileID: 867226549}
+  - component: {fileID: 867226548}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -6546,7 +6546,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   dragArea: {fileID: 1178755402}
---- !u!114 &867226549
+--- !u!114 &867226548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6555,19 +6555,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 867226545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4669a7be1b5d76418b1c255f6c5bb27, type: 3}
+  m_Script: {fileID: 11500000, guid: 56ad3b66ff0e9fd429217421387a314d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerUnitSpawnPoint: {fileID: 867226546}
-  soliderPrefab: {fileID: 944893875508198983, guid: d61394c8a9543be4a8c4c069838c28a3, type: 3}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  playerUnitNames:
-  - AssultMan
+  numberOfPlayerUnit: 0
 --- !u!1 &870604463
 GameObject:
   m_ObjectHideFlags: 0
@@ -11682,18 +11673,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1604518725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 704425de32307694481105fb46bbda26, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fd98c75e710c5d419c633a6b3a745ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyUnitSpawnPoint: {fileID: 1604518728}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  enemyPrefab: {fileID: 8115642523474835775, guid: 1b464b0c61730c941b8108d9c03e87ba, type: 3}
-  needToCheckDeadUnit: 1
+  numberOfEnemyUnit: 0
 --- !u!4 &1661658337 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2703403440217816925, guid: 15f7c7f52cac66d4f92a066e61a021e7, type: 3}

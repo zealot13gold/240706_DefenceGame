@@ -45,24 +45,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Awake()
+    void OnEnable()
     {
-        if (instance == null)
+        Debug.LogFormat("instance ΩÃ±€≈Ê Ω««‡");
+        if (instance != null && instance != this)
         {
-            instance = this;
-
-            //DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogFormat("instance ΩÃ±€≈Ê √ ±‚»≠");
+            instance = this;
+            //DontDestroyOnLoad(gameObject);
         }
 
         chosenObject = new List<GameObject>(); 
         dragAreaTransform = dragArea.GetComponent<RectTransform>();
+
+        Init();
     }
 
-     void Start()
+     void Init()
     {
         onClick = false;
         isDrag = false;
@@ -71,7 +74,7 @@ public class PlayerController : MonoBehaviour
         dragAreaTransform.sizeDelta = Vector2.zero;
     }
 
-     void FixedUpdate()
+     void Update()
     {
         // ¿Ø¥÷ º±≈√
         MouseSelection();
@@ -82,6 +85,11 @@ public class PlayerController : MonoBehaviour
 
         // ªÁ∏¡«— ¿Ø¥÷ ∞Àªˆ »ƒ ¡¶∞≈
         DeselctDeadUnit();
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     void MouseSelection()

@@ -381,9 +381,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f68c16501c2424aa66d1ec2029a052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPool: {fileID: 0}
-  playerPool: {fileID: 0}
-  barrierPool: {fileID: 0}
+  assualtPref: {fileID: 944893875508198983, guid: d61394c8a9543be4a8c4c069838c28a3, type: 3}
+  assaultNum: 50
+  zombiePref: {fileID: 8115642523474835775, guid: 1b464b0c61730c941b8108d9c03e87ba, type: 3}
+  zombieNum: 100
+  barrierPref: {fileID: 0}
+  barrierNum: 50
 --- !u!114 &980270785
 MonoBehaviour:
   m_ObjectHideFlags: 0
