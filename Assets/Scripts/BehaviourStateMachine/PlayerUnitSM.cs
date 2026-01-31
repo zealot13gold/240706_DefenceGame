@@ -3,35 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerUnitSM : StateMachine
+public class PlayerUnitSM : MonoBehaviour
 {
-    public PlayerIdleState idleState;
-    public PlayerMoveState moveState;
-    public PlayerAttackState attackState;
-    public PlayerMoveToAttackState moveToAttackState;
-    public PlayerDeadState deadState;
+    IState idleState;
+    IState moveState;
+    IState attackState;
+    IState moveToAttackState;
+    IState deadState;
+
+    IState currentState;
 
     [HideInInspector] public Collider[] enemies;
     [HideInInspector] public GameObject targetEnemy;
 
+    [Header("플레이어 유닛 기능")]
+    // 적 인식
     public LayerMask enemyLayerMask;
     public float viewRange;
+    // 공격
     public float attackRange;
     public float attackDelayTime;
     public float attackDemage;
-
-    public Vector3 dest;                                        // 유닛 강제 이동, 목적지는 마우스 우클릭 시 업데이트됨
+    // 이동
     public NavMeshAgent navMesh;
-    //[HideInInspector] public Rigidbody unitRigidbody;           // 유닛의 rigidbody
     public float moveSpeed;                                     // 유닛의 이동속도
 
-    // 이동, 공격 여부
-    [HideInInspector] public bool isForceMove;
-    [HideInInspector] public bool isAttackMove;
-    [HideInInspector] public bool isFire;
 
     // 애니메이션
     public Animator anim;
+
+    public Vector3 dest;                                        // 유닛 강제 이동, 목적지는 마우스 우클릭 시 업데이트됨
+
+    //[HideInInspector] public Rigidbody unitRigidbody;           // 유닛의 rigidbody
+   
+
+    // 이동, 공격 여부
+    public enum unitStateList
+    {
+        idle,
+        attackMove,
+        forceMove,
+        attack,
+        death
+    }
+    unitStateList unitState;
+    //[HideInInspector] public bool isForceMove;
+    //[HideInInspector] public bool isAttackMove;
+    //[HideInInspector] public bool isFire;
+
+    
 
     // 음향효과
     public AudioSource gunFireSound;
@@ -46,9 +66,9 @@ public class PlayerUnitSM : StateMachine
     [HideInInspector] public float targetEnemyHealth;
     [HideInInspector] public bool targetEnemyIsDead;
 
-    protected override void Awake()
+    void OnEnable()
     {
-        base.Awake();
+        //base.Awake();
 
         // 아래 두줄은 플레이어/적 사망 state 작성 후 사망 state로 이동
         targetEnemy = null;
@@ -60,34 +80,46 @@ public class PlayerUnitSM : StateMachine
         moveToAttackState = new PlayerMoveToAttackState(gameObject);
         deadState = new PlayerDeadState(gameObject);
 
-
+        Init();
         //unitRigidbody = GetComponent<Rigidbody>();
     }
 
-    protected override void Start()
+   void Init()
     {
-        isForceMove = false;
-        isAttackMove = false;
-        isFire = false;
+        //isForceMove = false;
+        //isAttackMove = false;
+        //isFire = false;
 
-        ChangeState(idleState);
+        unitState = unitStateList.idle;
+        UnitStateChange(idleState);
     }
 
-    protected override void OnEnable()
-    {
-        isForceMove = false;
-        isAttackMove = false;
-        isFire = false;
+    //void OnEnable()
+    //{
+    //    //isForceMove = false;
+    //    //isAttackMove = false;
+    //    //isFire = false;
 
-        ChangeState(idleState);
-    }
+    //    UnitStateChange(idleState);
+    //}
 
     // Update is called once per frame
-    protected override void FixedUpdate()
-    {
-        currentState.OnStateUpdate();
+    //protected override void FixedUpdate()
+    //{
+    //    currentState.OnStateUpdate();
 
+    //}
+
+    void UnitStateChange(IState state)
+    {
+        if (state != currentState)
+        {
+            currentState.Exit();
+            state.Enter();
+            currentState = state;
+        }
     }
+    
 
     public void ForceMove()                                                                     // 강제이동, 플레이어 유닛이 지정된 목적지에 도달하였는지 확인, isMove 값을 변경
     {
@@ -95,24 +127,29 @@ public class PlayerUnitSM : StateMachine
 
         if(Mathf.Abs((dest- transform.position).magnitude)>1.5f)
         {
-            isForceMove = true;
+            UnitStateChange(idleState);
         }
-        else
-        {
-            isForceMove = false;
-        }
+        //else
+        //{
+        //    isForceMove = false;
+        //}
     }
 
-    public void AttackMove()
+    void AttackMove()
     {
         if (Mathf.Abs((targetEnemy.transform.position - transform.position).magnitude) > attackRange)               // 적이 플레이어 유닛의 공격 사정거리보다 먼 곳에 위치하면
         {
-            isAttackMove = true;                                                            // 플레이어 유닛이 공격을 위해 이동
+            UnitStateChange(attackState);                                                            // 플레이어 유닛이 공격을 위해 이동
         }
-        else
-        {
-            isAttackMove = false;                                                           // 적이 사정거리 안에 위치하면 더 이상 이동하지 않음
-        }
+        //else
+        //{
+        //    isAttackMove = false;                                                           // 적이 사정거리 안에 위치하면 더 이상 이동하지 않음
+        //}
+    }
+
+    public void Dead()
+    {
+        UnitStateChange(deadState);
     }
 
     // 적 
@@ -144,9 +181,12 @@ public class PlayerUnitSM : StateMachine
 
             if (bufferEnemyDist > Mathf.Abs((bufferEnemyPos - transform.position).magnitude))                    // 현재 위치로부터 가장 가까운 공격 대상을 찾음
             {
-                targetEnemy = enemies[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
                 targetEnemyHealth = targetEnemy.GetComponent<Health>().currentHP;
-                targetEnemyIsDead = targetEnemy.GetComponent<Health>().isDead;
+                if (targetEnemyHealth <= 0) continue;
+
+                targetEnemy = enemies[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
+
+                //targetEnemyIsDead = targetEnemy.GetComponent<Health>().isDead;
                 bufferEnemyDist = Mathf.Abs((targetEnemy.transform.position - transform.position).magnitude);    // 가까운 적과의 거리를 저장
             }
         }

@@ -17,7 +17,7 @@ public class PlayerManager:MonoBehaviour
     public int numberOfPlayerUnit;                  // 유닛 수
 
     // 유닛 목록
-    //[HideInInspector] public List<GameObject> playerUnitList;                 // 플레이어가 보유한 모든 유닛의 목록
+    [HideInInspector] public List<GameObject> playerUnitList;                 // 플레이어가 보유한 모든 유닛의 목록
     //[HideInInspector] public List<GameObject> deadPlayerUnitList;             // 사망한 플레이어 유닛 목록
     
     public PlayerManager()
@@ -36,7 +36,7 @@ public class PlayerManager:MonoBehaviour
             instance = this;
         }
 
-        //playerUnitList = new List<GameObject>();
+        playerUnitList = new List<GameObject>();
         //deadPlayerUnitList = new List<GameObject>();
         numberOfPlayerUnit = 0;
     }
@@ -107,15 +107,5 @@ public class PlayerManager:MonoBehaviour
     //        deadPlayerUnitList.Clear();
     //        Debug.LogFormat("사망한 플레이어 수: {0}", deadPlayerUnitList.Count);
     //    }
-    //}
-
-    //void Update()
-    //{
-
-
-    //    // 큐가 비었을 경우 새로운 유닛 인스턴스를 만든 후 소환
-
-
-    //    // 자원 계산하는 함수: 유닛 생산하는 함수 발동 시 현재 가지고 있는 자원량에서 유닛 생산에 필요한 자원량을 뺌
     //}
 }
