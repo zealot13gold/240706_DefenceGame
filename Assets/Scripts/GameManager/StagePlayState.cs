@@ -76,7 +76,10 @@ public class StagePlayState : IState
     //    //    StageManager.instance.ChangeState(StageManager.instance.stageResult);
     //    //}
     //}
+    public void Update()
+    {
 
+    }
     public void Exit()             // 상태 종료
     {
         // 스테이지 UI 제거

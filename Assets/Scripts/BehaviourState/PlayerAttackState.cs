@@ -1,35 +1,39 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerUnitState
+public class PlayerAttackState :IState
 {
-    public PlayerAttackState(GameObject unit) : base(unit) { }
+    PlayerUnitSM sm;
+    PlayerHealth health;
+    GameObject unit;
+    public PlayerAttackState(GameObject unit) 
+    {
+        sm = unit.GetComponent<PlayerUnitSM>();
+        health = unit.GetComponent<PlayerHealth>();
+        this.unit = unit;
+    }
     //public bool isFired=false;
 
     float currentTime = 0f;
-    public override void OnStateEnter()
+    public void Enter()
     {
-        //navMesh.isStopped = true;
-        Debug.LogFormat("{0}은 현재 attack 상태, 시야범위: {1}, 공격범위: {2}", unit.name, sm.viewRange, sm.attackRange);
-
         sm.playerUnitVoice.clip = sm.playerAttackVoice;
         sm.playerUnitVoice.Play();
     }
 
-    public override void OnStateUpdate()
+    public void Update()
     {
         if (health.currentHP <= 0)
         {
-            sm.ChangeState(sm.deadState);
+            sm.UnitStateChange(sm.deadState);
         }
         else
         {
             sm.FindEnemy();                             // 가까운 적을 찾고, 더 가까운 적이 검색될 경우 타겟을 변경
-            //sm.ForceMove();                         // 강제이동으로 목적지에 도달하였는지 확인
 
             if (sm.isForceMove || sm.isAttackMove || sm.targetEnemyHealth<=0)                            // 새로운 지점으로 강제 이동하거나 적과의 거리가 너무 멀어지면
             {
-                sm.ChangeState(sm.idleState);                           // idle 상태로 변경
+                sm.UnitStateChange(sm.idleState);                           // idle 상태로 변경
             }
             else
             {
@@ -39,7 +43,7 @@ public class PlayerAttackState : PlayerUnitState
             }
         }
     }
-    public override void OnStateExit()
+    public void Exit()
     {
         sm.anim.SetBool("Attack", false);
         sm.targetEnemy = null;

@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerUnitSM : MonoBehaviour
 {
-    IState idleState;
-    IState moveState;
-    IState attackState;
-    IState moveToAttackState;
-    IState deadState;
+    public IState idleState;
+    public IState moveState;
+    public IState attackState;
+    public IState moveToAttackState;
+    public IState deadState;
 
     IState currentState;
 
@@ -17,20 +18,29 @@ public class PlayerUnitSM : MonoBehaviour
     [HideInInspector] public GameObject targetEnemy;
 
     [Header("플레이어 유닛 기능")]
-    // 적 인식
-    public LayerMask enemyLayerMask;
-    public float viewRange;
-    // 공격
-    public float attackRange;
-    public float attackDelayTime;
-    public float attackDemage;
-    // 이동
-    public NavMeshAgent navMesh;
-    public float moveSpeed;                                     // 유닛의 이동속도
+    [Header("적 인식")]
+    [Tooltip("적 레이어")] public LayerMask enemyLayerMask;
+    [Tooltip("플레이어의 적 인식 범위")] public float viewRange;
 
+    [Header("공격")]
+    [Tooltip("플레이어의 공격 범위")] public float attackRange;
+    [Tooltip("플레이어의 공격 간격")] public float attackDelayTime;
+    [Tooltip("플레이어의 공격력")] public float attackDemage;
 
-    // 애니메이션
-    public Animator anim;
+    [Header("이동")]
+    [Tooltip("플레이어 NavMesh")] public NavMeshAgent navMesh;
+    [Tooltip("플레이어 이동 속도")] public float moveSpeed;                                     // 유닛의 이동속도
+
+    [Header("체력")]
+    [Tooltip("플레이어 체력")] public PlayerHealth health;
+
+    [Header("플레이어 행동 애니메이션")]
+    [Tooltip("플레이어 애니메이션")] public Animator anim;
+
+    [Header("플레이어 선택 여부")]
+    [Tooltip("선택 오브젝트")] public GameObject selectObj;
+    [Tooltip("플레이어 체릭바")] public Slider hpSlider;
+
 
     public Vector3 dest;                                        // 유닛 강제 이동, 목적지는 마우스 우클릭 시 업데이트됨
 
@@ -47,11 +57,11 @@ public class PlayerUnitSM : MonoBehaviour
         death
     }
     unitStateList unitState;
-    //[HideInInspector] public bool isForceMove;
-    //[HideInInspector] public bool isAttackMove;
-    //[HideInInspector] public bool isFire;
+    [HideInInspector] public bool isForceMove;
+    [HideInInspector] public bool isAttackMove;
+    [HideInInspector] public bool isFire;
 
-    
+
 
     // 음향효과
     public AudioSource gunFireSound;
@@ -65,6 +75,9 @@ public class PlayerUnitSM : MonoBehaviour
     // 적 정보
     [HideInInspector] public float targetEnemyHealth;
     [HideInInspector] public bool targetEnemyIsDead;
+
+    // 코루틴
+    Coroutine coroutine;
 
     void OnEnable()
     {
@@ -110,16 +123,32 @@ public class PlayerUnitSM : MonoBehaviour
 
     //}
 
-    void UnitStateChange(IState state)
+
+    public void UnitStateChange(IState state)
     {
         if (state != currentState)
         {
             currentState.Exit();
+            StopCoroutine(coroutine);
             state.Enter();
             currentState = state;
+            coroutine = StartCoroutine(StateUpdate(currentState));
         }
     }
-    
+
+    public void UnitSelect(bool select)
+    {
+        if(select)
+        {
+            selectObj.SetActive(true);
+        }
+        else
+        {
+            selectObj.SetActive(false);
+        }
+    }
+
+
 
     public void ForceMove()                                                                     // 강제이동, 플레이어 유닛이 지정된 목적지에 도달하였는지 확인, isMove 값을 변경
     {
@@ -149,12 +178,22 @@ public class PlayerUnitSM : MonoBehaviour
 
     public void Dead()
     {
+
         UnitStateChange(deadState);
     }
 
-    // 적 
+    IEnumerator StateUpdate(IState state)
+    {
+        while(true)
+        {
+            state.Update();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     public void FindEnemy()                                                                         // 적이 존재하는지 확인(idleState 상태에서 지속적으로 확인), isAttack 값을 변경
     {
+
         enemies = Physics.OverlapSphere(transform.position, viewRange, enemyLayerMask);             // 유닛의 현재 위치에서 시야(viewPoint) 내에 적이 존재하는지 확인
 
         Vector3 bufferEnemyPos;                                                                          // 적의 위치를 임시 저장
@@ -168,15 +207,6 @@ public class PlayerUnitSM : MonoBehaviour
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            //Rigidbody targetRigidbody = enemies[i].GetComponent<Rigidbody>();                       // 탐색된 적들의 rigidbody를 가져옴
-
-            //if (!targetRigidbody)                                                                   // 적이 발견되지 않았을 경우 함수를 종료
-            //{
-            //    //Debug.LogFormat("{0} 주변에 적이 발견되지 않음", gameObject.name);
-            //    return;
-            //}
-
-            //Debug.LogFormat("{0}이 {1}을 발견", gameObject.name, enemies[i].gameObject.name);
             bufferEnemyPos = enemies[i].transform.position;                                              // 공격 대상의 위치를 임시저장
 
             if (bufferEnemyDist > Mathf.Abs((bufferEnemyPos - transform.position).magnitude))                    // 현재 위치로부터 가장 가까운 공격 대상을 찾음
@@ -190,6 +220,7 @@ public class PlayerUnitSM : MonoBehaviour
                 bufferEnemyDist = Mathf.Abs((targetEnemy.transform.position - transform.position).magnitude);    // 가까운 적과의 거리를 저장
             }
         }
+            
 
         if (targetEnemy!=null && targetEnemyHealth>0)                                                                            // 적 오브젝트가 null이 아닐 경우(적이 존재할 경우)
         {

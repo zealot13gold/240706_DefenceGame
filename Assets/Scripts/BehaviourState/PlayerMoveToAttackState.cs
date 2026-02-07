@@ -1,19 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerMoveToAttackState : PlayerUnitState
+public class PlayerMoveToAttackState : IState
 {
-
-    public PlayerMoveToAttackState(GameObject unit) : base(unit) { }
-
-    public override void OnStateEnter()
+    PlayerUnitSM sm;
+    PlayerHealth health;
+    NavMeshAgent navMesh;
+    GameObject unit;
+    public PlayerMoveToAttackState(GameObject unit)
     {
-        Debug.LogFormat("{0}은 현재 move to attack 상태, {1}에게 이동", unit.name, sm.targetEnemy.name);
+        sm = unit.GetComponent<PlayerUnitSM>();
+        health = unit.GetComponent<PlayerHealth>();
+        navMesh = unit.GetComponent<NavMeshAgent>();
+        this.unit = unit;
+    }
 
-        //navMesh.isStopped = false;
+    public void Enter()
+    {
+
         sm.navMesh.speed = sm.moveSpeed;
         //navMesh.destination = sm.targetEnemy.transform.position;
 
@@ -21,11 +29,11 @@ public class PlayerMoveToAttackState : PlayerUnitState
         sm.playerUnitVoice.Play();
     }
 
-    public override void OnStateUpdate()
+    public void Update()
     {
         if (health.currentHP <= 0)
         {
-            sm.ChangeState(sm.deadState);
+            sm.UnitStateChange(sm.deadState);
         }
         else {
             sm.FindEnemy();                             // 가까운 적을 찾고, 더 가까운 적이 검색될 경우 타겟을 변경
@@ -35,7 +43,7 @@ public class PlayerMoveToAttackState : PlayerUnitState
 
             if (!sm.targetEnemy.activeSelf)                 // 적이 없으면 idle 상태가 됨
             {
-                sm.ChangeState(sm.idleState);
+                sm.UnitStateChange(sm.idleState);
             }
 
             else if (sm.isAttackMove && !sm.isForceMove)                        // 가까운 곳에 적이 존재하면 isAttackMove는 true가 됨
@@ -45,16 +53,16 @@ public class PlayerMoveToAttackState : PlayerUnitState
             }
             else
             {
-                sm.ChangeState(sm.idleState);           // 적은 감지되나, 위의 조건에 해당하지 않으면 일단 idleState로 이동 
+                sm.UnitStateChange(sm.idleState);           // 적은 감지되나, 위의 조건에 해당하지 않으면 일단 idleState로 이동 
             }
         }
     }
 
-    public override void OnStateExit()
+    public void Exit()
     {
         sm.anim.SetBool("Walk", false);
-        sm.targetEnemy = null;
-        base.OnStateExit();
+        //sm.targetEnemy = null;
+
 
 
         //Debug.LogFormat("{0} Walk 해제", unit.name);

@@ -3,11 +3,21 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class PlayerMoveState : PlayerUnitState
+public class PlayerMoveState : IState
 {
-    public PlayerMoveState(GameObject unit) : base(unit) { }
+    PlayerUnitSM sm;
+    PlayerHealth health;
+    NavMeshAgent navMesh;
+    GameObject unit;
+    public PlayerMoveState(GameObject unit)
+    {
+        sm = unit.GetComponent<PlayerUnitSM>();
+        health = unit.GetComponent<PlayerHealth>();
+        navMesh = unit.GetComponent<NavMeshAgent>();
+        this.unit= unit;
+    }
 
-    public override void OnStateEnter()
+    public void Enter()
     {
         Debug.LogFormat("{0}은 현재 movestate 상태, {1}로 이동", unit.name, sm.dest);
         //navMesh.isStopped = false;
@@ -18,11 +28,11 @@ public class PlayerMoveState : PlayerUnitState
         //navMesh.SetDestination(sm.dest);
     }
 
-    public override void OnStateUpdate()        // UnitSM에서 FixedUpdate()로 프레임마다 실행
+    public void Update()        // UnitSM에서 FixedUpdate()로 프레임마다 실행
     {
         if (health.currentHP <= 0)
         {
-            sm.ChangeState(sm.deadState);
+            sm.UnitStateChange(sm.deadState);
         }
         else
         {
@@ -41,11 +51,11 @@ public class PlayerMoveState : PlayerUnitState
             // 목적지이면 완전히 멈춤
             else
             {
-                sm.ChangeState(sm.idleState);
+                sm.UnitStateChange(sm.idleState);
             }
         }
     }
-    public override void OnStateExit()
+    public void Exit()
     {
         sm.anim.SetBool("Walk", false) ;
         sm.dest = unit.transform.position;

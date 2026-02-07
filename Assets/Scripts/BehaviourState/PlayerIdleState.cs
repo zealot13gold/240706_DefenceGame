@@ -10,22 +10,31 @@ using UnityEngine.AI;
  - 
  */
 
-public class PlayerIdleState:PlayerUnitState
+public class PlayerIdleState:IState
 {
-
-    public PlayerIdleState(GameObject unit) : base(unit) {}
-
-    public override void OnStateEnter()
+    PlayerUnitSM sm;
+    PlayerHealth health;
+    GameObject unit;
+    public PlayerIdleState(GameObject unit) 
     {
-        //navMesh.isStopped = true;               // dest의 초기값은 {0, 0, 0}이므로, 해당 좌표로 이동하지 못하도록 함
-        Debug.LogFormat("{0}은 현재 idle 상태", unit.name);
+        sm = unit.GetComponent<PlayerUnitSM>();
+        health = unit.GetComponent<PlayerHealth>();
+        this.unit = unit;
     }
 
-    public override void OnStateUpdate()
+    public void Enter()
+    {
+        //navMesh.isStopped = true;               // dest의 초기값은 {0, 0, 0}이므로, 해당 좌표로 이동하지 못하도록 함
+
+        sm.Idle();
+
+    }
+
+    public void Update()
     {
         if (health.currentHP <= 0)
         {
-            sm.ChangeState(sm.deadState);
+            sm.UnitStateChange(sm.deadState);
         }
         else
         {
@@ -34,22 +43,22 @@ public class PlayerIdleState:PlayerUnitState
 
             if (sm.isForceMove)                      // 오른쪽 클릭으로 인해 isForceMove 값이 true로 변경되었을 경우
             {
-                sm.ChangeState(sm.moveState);
+                sm.UnitStateChange(sm.moveState);
             }
             else if (/*sm.targetEnemy.activeSelf &&*/ sm.targetEnemy != null)                 // 강제 이동을 하지 않는 상태에서 적이 시야 내에 존재할 경우
             {
                 if (sm.isAttackMove)
                 {
-                    sm.ChangeState(sm.moveToAttackState);
+                    sm.UnitStateChange(sm.moveToAttackState);
                 }
                 else
                 {
-                    sm.ChangeState(sm.attackState);
+                    sm.UnitStateChange(sm.attackState);
                 }
             }
         }
     }
-    public override void OnStateExit()
+    public void Exit()
     {
 
     }

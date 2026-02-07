@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeadState : PlayerUnitState
+public class PlayerDeadState : IState
 {
-    public PlayerDeadState(GameObject unit) : base(unit) { }
+    PlayerUnitSM sm;
+    PlayerHealth health;
+    GameObject unit;
+    public PlayerDeadState(GameObject unit)
+    {
+        sm = unit.GetComponent<PlayerUnitSM>();
+        health = unit.GetComponent<PlayerHealth>();
+        this.unit = unit;
+    }
 
     float delayTime;
 
-    public override void OnStateEnter()
+    public void Enter()
     {
-        base.OnStateEnter();
-
         sm.playerUnitVoice.clip = sm.playerDeadVoice;
         sm.playerUnitVoice.Play();
 
@@ -22,24 +28,20 @@ public class PlayerDeadState : PlayerUnitState
         delayTime = 0;
     }
 
-    public override void OnStateUpdate()
+    public void Update()
     {
-        base.OnStateUpdate();
-
         if (delayTime < 10f)
         {
             delayTime += Time.deltaTime;
         }
-        else
-        {
-            OnStateExit();
-        }
+        //else
+        //{
+        //    OnStateExit();
+        //}
     }
 
-    public override void OnStateExit()
+    public void Exit()
     {
-        base.OnStateExit();
-        //unit.SetActive(false);
         PlayerUnitPooling.Instance.PickUpPlayerUnit(unit);
     }
 }
