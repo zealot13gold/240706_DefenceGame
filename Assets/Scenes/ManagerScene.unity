@@ -387,6 +387,13 @@ MonoBehaviour:
   zombieNum: 100
   barrierPref: {fileID: 0}
   barrierNum: 50
+  bulletEffectPref: {fileID: 0}
+  bulletEffectNum: 0
+  hitEffectPref: {fileID: 0}
+  hitEffectNum: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &980270785
 MonoBehaviour:
   m_ObjectHideFlags: 0

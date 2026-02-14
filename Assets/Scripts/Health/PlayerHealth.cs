@@ -22,8 +22,8 @@ public class PlayerHealth : Health
         playerManager += PlayerManager.instance.CheckUnit;
         playerManager?.Invoke(false);
 
-        shotEffect.Stop();
-        shotEffect.gameObject.SetActive(false);
+        //shotEffect.Stop();
+        //shotEffect.gameObject.SetActive(false);
     }
 
     private void OnDisable()

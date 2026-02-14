@@ -33,12 +33,17 @@ public class StagePrepareState: IState
 
         // 스테이지 번호 1 추가
         StageManager.instance.stageNumber++;
-        StageManager.instance.stageNumTitle.text = "Stage " + StageManager.instance.stageNumber.ToString();
-        Debug.LogFormat("Stage {0} 준비", StageManager.instance.stageNumber);
+        //StageManager.instance.stageNumTitle.text = "Stage " + StageManager.instance.stageNumber.ToString();
+        //Debug.LogFormat("Stage {0} 준비", StageManager.instance.stageNumber);
 
         // 준비 시간 표시
         StageManager.instance.remainTimeMessage.color = Color.white;
         
+    }
+
+    public void Update()
+    {
+
     }
 
     //public override void OnStateUpdate()           // 상태 유지 중

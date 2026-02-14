@@ -37,7 +37,7 @@ public class StageManager : MonoBehaviour
     public IState stagePlay;
     public IState stageResult;
 
-    public IState currentStageState;
+    public IState currentStageState = null;
 
     // 스테이지 관리
     [HideInInspector] public int stageNumber;               // 스테이지 번호
@@ -54,18 +54,26 @@ public class StageManager : MonoBehaviour
     public event Action<stageStepList> stageStepChanged;
 
     // UI
-    public Text stageNumTitle;                          // 스테이지 번호 표시
-    public Text stageTextMessage;                       // 스테이지 시작/종료 시 텍스트
-    public Image displayRemainTime;                     // 남은 시간 표시
-    public Text remainTimeMessage;                      // 남은 시간 텍스트
-    public Text remainPlayerMessage;                    // 남은 플레이어 유닛 표시
-    public Text numOfEnemiesMessage;                    // 남은 적 유닛 표시
-    public Text stageTextUI;                            // 상단에 스테이지 번호 표시
-    public Text cashUI;                                 // 자원 표시
-    public Text scoreUI;                                // 점수 표시
-    public GameObject buttons;                          // 버튼 모음
-    public Image resultBoard;                           // 결과창
+    [Header("스테이지 UI")]
+    [Header("스테이지 시작 시 메시지")]
+    [Tooltip("")] public Text stageNumTitle;                          // 스테이지 번호 표시
+    [Tooltip("")] public Text stageTextMessage;                       // 스테이지 시작/종료 시 텍스트
+    [Header("스테이지 준비 메시지")]
+    [Tooltip("")] public Image displayRemainTime;                     // 남은 시간 표시
+    [Tooltip("")] public Text remainTimeMessage;                      // 남은 시간 텍스트
+    [Header("스테이지 진행 정보")]
+    [Tooltip("남은 플레이어 유닛(상태창)")] public Text remainPlayerMessage;                    // 남은 플레이어 유닛 표시
+    [Tooltip("남은 적 유닛(상태창)")] public Text numOfEnemiesMessage;                    // 남은 적 유닛 표시
+    [Tooltip("스테이지 번호(상단 표시)")] public Text stageTextUI;                            // 상단에 스테이지 번호 표시
+    [Tooltip("소지 자금 표시")] public Text cashUI;                                 // 자원 표시
+    [Tooltip("획득 점수 표시")] public Text scoreUI;                                // 점수 표시
+    [Header("버튼 목록")]
+    [Tooltip("버튼 모음")] public GameObject buttons;                          // 버튼 모음
+    [Header("결과창")]
+    [Tooltip("결과창")] public Image resultBoard;                           // 결과창
+
     
+
 
     //// 플레이어 관리
     //public PlayerManager playerManager;
@@ -119,7 +127,7 @@ public class StageManager : MonoBehaviour
     {
         // 게임 환경 초기화
         score = 0;
-        cash = 0;
+        
         stageNumber = 0;
         stageTextMessage.gameObject.SetActive(false);
 
@@ -153,7 +161,7 @@ public class StageManager : MonoBehaviour
     {
         if (state != currentStageState)
         {
-            currentStageState.Exit();
+            if(currentStageState!=null) currentStageState.Exit();
             state.Enter();
             currentStageState = state;
         }

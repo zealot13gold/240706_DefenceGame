@@ -79,10 +79,10 @@ public class PlayerUnitPooling : MonoBehaviour
         player.GetComponent<BoxCollider>().enabled = true;
         player.transform.SetParent(transform);
 
-        PlayerUnitSM sm = player.GetComponent<PlayerUnitSM>();
-        sm.isForceMove = false;
-        sm.isAttackMove = false;
-        sm.currentState = sm.idleState;
+        //PlayerUnitSM sm = player.GetComponent<PlayerUnitSM>();
+        //sm.isForceMove = false;
+        //sm.isAttackMove = false;
+        //sm.currentState = sm.idleState;
     }
 
     Vector3 PlayerSpawnSite()

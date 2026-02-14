@@ -48,14 +48,14 @@ public class SceneTransitionTimer : MonoBehaviour
         startTime = Time.realtimeSinceStartup; // 실제 시간
     }
 
-    //void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
-    //{
-    //    if (scene.name == "Map_Bridge")
-    //    {
-    //        float elapsed = Time.realtimeSinceStartup - startTime;
-    //        Debug.LogFormat("{0} Scene 전환 시간: {0}초", scene.name, elapsed);
-    //    }
-    //}
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Map_Bridge")
+        {
+            float elapsed = Time.realtimeSinceStartup - startTime;
+            Debug.LogFormat("{0} Scene 전환 시간: {0}초", scene.name, elapsed);
+        }
+    }
 
     void OnSceneLoaded(GameManager.gameStateList state)
     {

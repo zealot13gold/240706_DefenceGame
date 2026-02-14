@@ -12,7 +12,7 @@ public class PlayerUnitSM : MonoBehaviour
     public IState moveToAttackState;
     public IState deadState;
 
-    IState currentState;
+    IState currentState=null;
 
     [HideInInspector] public Collider[] enemies;
     [HideInInspector] public GameObject targetEnemy;
@@ -79,13 +79,14 @@ public class PlayerUnitSM : MonoBehaviour
     // 코루틴
     Coroutine coroutine;
 
-    void OnEnable()
+    void Awake()
     {
         //base.Awake();
 
+        gameObject.SetActive(false);
         // 아래 두줄은 플레이어/적 사망 state 작성 후 사망 state로 이동
         targetEnemy = null;
-        dest = PlayerUnitPooling.Instance.playerUnitSpawnPoint.position;
+        //dest = PlayerUnitPooling.Instance.playerUnitSpawnPoint.position;
 
         idleState = new PlayerIdleState(gameObject);
         moveState = new PlayerMoveState(gameObject);
@@ -93,15 +94,20 @@ public class PlayerUnitSM : MonoBehaviour
         moveToAttackState = new PlayerMoveToAttackState(gameObject);
         deadState = new PlayerDeadState(gameObject);
 
-        Init();
+        
         //unitRigidbody = GetComponent<Rigidbody>();
     }
 
-   void Init()
+    private void OnEnable()
     {
-        //isForceMove = false;
-        //isAttackMove = false;
-        //isFire = false;
+        Init();
+    }
+
+    void Init()
+    {
+        isForceMove = false;
+        isAttackMove = false;
+        isFire = false;
 
         unitState = unitStateList.idle;
         UnitStateChange(idleState);
@@ -128,7 +134,7 @@ public class PlayerUnitSM : MonoBehaviour
     {
         if (state != currentState)
         {
-            currentState.Exit();
+            if(currentState!=null) currentState.Exit();
             StopCoroutine(coroutine);
             state.Enter();
             currentState = state;
@@ -147,8 +153,6 @@ public class PlayerUnitSM : MonoBehaviour
             selectObj.SetActive(false);
         }
     }
-
-
 
     public void ForceMove()                                                                     // 강제이동, 플레이어 유닛이 지정된 목적지에 도달하였는지 확인, isMove 값을 변경
     {

@@ -18,16 +18,16 @@ public class Marine : PlayerUnit
         base.Start();
     }
 
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
+    //protected override void FixedUpdate()
+    //{
+    //    base.FixedUpdate();
 
-        Debug.LogFormat("{0} 애니메이션 실행", gameObject.name);
-        if (sm.currentState == sm.moveState)
-        {
-            marineAnim.SetTrigger("Walk");
-            Debug.LogFormat("{0} {1} 애니메이션 발동", gameObject.name, sm.currentState);
-        }
-    }
+    //    Debug.LogFormat("{0} 애니메이션 실행", gameObject.name);
+    //    if (sm.currentState == sm.moveState)
+    //    {
+    //        marineAnim.SetTrigger("Walk");
+    //        Debug.LogFormat("{0} {1} 애니메이션 발동", gameObject.name, sm.currentState);
+    //    }
+    //}
 
 }

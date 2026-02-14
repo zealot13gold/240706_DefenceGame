@@ -6520,7 +6520,7 @@ Transform:
   m_GameObject: {fileID: 867226545}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.07, z: -50}
+  m_LocalPosition: {x: -4, y: 4, z: -65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6559,6 +6559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPlayerUnit: 0
+  playerUnitList: []
 --- !u!1 &870604463
 GameObject:
   m_ObjectHideFlags: 0
@@ -7748,6 +7749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cashUI: {fileID: 1182295691}
   costUI: {fileID: 1535022707}
+  unitTrans: {fileID: 867226546}
   costText: {fileID: 1740351970}
 --- !u!114 &1072081821
 MonoBehaviour:
@@ -10265,7 +10267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miniMap: {fileID: 1361626637}
-  center: {fileID: 0}
+  center: {fileID: 1910588674}
 --- !u!1001 &1364173466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12676,6 +12678,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1777050103}
+  - component: {fileID: 1777050104}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -12698,6 +12701,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1777050104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777050102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487e4f72bb72dbf468ab925ecbaaf9cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageNumber: 0
+  prepareTime: 60
+  stageStep: 0
+  stageNumTitle: {fileID: 0}
+  stageTextMessage: {fileID: 687709506}
+  displayRemainTime: {fileID: 1187196023}
+  remainTimeMessage: {fileID: 947150078}
+  remainPlayerMessage: {fileID: 1163157916}
+  numOfEnemiesMessage: {fileID: 540394400}
+  stageTextUI: {fileID: 535060238}
+  cashUI: {fileID: 2058934420}
+  scoreUI: {fileID: 161334865}
+  buttons: {fileID: 1155381207}
+  resultBoard: {fileID: 1088806358}
+  score: 0
+  cash: 400
+  scoreInStage: 0
+  cashInStage: 0
+  soliderCost: 100
+  barrierCost: 50
+  invadedEnemyUnitInStage: 0
+  producedPlayerUnitInStage: 0
+  killedPlayerUnitInStage: 0
+  killedEnemyUnitInStage: 0
 --- !u!1001 &1791754286
 PrefabInstance:
   m_ObjectHideFlags: 0

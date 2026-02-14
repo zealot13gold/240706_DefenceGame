@@ -26,7 +26,8 @@ public class PlayerIdleState:IState
     {
         //navMesh.isStopped = true;               // dest의 초기값은 {0, 0, 0}이므로, 해당 좌표로 이동하지 못하도록 함
 
-        sm.Idle();
+        sm.dest = unit.transform.position;
+        
 
     }
 

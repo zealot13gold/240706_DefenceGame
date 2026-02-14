@@ -51,7 +51,10 @@ public class StageResultState : IState
     //        }
     //    }
     //}
+    public void Update()
+    {
 
+    }
     public void Exit()             // 게임 종료
     {
 

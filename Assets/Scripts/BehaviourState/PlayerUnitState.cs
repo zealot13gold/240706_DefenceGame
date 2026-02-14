@@ -42,7 +42,7 @@ public class PlayerUnitState : BaseState
     // Update is called once per frame
     public override void OnStateExit()             // 상태 종료
     {
-        Debug.LogFormat("{0} : {1} 상태 종료", unit.name, sm.currentState);
-        unitRigid = null;
+        //Debug.LogFormat("{0} : {1} 상태 종료", unit.name, sm.currentState);
+        //unitRigid = null;
     }
 }

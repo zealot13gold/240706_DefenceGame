@@ -10,25 +10,34 @@ public class ObjectPool
     public ObjectPool(GameObject obj)
     {
         pref = obj;
+        objectPool = new Queue<GameObject>();
+        Debug.LogFormat("{0} 오브젝트 풀 생성", pref.name);
     }
 
     public void CreateObject()
     {
-        GameObject obj = GameObject.Instantiate(pref);
+        Debug.LogFormat("{0} 오브젝트 생성 시작", pref.name);
+        GameObject obj = GameObject.Instantiate(pref, Vector3.zero, Quaternion.Euler(0, 0, 0));
         obj.SetActive(false);
         objectPool.Enqueue(obj);
+        obj.transform.parent = PoolManager.instance.gameObject.transform;
+
+        Debug.LogFormat("ObjectPool: {0} 생성 완료, 현재 큐 내부의 {0} 갯수: {1}", obj.name, objectPool.Count);
     }
 
     public GameObject SetObject(Vector3 pos, Quaternion rot)
     {
         if (objectPool.Count <= 0) CreateObject();
-        
+
         GameObject obj = objectPool.Dequeue();
+        obj.transform.position = pos;
+        obj.transform.rotation = rot;
+
         obj.SetActive(true);
         usingObj.Add(obj);
 
-        obj.transform.position = pos;
-        obj.transform.rotation = rot;
+
+        Debug.LogFormat("ObjectPool: {0} 필드에 생성, 현재 큐 내부의 {0} 갯수: {1}", obj.name, objectPool.Count);
 
         return obj;
     }

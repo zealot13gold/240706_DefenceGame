@@ -14,10 +14,12 @@ public class PoolManager : MonoBehaviour
     [Header("플레이어 유닛")]
     [Tooltip("소총병(Assault) 프리팹")] public GameObject assualtPref;
     [Tooltip("소총병(Assault) 제작 갯수")] public int assaultNum;
+    //[Tooltip("소총병(Assault) 생성 위치")] public Transform assaultTrans;
 
     [Header("적 유닛")]
     [Tooltip("좀비 프리팹")] public GameObject zombiePref;
     [Tooltip("좀비 제작 갯수")] public int zombieNum;
+    //[Tooltip("좀비 생성 위치")] public Transform zombieTrans;
 
     [Header("설치 오브젝트")]
     [Tooltip("장애물 프리팹")] public GameObject barrierPref;
@@ -28,6 +30,8 @@ public class PoolManager : MonoBehaviour
     [Tooltip("실탄 이펙트 제작 갯수")] public int bulletEffectNum;
     [Tooltip("타격 이펙트 프리팹")] public GameObject hitEffectPref;
     [Tooltip("타격 이펙트 제작 갯수")] public int hitEffectNum;
+
+    public LayerMask groundLayer;
 
     // 현재 게임 씬 저장
     GameManager.gameStateList currentScene;
@@ -56,7 +60,7 @@ public class PoolManager : MonoBehaviour
         zombiePool = new ObjectPool(zombiePref);
 
         // 구조물 풀
-        barrierPool = new ObjectPool(barrierPref);
+        //barrierPool = new ObjectPool(barrierPref);
     }
 
     void PoolState(GameManager.gameStateList scene)
@@ -80,11 +84,25 @@ public class PoolManager : MonoBehaviour
     }
 
     // 요청 시 해당 위치에 오브젝트 배치
-    public void SpawnObject(string name, Vector3 pos, Quaternion rot)
+    public void SpawnObject(string name, Vector3 origin, Quaternion rot)
     {
-        if (name == "AssaultMan") assaultPool.SetObject(pos, rot);
-        else if (name == "Zombie") zombiePool.SetObject(pos, rot);
-        else if (name == "Barrier") barrierPool.SetObject(pos, rot);
+        
+        if (name == "AssaultMan")
+        {
+            Vector3 pos = UnitSpawnPosition(origin);
+            assaultPool.SetObject(pos, rot);
+            Debug.LogFormat("PoolManager: {0} 필드에 생성", name);
+        }
+        else if (name == "Zombie")
+        {
+            //Vector3 pos = UnitSpawnPosition(zombieTrans);
+            //Quaternion rot = assaultTrans.rotation;
+            //zombiePool.SetObject(pos, rot);
+        }
+        else if (name == "Barrier")
+        {
+            //barrierPool.SetObject(pos, rot);
+        }
 
     }
 
@@ -93,7 +111,7 @@ public class PoolManager : MonoBehaviour
         // 모든 풀에서 오브젝트 생성
         for (int i = 0; i < assaultNum; i++) assaultPool.CreateObject();
         for (int i = 0; i < zombieNum; i++) zombiePool.CreateObject();
-        for (int i = 0; i < barrierNum; i++) barrierPool.CreateObject();
+        //for (int i = 0; i < barrierNum; i++) barrierPool.CreateObject();
     }
 
     void ClearPool()
@@ -113,5 +131,42 @@ public class PoolManager : MonoBehaviour
         }
         GameManager.instance.gameStateChanged += PoolState;
         //Debug.LogFormat("SceneLoader: GameManager에 SceneLoader 연결");
+    }
+
+    public Vector3 UnitSpawnPosition(Vector3 origin)
+    {
+        Vector3 pos=origin;
+        int row = 0;
+        int col = 0;
+
+        while(true)
+        {
+            Debug.LogFormat("PoolManager: 오브젝트 배치 선정");
+            if (!Physics.Raycast(pos, Vector3.down, Mathf.Infinity, groundLayer))
+            {
+                if (row < 5)
+                {
+                    pos.x+=2;
+                    row++;
+                }
+                else if(col < 5)
+                {
+                    pos.x = origin.x;
+                    pos.z -= 2;
+                    row = 0;
+                    col++;
+                }
+                else
+                {
+                    Debug.LogFormat("PoolManager: 오브젝트 배치 불가");
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        Debug.LogFormat("PoolManager: {0} 위치에 오브젝트 생성", pos);
+        return pos;
     }
 }
