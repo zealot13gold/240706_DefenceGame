@@ -12,7 +12,7 @@ public class PlayerUnitSM : MonoBehaviour
     public IState moveToAttackState;
     public IState deadState;
 
-    IState currentState=null;
+    IState currentState = null;
 
     [HideInInspector] public Collider[] enemies;
     [HideInInspector] public GameObject targetEnemy;
@@ -110,6 +110,7 @@ public class PlayerUnitSM : MonoBehaviour
         isFire = false;
 
         unitState = unitStateList.idle;
+        currentState = idleState;
         UnitStateChange(idleState);
     }
 
@@ -132,10 +133,14 @@ public class PlayerUnitSM : MonoBehaviour
 
     public void UnitStateChange(IState state)
     {
+        Debug.LogFormat("PlayerSM: {0} 현재 상태: {1}", gameObject.name, currentState);
         if (state != currentState)
         {
-            if(currentState!=null) currentState.Exit();
-            StopCoroutine(coroutine);
+            if (currentState != null)
+            {
+                currentState.Exit();
+                StopCoroutine(coroutine);
+            }
             state.Enter();
             currentState = state;
             coroutine = StartCoroutine(StateUpdate(currentState));

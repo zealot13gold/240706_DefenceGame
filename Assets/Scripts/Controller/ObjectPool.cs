@@ -11,6 +11,7 @@ public class ObjectPool
     {
         pref = obj;
         objectPool = new Queue<GameObject>();
+        usingObj = new HashSet<GameObject>();
         Debug.LogFormat("{0} 오브젝트 풀 생성", pref.name);
     }
 
@@ -27,9 +28,11 @@ public class ObjectPool
 
     public GameObject SetObject(Vector3 pos, Quaternion rot)
     {
+        Debug.LogFormat("ObjectPool: {0} 위치에 오브젝트 출현", pos);
         if (objectPool.Count <= 0) CreateObject();
 
         GameObject obj = objectPool.Dequeue();
+        obj.transform.parent = null;
         obj.transform.position = pos;
         obj.transform.rotation = rot;
 
@@ -45,6 +48,7 @@ public class ObjectPool
     public void ReturnObject(GameObject obj)
     {
         obj.SetActive(false);
+        obj.transform.parent = PoolManager.instance.gameObject.transform;
         objectPool.Enqueue(obj);
         usingObj.Remove(obj);
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PoolManager : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class PoolManager : MonoBehaviour
     [Tooltip("타격 이펙트 프리팹")] public GameObject hitEffectPref;
     [Tooltip("타격 이펙트 제작 갯수")] public int hitEffectNum;
 
-    public LayerMask groundLayer;
+    //public LayerMask groundLayer;
 
     // 현재 게임 씬 저장
     GameManager.gameStateList currentScene;
@@ -84,14 +85,21 @@ public class PoolManager : MonoBehaviour
     }
 
     // 요청 시 해당 위치에 오브젝트 배치
-    public void SpawnObject(string name, Vector3 origin, Quaternion rot)
+    public bool SpawnObject(string name, Vector3 origin, Quaternion rot)
     {
-        
+        bool setObj = false;
+
         if (name == "AssaultMan")
         {
             Vector3 pos = UnitSpawnPosition(origin);
-            assaultPool.SetObject(pos, rot);
-            Debug.LogFormat("PoolManager: {0} 필드에 생성", name);
+            {
+                if (pos != Vector3.zero)
+                {
+                    setObj = true;
+                    assaultPool.SetObject(pos, rot);
+                    Debug.LogFormat("PoolManager: {0} 위치에 {1} 생성, 회전값: {2}", pos, name, rot);
+                }
+            }
         }
         else if (name == "Zombie")
         {
@@ -103,7 +111,7 @@ public class PoolManager : MonoBehaviour
         {
             //barrierPool.SetObject(pos, rot);
         }
-
+        return setObj;
     }
 
     void SetPool()
@@ -133,40 +141,53 @@ public class PoolManager : MonoBehaviour
         //Debug.LogFormat("SceneLoader: GameManager에 SceneLoader 연결");
     }
 
+
     public Vector3 UnitSpawnPosition(Vector3 origin)
     {
         Vector3 pos=origin;
         int row = 0;
         int col = 0;
 
-        while(true)
+        RaycastHit hit;
+        while (true)
         {
-            Debug.LogFormat("PoolManager: 오브젝트 배치 선정");
-            if (!Physics.Raycast(pos, Vector3.down, Mathf.Infinity, groundLayer))
+            Debug.LogFormat("PoolManager: {0} 위에서 오브젝트 배치 시도", pos);
+            //Debug.DrawRay(pos, Vector3.down*10f, Color.red, 10f);
+            if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity))
             {
-                if (row < 5)
+                Debug.LogFormat("PoolManager: 충돌 레이어: {0}", hit.collider.gameObject.layer);
+                if (hit.collider.gameObject.layer == 8)
                 {
-                    pos.x+=2;
-                    row++;
-                }
-                else if(col < 5)
-                {
-                    pos.x = origin.x;
-                    pos.z -= 2;
-                    row = 0;
-                    col++;
+                    pos = hit.point;
+                    Debug.LogFormat("PoolManager: {0} 위치에 오브젝트 생성", pos);
+                    break;
                 }
                 else
                 {
-                    Debug.LogFormat("PoolManager: 오브젝트 배치 불가");
+                    Debug.LogFormat("PoolManager: 오브젝트 배치 조정");
+                    if (row < 10)
+                    {
+                        pos.x ++;
+                        row++;
+                    }
+                    else if (col < 5)
+                    {
+                        pos.x = origin.x;
+                        pos.z --;
+                        row = 0;
+                        col++;
+                    }
+                    else
+                    {
+                        Debug.LogFormat("PoolManager: 오브젝트 배치 불가");
+                        pos = Vector3.zero;
+                        break;
+                    }
                 }
             }
-            else
-            {
-                break;
-            }
+            
         }
-        Debug.LogFormat("PoolManager: {0} 위치에 오브젝트 생성", pos);
+        
         return pos;
     }
 }
