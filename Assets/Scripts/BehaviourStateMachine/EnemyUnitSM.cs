@@ -16,8 +16,8 @@ public class EnemyUnitSM : MonoBehaviour
     IState currentState = null;
 
     // Àû Á¤º¸
-    [HideInInspector] public Collider[] players;
-    [HideInInspector] public GameObject targetPlayer;
+   /* [HideInInspector]*/ public Collider[] players;
+   /* [HideInInspector]*/ public GameObject targetPlayer;
     //[HideInInspector] public float targetPlayerHealth;
     //[HideInInspector] public bool targetPlayerIsDead;
 

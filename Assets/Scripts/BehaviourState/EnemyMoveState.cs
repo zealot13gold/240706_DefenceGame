@@ -37,7 +37,7 @@ public class EnemyMoveState : IState
             sm.UnitStateChange(sm.deadState);
         }
 
-        sm.targetPlayer = FindEnemy();                           // isAttackMove 값을 확인함으로써 적이 존재하는지 확인
+        sm.targetPlayer = FindPlayer();                           // isAttackMove 값을 확인함으로써 적이 존재하는지 확인
 
         if (sm.targetPlayer != null)                 // 강제 이동을 하지 않는 상태에서 적이 시야 내에 존재할 경우
         {
@@ -62,33 +62,33 @@ public class EnemyMoveState : IState
         //sm.anim.SetBool("Attack", false);
     }
 
-    GameObject FindEnemy()
+    GameObject FindPlayer()
     {
-        Debug.LogFormat("EnemyUnitSM: 플레이어 유닛 검색");
-        Collider[] players = Physics.OverlapSphere(unit.transform.position, sm.viewRange, sm.playerLayerMask);             // 유닛의 현재 위치에서 시야(viewPoint) 내에 적이 존재하는지 확인
+        Debug.LogFormat("EnemyMoveState: 플레이어 유닛 검색");
+        sm.players = Physics.OverlapSphere(unit.transform.position, sm.viewRange, sm.playerLayerMask);             // 유닛의 현재 위치에서 시야(viewPoint) 내에 플레이어가 존재하는지 확인
 
         GameObject targetPlayer = null;
-        Vector3 bufferPlayerPos;                                                                          // 적의 위치를 임시 저장
-        float bufferEnemyDist = 10000f;                                                                  // 플레이어 유닛과 적 사이의 거리를 임시 저장
+        Vector3 bufferPlayerPos;                                                                          // 플레이어의 위치를 임시 저장
+        float bufferPlayerDist = 10000f;                                                                  // 플레이어 유닛과 적 사이의 거리를 임시 저장
 
-        if (players.Length <= 0) return null;
+        if (sm.players.Length <= 0) return null;
 
-        for (int i = 0; i < players.Length; i++)
+        for (int i = 0; i < sm.players.Length; i++)
         {
-            Debug.LogFormat("EnemyUnitSM: {0}이 {1}을 발견", unit.name, players[i].gameObject.name);
-            bufferPlayerPos = players[i].transform.position;                                              // 공격 대상의 위치를 임시저장
+            Debug.LogFormat("EnemyMoveState: {0}이 {1}을 발견", unit.name, sm.players[i].gameObject.name);
+            bufferPlayerPos = sm.players[i].transform.position;                                              // 공격 대상의 위치를 임시저장
 
-            if (bufferEnemyDist > Mathf.Abs((bufferPlayerPos - unit.transform.position).magnitude))                    // 현재 위치로부터 가장 가까운 공격 대상을 찾음
+            if (bufferPlayerDist > Mathf.Abs((bufferPlayerPos - unit.transform.position).magnitude))                    // 현재 위치로부터 가장 가까운 공격 대상을 찾음
             {
-                targetPlayer = players[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
+                targetPlayer = sm.players[i].gameObject;                                                    // 가까운 적의 오브젝트를 저장
 
-                Debug.LogFormat("EnemyUnitSM: {0}의 타겟은 {1}", unit.name, targetPlayer.name);
+                Debug.LogFormat("EnemyMoveState: {0}의 타겟은 {1}", unit.name, targetPlayer.name);
                 float targetPlayerHP = targetPlayer.GetComponent<PlayerHealth>().currentHP;                                      // 타겟 정보 설정
                 //targetPlayerIsDead = targetPlayer.GetComponent<PlayerHealth>().isDead;
 
                 if (targetPlayerHP<=0) continue;
 
-                bufferEnemyDist = Mathf.Abs((targetPlayer.transform.position - unit.transform.position).magnitude);    // 가까운 적과의 거리를 저장
+                bufferPlayerDist = Mathf.Abs((targetPlayer.transform.position - unit.transform.position).magnitude);    // 가까운 플레이어와의 거리를 저장
             }
         }
 
