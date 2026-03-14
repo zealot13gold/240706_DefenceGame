@@ -8,12 +8,12 @@ public class Health : MonoBehaviour
 {
 
     public float maxHP;
-    [HideInInspector] public float currentHP;
-    [HideInInspector] public bool isDead;
+    public float currentHP;
+    public bool isDead;
 
     protected virtual void OnEnable()
     {
-        currentHP = maxHP;
+        //currentHP = maxHP;
         isDead = false;
 
         Debug.LogFormat("{0} 초기 체력: {1}", gameObject, currentHP);
@@ -38,7 +38,7 @@ public class Health : MonoBehaviour
     public virtual void CalculateHP(float damage)                                   // 데미지 계산
     {
         currentHP -= damage;                                                // 현재 체력에 적의 공격력을 뺀 값
-        //Debug.LogFormat("{0}이 공격받고 있음, 체력: {1}/{2}", gameObject.name, currentHP, maxHP);
+        Debug.LogFormat("Health: {0}이 공격받고 있음, 체력: {1}/{2}", gameObject.name, currentHP, maxHP);
 
         if (currentHP <= 0)
         {

@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDeadState : EnemyUnitState
+public class EnemyDeadState : IState
 {
-    public EnemyDeadState(GameObject unit) : base(unit) { }
+    EnemyUnitSM sm;
+    EnemyHealth health;
+    GameObject unit;
+    public EnemyDeadState(GameObject unit)  
+    {
+        sm = unit.GetComponent<EnemyUnitSM>();
+        health = unit.GetComponent<EnemyHealth>();
+        this.unit = unit;
+    }
+
     float delayTime=10f;
     float time;
 
     // Start is called before the first frame update
-    public override void OnStateEnter()
+    public  void Enter()
     {
-        sm.enemyAudioSource.clip = sm.enemyDeadVoice;
-        sm.enemyAudioSource.Play();
+        //sm.enemyAudioSource.clip = sm.enemyDeadVoice;
+        //sm.enemyAudioSource.Play();
 
         sm.anim.SetBool("Death", true);
 
@@ -22,7 +31,7 @@ public class EnemyDeadState : EnemyUnitState
     }
 
     // Update is called once per frame
-    public override void OnStateUpdate()
+    public void Update()
     {
         if(time< delayTime)
         {
@@ -30,14 +39,14 @@ public class EnemyDeadState : EnemyUnitState
         }
         else
         {
-            OnStateExit();
+            Exit();
         }
     }
 
-    public override void OnStateExit()
+    public void Exit()
     {
-        base.OnStateExit();
+        //base.OnStateExit();
         //unit.SetActive(false);
-        EnemyUnitPooling.Instance.PickUpEnemy(unit);
+        //PoolManager.instance.PickUpEnemy(unit);
     }
 }

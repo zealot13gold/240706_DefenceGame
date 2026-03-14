@@ -37,12 +37,13 @@ public class GetSoliderButton : MonoBehaviour
             //Debug.LogFormat("Solider 구입, 남은 자금: {1}", gm.money - gm.soliderCost);
             //StageManager.instance.playerManager.CreatePlayerUnit();
             Debug.LogFormat("GetSolliderButton: 버튼 클릭");
-            if (PoolManager.instance.SpawnObject("AssaultMan", pos, rot))
-            {
+            //if (PoolManager.instance.SpawnObject("AssaultMan", pos, rot))
+            //{
+                PoolManager.instance.SpawnObject("AssaultMan", pos, rot);
                 StageManager.instance.cash -= StageManager.instance.soliderCost;
-                StageManager.instance.producedPlayerUnitInStage++;                           // 현재 스테이지에서 생산된 플레이어 유닛 수 1 증가
+                //StageManager.instance.producedPlayerUnitInStage++;                           // 현재 스테이지에서 생산된 플레이어 유닛 수 1 증가
                 Debug.LogFormat("GetSolliderButton: 생산된 플레이어 유닛 수: {0}", StageManager.instance.producedPlayerUnitInStage);
-            }
+            //}
         }
         else
         {

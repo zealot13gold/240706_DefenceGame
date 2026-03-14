@@ -94,6 +94,9 @@ public class StageManager : MonoBehaviour
     // 현재 스테이지에서 등장하는 적의 수 -> 해당 수 만큼 풀에서 생산
     public int invadedEnemyUnitInStage;
 
+    // 적의 최종 목적지
+    public Transform enemyDest;
+
     // 스테이지에서 생산/제거된 플레이어, 적 유닛 수
     public int producedPlayerUnitInStage;
     public int killedPlayerUnitInStage;
@@ -244,10 +247,14 @@ public class StageManager : MonoBehaviour
 
     IEnumerator ProduceEnemies()
     {
-        for(int i=0; i<invadedEnemyUnitInStage; i++)
+        Vector3 pos = EnemyManager.instance.transform.position;
+        Quaternion rot = EnemyManager.instance.transform.rotation;
+
+        for (int i=0; i<invadedEnemyUnitInStage; i++)
         {
             // 오브젝트 풀로부터 적 유닛 생산
-
+            PoolManager.instance.SpawnObject("Zombie", pos, rot);
+            Debug.LogFormat("StageManager: 적 유닛 {0}기 생산", i+1);
             yield return new WaitForSeconds(0.1f);
         }
     }

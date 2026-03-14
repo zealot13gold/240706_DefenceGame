@@ -18,10 +18,8 @@ public class ObjectPool
     public void CreateObject()
     {
         Debug.LogFormat("{0} 오브젝트 생성 시작", pref.name);
-        GameObject obj = GameObject.Instantiate(pref, Vector3.zero, Quaternion.Euler(0, 0, 0));
-        obj.SetActive(false);
-        objectPool.Enqueue(obj);
-        obj.transform.parent = PoolManager.instance.gameObject.transform;
+        GameObject obj = GameObject.Instantiate(pref);
+        Init(obj);
 
         Debug.LogFormat("ObjectPool: {0} 생성 완료, 현재 큐 내부의 {0} 갯수: {1}", obj.name, objectPool.Count);
     }
@@ -32,14 +30,15 @@ public class ObjectPool
         if (objectPool.Count <= 0) CreateObject();
 
         GameObject obj = objectPool.Dequeue();
+
         obj.transform.parent = null;
+        obj.SetActive(true);
         obj.transform.position = pos;
         obj.transform.rotation = rot;
 
-        obj.SetActive(true);
         usingObj.Add(obj);
 
-
+        Debug.LogFormat("ObjectPool: {0} 필드에 생성, {0} 상태: {1}", obj.name, obj.activeSelf);
         Debug.LogFormat("ObjectPool: {0} 필드에 생성, 현재 큐 내부의 {0} 갯수: {1}", obj.name, objectPool.Count);
 
         return obj;
@@ -47,10 +46,18 @@ public class ObjectPool
 
     public void ReturnObject(GameObject obj)
     {
-        obj.SetActive(false);
-        obj.transform.parent = PoolManager.instance.gameObject.transform;
-        objectPool.Enqueue(obj);
+        Init(obj);
         usingObj.Remove(obj);
+    }
+
+    void Init(GameObject obj)
+    {
+        obj.SetActive(false);
+        Health objHealth = obj.GetComponent<Health>();
+        objHealth.currentHP = objHealth.maxHP;
+        objectPool.Enqueue(obj);
+        obj.name = pref.name;
+        obj.transform.parent = PoolManager.instance.gameObject.transform;
     }
 
     public void ReturnAll()

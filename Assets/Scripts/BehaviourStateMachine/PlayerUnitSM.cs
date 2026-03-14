@@ -61,16 +61,14 @@ public class PlayerUnitSM : MonoBehaviour
     [HideInInspector] public bool isAttackMove;
     [HideInInspector] public bool isFire;
 
-
-
     // 음향효과
-    public AudioSource gunFireSound;
-    public AudioSource playerUnitVoice;
-    public AudioClip playerSelectedVoice;
-    public AudioClip playerForcedMoveVoice;
-    public AudioClip playerDiscoverEnemyVoice;
-    public AudioClip playerAttackVoice;
-    public AudioClip playerDeadVoice;
+    //public AudioSource gunFireSound;
+    //public AudioSource playerUnitVoice;
+    //public AudioClip playerSelectedVoice;
+    //public AudioClip playerForcedMoveVoice;
+    //public AudioClip playerDiscoverEnemyVoice;
+    //public AudioClip playerAttackVoice;
+    //public AudioClip playerDeadVoice;
 
     // 적 정보
     [HideInInspector] public float targetEnemyHealth;
@@ -81,9 +79,6 @@ public class PlayerUnitSM : MonoBehaviour
 
     void Awake()
     {
-        //base.Awake();
-
-        gameObject.SetActive(false);
         // 아래 두줄은 플레이어/적 사망 state 작성 후 사망 state로 이동
         targetEnemy = null;
         //dest = PlayerUnitPooling.Instance.playerUnitSpawnPoint.position;
@@ -93,14 +88,17 @@ public class PlayerUnitSM : MonoBehaviour
         attackState = new PlayerAttackState(gameObject);
         moveToAttackState = new PlayerMoveToAttackState(gameObject);
         deadState = new PlayerDeadState(gameObject);
-
-        
-        //unitRigidbody = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
     {
+        Debug.LogFormat("PlayerUnitSM: {0} 활성화", gameObject.name);
         Init();
+    }
+
+    void OnDisable()
+    {
+        Debug.LogFormat("PlayerUnitSM: {0} 비활성화", gameObject.name);
     }
 
     void Init()
@@ -110,26 +108,9 @@ public class PlayerUnitSM : MonoBehaviour
         isFire = false;
 
         unitState = unitStateList.idle;
-        currentState = idleState;
+        currentState = null;
         UnitStateChange(idleState);
     }
-
-    //void OnEnable()
-    //{
-    //    //isForceMove = false;
-    //    //isAttackMove = false;
-    //    //isFire = false;
-
-    //    UnitStateChange(idleState);
-    //}
-
-    // Update is called once per frame
-    //protected override void FixedUpdate()
-    //{
-    //    currentState.OnStateUpdate();
-
-    //}
-
 
     public void UnitStateChange(IState state)
     {
@@ -139,7 +120,7 @@ public class PlayerUnitSM : MonoBehaviour
             if (currentState != null)
             {
                 currentState.Exit();
-                StopCoroutine(coroutine);
+                if (coroutine != null) StopCoroutine(coroutine);
             }
             state.Enter();
             currentState = state;
@@ -167,10 +148,6 @@ public class PlayerUnitSM : MonoBehaviour
         {
             UnitStateChange(idleState);
         }
-        //else
-        //{
-        //    isForceMove = false;
-        //}
     }
 
     void AttackMove()
@@ -179,10 +156,6 @@ public class PlayerUnitSM : MonoBehaviour
         {
             UnitStateChange(attackState);                                                            // 플레이어 유닛이 공격을 위해 이동
         }
-        //else
-        //{
-        //    isAttackMove = false;                                                           // 적이 사정거리 안에 위치하면 더 이상 이동하지 않음
-        //}
     }
 
     public void Dead()
@@ -207,12 +180,6 @@ public class PlayerUnitSM : MonoBehaviour
 
         Vector3 bufferEnemyPos;                                                                          // 적의 위치를 임시 저장
         float bufferEnemyDist = 10000f;                                                                  // 플레이어 유닛과 적 사이의 거리를 임시 저장
-
-        //if (enemies.Length <= 0)
-        //{
-        //    //Debug.LogFormat("{0} 주변에 적이 발견되지 않음", gameObject.name);
-        //    return;
-        //}
 
         for (int i = 0; i < enemies.Length; i++)
         {

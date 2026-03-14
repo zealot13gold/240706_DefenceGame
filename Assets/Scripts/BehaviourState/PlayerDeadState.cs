@@ -18,8 +18,9 @@ public class PlayerDeadState : IState
 
     public void Enter()
     {
-        sm.playerUnitVoice.clip = sm.playerDeadVoice;
-        sm.playerUnitVoice.Play();
+        //sm.playerUnitVoice.clip = sm.playerDeadVoice;
+        //sm.playerUnitVoice.Play();
+        Debug.LogFormat("PlayerDeadState: {0} 사망", unit.name);
 
         sm.anim.SetBool("Dead", true);
 
@@ -30,10 +31,10 @@ public class PlayerDeadState : IState
 
     public void Update()
     {
-        if (delayTime < 10f)
-        {
-            delayTime += Time.deltaTime;
-        }
+        //if (delayTime < 10f)
+        //{
+        //    delayTime += Time.deltaTime;
+        //}
         //else
         //{
         //    OnStateExit();
@@ -42,6 +43,6 @@ public class PlayerDeadState : IState
 
     public void Exit()
     {
-        PlayerUnitPooling.Instance.PickUpPlayerUnit(unit);
+        PoolManager.instance.assaultPool.ReturnObject(unit);
     }
 }

@@ -55,14 +55,14 @@ public class PlayerUnitStatusUI : MonoBehaviour
     void Update()
     {
 
-        Debug.LogFormat("현재 선택된 유닛 목록의 유닛 수: {0}", PlayerController.Instance.chosenObject.Count);
-        if(PlayerController.Instance.chosenObject.Count == 1)
+        Debug.LogFormat("현재 선택된 유닛 목록의 유닛 수: {0}", UIController.instance.chosenObject.Count);
+        if(UIController.instance.chosenObject.Count == 1)
         {
             DisplaySingleUnitUI();
         }
-        else if(PlayerController.Instance.chosenObject.Count >=2)
+        else if(UIController.instance.chosenObject.Count >=2)
         {
-            DisplayUnitGroupUI(PlayerController.Instance.chosenObject.Count);
+            DisplayUnitGroupUI(UIController.instance.chosenObject.Count);
         }
         else 
         {
@@ -76,7 +76,7 @@ public class PlayerUnitStatusUI : MonoBehaviour
         SingleUnitUI.SetActive(true);
         UnitGroupUI.SetActive(false);
 
-        chosenUnit = PlayerController.Instance.chosenObject[0];                                  // 선택된 유닛이 하나 -> 리스트의 첫 번째 유닛
+        chosenUnit = UIController.instance.chosenObject[0];                                  // 선택된 유닛이 하나 -> 리스트의 첫 번째 유닛
         //Debug.LogFormat("{0} 단독 선택", chosenUnit.name);
 
         chosenUnitHP =chosenUnit. GetComponent<PlayerHealth>();
@@ -106,7 +106,7 @@ public class PlayerUnitStatusUI : MonoBehaviour
 
             for (int i = 0; i < unitNum; i++)
             {
-                if (PlayerController.Instance.chosenObject[i].name==unitName)
+                if (UIController.instance.chosenObject[i].name==unitName)
                 {
                     numOfUnits++;
                 }

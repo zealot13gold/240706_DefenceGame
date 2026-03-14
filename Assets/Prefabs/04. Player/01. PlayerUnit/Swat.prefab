@@ -404,7 +404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &456903524235339005
 Transform:
   m_ObjectHideFlags: 0
@@ -445,6 +445,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -466,9 +468,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &5816138889212345991
 Animator:
@@ -560,19 +564,12 @@ MonoBehaviour:
   moveSpeed: 3.5
   health: {fileID: -3257856506054140707}
   anim: {fileID: 5816138889212345991}
-  selectObj: {fileID: 0}
-  hpSlider: {fileID: 0}
+  selectObj: {fileID: 5792739638367815966}
+  hpSlider: {fileID: 3217940764288648719}
   dest: {x: 0, y: 0, z: 0}
   isForceMove: 0
   isAttackMove: 0
   isFire: 0
-  gunFireSound: {fileID: 6217784156084228179}
-  playerUnitVoice: {fileID: -8069930663727773668}
-  playerSelectedVoice: {fileID: 8300000, guid: ecbf3fb8ed16c5d47a2553e1c0c4cd09, type: 3}
-  playerForcedMoveVoice: {fileID: 8300000, guid: 1d0cf90434f3474419030c04baa1fdc7, type: 3}
-  playerDiscoverEnemyVoice: {fileID: 8300000, guid: ea55e8ad7a5740c4c846b4a3eb499696, type: 3}
-  playerAttackVoice: {fileID: 8300000, guid: 62d9a984cdc72404d9f6705e0ec60134, type: 3}
-  playerDeadVoice: {fileID: 8300000, guid: d1a1b5697c47e1e45a3b93ec8047e01b, type: 3}
   targetEnemyHealth: 0
   targetEnemyIsDead: 0
 --- !u!114 &-3257856506054140707
@@ -590,7 +587,6 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 0
   isDead: 0
-  shotEffect: {fileID: 0}
   healthSlider: {fileID: 3217940764288648719}
 --- !u!114 &4058287930456069986
 MonoBehaviour:
@@ -599,7 +595,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944893875508198983}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ddadc050b89b0e48b4d687068b7b75f, type: 3}
   m_Name: 
@@ -923,6 +919,8 @@ SkinnedMeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -944,9 +942,11 @@ SkinnedMeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
@@ -2019,7 +2019,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4420028093037354253}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 3, y: 0.05, z: 3}
   m_ConstrainProportionsScale: 0
@@ -2054,6 +2054,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2075,9 +2077,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &4126315831984849552
 CapsuleCollider:
@@ -2096,7 +2100,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2
@@ -3486,6 +3490,8 @@ SkinnedMeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3508,9 +3514,11 @@ SkinnedMeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
@@ -3780,10 +3788,5 @@ PrefabInstance:
 --- !u!4 &3665597925397198384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8334067971535147700, guid: 85767f3b11097064a915143f52fe6be1, type: 3}
-  m_PrefabInstance: {fileID: 4717062449569031300}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &6217784156084228179 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1674317552275600599, guid: 85767f3b11097064a915143f52fe6be1, type: 3}
   m_PrefabInstance: {fileID: 4717062449569031300}
   m_PrefabAsset: {fileID: 0}

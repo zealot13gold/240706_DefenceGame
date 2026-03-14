@@ -10,7 +10,7 @@ public class EnemyHealth : Health
     public event Action<bool> enemyManager; 
 
     // 이펙트
-    public ParticleSystem shotEffect;
+    //public ParticleSystem shotEffect;
 
     // HP 슬라이더
     public Slider healthSlider;
@@ -19,15 +19,16 @@ public class EnemyHealth : Health
     {
         base.OnEnable();
 
-        enemyManager +=EnemyManager.instance.CheckUnit;
+        enemyManager += EnemyManager.instance.CheckUnit;
         enemyManager?.Invoke(false);
 
-        shotEffect.Stop();
-        shotEffect.gameObject.SetActive(false);
+        //shotEffect.Stop();
+        //shotEffect.gameObject.SetActive(false);
     }
 
     private void OnDisable()
     {
+        enemyManager?.Invoke(true);
         enemyManager -= EnemyManager.instance.CheckUnit;
     }
 
@@ -44,8 +45,8 @@ public class EnemyHealth : Health
 
         if (currentHP > 0)
         {
-            shotEffect.gameObject.SetActive(true);
-            shotEffect.Play();
+            //shotEffect.gameObject.SetActive(true);
+            //shotEffect.Play();
         }
         //else
         //{

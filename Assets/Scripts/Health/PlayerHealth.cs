@@ -10,7 +10,7 @@ public class PlayerHealth : Health
     public event Action<bool> playerManager;
 
     // 이펙트
-    public ParticleSystem shotEffect;
+    //public ParticleSystem shotEffect;
 
     // 체력바
     public Slider healthSlider;
@@ -28,6 +28,7 @@ public class PlayerHealth : Health
 
     private void OnDisable()
     {
+        playerManager?.Invoke(true);
         playerManager -= PlayerManager.instance.CheckUnit;
     }
 
@@ -44,8 +45,8 @@ public class PlayerHealth : Health
 
         if (currentHP > 0)
         {
-            shotEffect.gameObject.SetActive(true);
-            shotEffect.Play();
+            //shotEffect.gameObject.SetActive(true);
+            //shotEffect.Play();
         }
         else
         {

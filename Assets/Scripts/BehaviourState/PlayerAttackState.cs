@@ -17,8 +17,8 @@ public class PlayerAttackState :IState
     float currentTime = 0f;
     public void Enter()
     {
-        sm.playerUnitVoice.clip = sm.playerAttackVoice;
-        sm.playerUnitVoice.Play();
+        //sm.playerUnitVoice.clip = sm.playerAttackVoice;
+        //sm.playerUnitVoice.Play();
     }
 
     public void Update()
@@ -67,7 +67,7 @@ public class PlayerAttackState :IState
             //Debug.LogFormat("{0}이 {1}을 공격", unit.name, sm.targetEnemy.name);
             sm.isFire = true;
             sm.targetEnemy.GetComponent<Health>().CalculateHP(sm.attackDemage);
-            sm.gunFireSound.Play();
+            //sm.gunFireSound.Play();
             currentTime = 0;
         }
     }

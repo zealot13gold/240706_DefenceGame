@@ -25,8 +25,8 @@ public class PlayerMoveToAttackState : IState
         sm.navMesh.speed = sm.moveSpeed;
         //navMesh.destination = sm.targetEnemy.transform.position;
 
-        sm.playerUnitVoice.clip = sm.playerDiscoverEnemyVoice;
-        sm.playerUnitVoice.Play();
+        //sm.playerUnitVoice.clip = sm.playerDiscoverEnemyVoice;
+        //sm.playerUnitVoice.Play();
     }
 
     public void Update()

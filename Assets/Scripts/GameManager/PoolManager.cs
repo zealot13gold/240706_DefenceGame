@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEditor.PlayerSettings;
 
 public class PoolManager : MonoBehaviour
@@ -92,20 +93,24 @@ public class PoolManager : MonoBehaviour
         if (name == "AssaultMan")
         {
             Vector3 pos = UnitSpawnPosition(origin);
-            {
+
                 if (pos != Vector3.zero)
                 {
                     setObj = true;
                     assaultPool.SetObject(pos, rot);
                     Debug.LogFormat("PoolManager: {0} 위치에 {1} 생성, 회전값: {2}", pos, name, rot);
                 }
-            }
+
         }
         else if (name == "Zombie")
         {
-            //Vector3 pos = UnitSpawnPosition(zombieTrans);
-            //Quaternion rot = assaultTrans.rotation;
-            //zombiePool.SetObject(pos, rot);
+            Vector3 pos = UnitSpawnPosition(origin);
+            if (pos != Vector3.zero)
+            {
+                setObj = true;
+                zombiePool.SetObject(pos, rot);
+                Debug.LogFormat("PoolManager: {0} 위치에 {1} 생성, 회전값: {2}", pos, name, rot);
+            }
         }
         else if (name == "Barrier")
         {
@@ -145,15 +150,15 @@ public class PoolManager : MonoBehaviour
     public Vector3 UnitSpawnPosition(Vector3 origin)
     {
         Vector3 pos=origin;
-        int row = 0;
-        int col = 0;
+        int row = 1;
+        int col = 1;
 
         RaycastHit hit;
         while (true)
         {
             Debug.LogFormat("PoolManager: {0} 위에서 오브젝트 배치 시도", pos);
             //Debug.DrawRay(pos, Vector3.down*10f, Color.red, 10f);
-            if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity))
+            if (Physics.Raycast(pos, Vector3.down, out hit, Mathf.Infinity, NavMesh.AllAreas))
             {
                 Debug.LogFormat("PoolManager: 충돌 레이어: {0}", hit.collider.gameObject.layer);
                 if (hit.collider.gameObject.layer == 8)
@@ -174,7 +179,7 @@ public class PoolManager : MonoBehaviour
                     {
                         pos.x = origin.x;
                         pos.z --;
-                        row = 0;
+                        row = 1;
                         col++;
                     }
                     else

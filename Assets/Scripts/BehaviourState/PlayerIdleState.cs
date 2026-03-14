@@ -35,6 +35,7 @@ public class PlayerIdleState:IState
     {
         if (health.currentHP <= 0)
         {
+            Debug.LogFormat("PlayerIdleState: {0} »ç¸Á", unit.name);
             sm.UnitStateChange(sm.deadState);
         }
         else

@@ -1,45 +1,53 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyAttackState : EnemyUnitState
+public class EnemyAttackState : IState
 {
-    public EnemyAttackState(GameObject unit) : base(unit) { }
+    EnemyUnitSM sm;
+    EnemyHealth health;
+    GameObject unit;
+
+    public EnemyAttackState(GameObject unit)
+    {
+        sm = unit.GetComponent<EnemyUnitSM>();
+        health = unit.GetComponent<EnemyHealth>();
+        this.unit = unit;
+    }
 
     float currentTime = 0f;
-    public override void OnStateEnter()
+    public void Enter()
     {
         //navMesh.isStopped = true;
         //Debug.LogFormat("{0}은 현재 attack 상태, 시야범위: {1}, 공격범위: {2}", unit.name, sm.viewRange, sm.attackRange);
 
-        sm.enemyAudioSource.clip = sm.enemyAttackVoice;
+        //sm.enemyAudioSource.clip = sm.enemyAttackVoice;
 
     }
 
-    public override void OnStateUpdate()
+    public void Update()
     {
         if (health.currentHP <= 0)                      // 사망하였을 경우
         {
-            sm.ChangeState(sm.deadState);
+            sm.UnitStateChange(sm.deadState);
         }
         else
         {
-            sm.FindEnemy();                             // 가까운 적을 찾고, 더 가까운 적이 검색될 경우 타겟을 변경
+            //sm.FindEnemy();                             // 가까운 적을 찾고, 더 가까운 적이 검색될 경우 타겟을 변경
             Debug.LogFormat("타겟 체력: {0}", sm.targetPlayerHealth);
 
             if (sm.isAttackMove || /*!sm.targetPlayer.activeSelf*/sm.targetPlayerHealth <= 0 /*sm.targetPlayerIsDead*/)                            // 적과의 거리가 너무 멀어지거나 현재 공격중인 적의 체력이 0 이하일 때
             {
                 if(sm.targetPlayerIsDead) Debug.LogFormat("{0} 제거 완료", sm.targetPlayer.name); 
                 
-                sm.ChangeState(sm.idleState);                           // idle 상태로 변경
+                sm.UnitStateChange(sm.idleState);                           // idle 상태로 변경
             }
             else
             {
                 Attack();
-
             }
         }
     }
-    public override void OnStateExit()
+    public void Exit()
     {
         sm.anim.SetBool("Attack", false);
         sm.targetPlayer = null;
@@ -72,7 +80,7 @@ public class EnemyAttackState : EnemyUnitState
         {
             //Debug.LogFormat("{0}이 {1}을 공격", unit.name, sm.targetEnemy.name);
             sm.anim.SetBool("Attack", true);
-            sm.enemyAudioSource.Play();
+            //sm.enemyAudioSource.Play();
             sm.targetPlayer.GetComponent<Health>().CalculateHP(sm.attackDemage);
             currentTime = 0;
         }
